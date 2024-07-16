@@ -1,4 +1,4 @@
-using Counselors_Connect.Models;
+﻿using Counselors_Connect.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -14,11 +14,6 @@ namespace Counselors_Connect.Controllers
         }
 
         public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
         {
             return View();
         }
