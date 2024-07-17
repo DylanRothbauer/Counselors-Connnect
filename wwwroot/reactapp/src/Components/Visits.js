@@ -74,16 +74,16 @@ const Visits = () => {
         window.location.href = `/Views/Visits/Delete/${id}`;
     };
 
-    const handleCreateClick = () => {
-        window.location.href = `/Views/Visits/Create`;
-    };
+    //const handleCreateClick = () => {
+    //    window.location.href = `/Views/Visits/Create`;
+    //};
 
     return (
         <div>
-            <h1>Visit List</h1>
-            <a href="#" onClick={handleCreateClick}>Create New</a>
+            <h1>Visits</h1>
+            {/*<a href="#" onClick={handleCreateClick}>Create New</a>*/}
             <div>
-                <h2>Filter</h2>
+                {/*<h2>Filter</h2>*/}
                 <input
                     type="text"
                     placeholder="Search visits"
@@ -158,6 +158,7 @@ const Visits = () => {
                 </table>
             </div>
         </div>
+
     );
 };
 
