@@ -1,10 +1,14 @@
 ﻿const path = require('path');
+
 module.exports = {
     mode: 'development',
-    entry: './src/index.js',
+    entry: { //enter components here
+       Example: './components/ExampleComponent.js',
+        SecondExamole: './components/SecondExample.js'
+    },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'bundle.js',
+        filename: '[name]Compiled.js', // will make the compiled version of the react components
     },
     module: {
         rules: [

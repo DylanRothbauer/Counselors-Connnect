@@ -1,0 +1,10 @@
+{
+    "name": "Counselor Connect",
+    "version": "1.0.0",
+  "scripts": {
+    "build-react": "cd wwwroot/reactapp && npm run wpb"
+  },
+    "Dependencies": {
+      "sass": "^1.77.8"
+    }
+  }
