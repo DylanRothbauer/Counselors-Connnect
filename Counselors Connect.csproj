@@ -20,12 +20,12 @@
 
 	<Target Name="PreBuild" BeforeTargets="CoreCompile">
 		<Exec Command="npm install" />
-		<Exec Command="npm run build-react" />
+	
 	</Target>
 
 
 	<Target Name="PostPublish" AfterTargets="Publish">
 		<Exec Command="npm install" />
-		<Exec Command="npm run build-react" />
+		
 	</Target>
 </Project>
