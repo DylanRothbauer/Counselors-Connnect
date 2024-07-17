@@ -7,16 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="FrontEndDev\styles\_vars.scss" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="FrontEndDev\styles\_vars.scss" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="FrontEndDev\reactapp\.babelrc" />
-    <Content Include="FrontEndDev\reactapp\components\FileUpload.js" />
+    <Content Include="FrontEndDev\reactapp\components\file-upload.js" />
     <Content Include="FrontEndDev\reactapp\webpack.config.js" />
   </ItemGroup>
 
@@ -35,6 +27,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\css\compiledscss\" />
     <Folder Include="wwwroot\js\compiledreact\" />
+    <Folder Include="wwwroot\reactapp\components\" />
   </ItemGroup>
 
 	<Target Name="PreBuild" BeforeTargets="CoreCompile">
