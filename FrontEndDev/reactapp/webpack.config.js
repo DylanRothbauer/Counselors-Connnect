@@ -16,7 +16,7 @@ module.exports = {
     mode: 'development',
     entry: entries,
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, '../../wwwroot/js/compiledreact'),
         filename: '[name]Compiled.js', // will make the compiled version of the react components
     },
     module: {
