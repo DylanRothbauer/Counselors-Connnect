@@ -1,6 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Demo Page";
 }
+@* Demo Page *@
+
 
 <!-- Title -->
 <div class="row title">
@@ -9,10 +11,12 @@
 </div>
 
 <!-- Components -->
-@* <div id="visits"></div> *@
+<div id="example-component"></div>
 
 @section Scripts {
+    <!-- React & React DOM-->
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script src="~/reactapp/dist/bundle.js"></script>
+    <!-- Components -->
+    <script src="/reactapp/dist/ExampleCompiled.js"></script>
 }
