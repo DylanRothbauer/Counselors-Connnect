@@ -18,8 +18,14 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\reactapp\dist\" />
-  </ItemGroup>
+	<Target Name="PreBuild" BeforeTargets="CoreCompile">
+		<Exec Command="npm install" />
+		<Exec Command="npm run build-react" />
+	</Target>
 
+
+	<Target Name="PostPublish" AfterTargets="Publish">
+		<Exec Command="npm install" />
+		<Exec Command="npm run build-react" />
+	</Target>
 </Project>
