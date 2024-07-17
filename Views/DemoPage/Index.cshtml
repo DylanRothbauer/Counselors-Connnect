@@ -1,12 +1,93 @@
-﻿@{
+﻿@* @model IEnumerable<Counselors_Connect.Models.Visit> *@
+@model Counselors_Connect.Models.Visit
+@* @model IEnumerable<Counselors_Connect.Models.MultipleModels> *@
+@* @model MultipleModels *@
+
+@{
     ViewData["Title"] = "Demo Page";
 }
 @* Demo Page *@
 
+<!-- A table -->
+<table class="table row">
+    <thead class="table-head">
+        <tr class="d-table-row">
+            <th class="table-header">
+                VisitID
+            </th>
+            <th class="table-header">
+                StudentID
+            </th>
+            <th class="table-header">
+                CounselorID
+            </th>
+            <th class="table-header">
+                Date
+            </th>
+            <th class="table-header">
+                Description
+            </th>
+            <th class="table-header">
+                File
+            </th>
+            <th class="table-header">
+                ParentsCalled
+            </th>
+            <th class="table-header">
+                Length
+            </th>
+            <th class="table-header">
+                Topics
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+            <tr class="d-table-row">
+                <td class="d-table-cell">
+                    <a asp-action="Edit" asp-route-id="VisitID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="VisitID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="VisitID">Delete</a>
+                </td>
+            </tr>
+    </tbody>
+</table>
 
+
+
+<!-- A form -->
+<div class="row">
+    <div class="form">
+        <div class="col">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="VisitID" class="control-label"></label>
+                    <input asp-for="VisitID" class="form-control" />
+                    <span asp-validation-for="VisitID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CounselorID" class="control-label"></label>
+                    <input asp-for="CounselorID" class="form-control" />
+                    <span asp-validation-for="CounselorID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Date" class="control-label"></label>
+                    <input asp-for="Date" class="form-control" />
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </div>
+                <div>
+                    <!-- Can add more here, but should be good for demo/styling-->
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" /> <!-- Bootstrap primary button -->
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <!-- Components -->
-<div id="example-component"></div>
+<div class="row" id="example-component"></div>
 
 @section Scripts {
     <!-- React & React DOM-->
