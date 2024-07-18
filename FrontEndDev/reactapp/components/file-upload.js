@@ -1,4 +1,5 @@
 ﻿import React, { useState } from 'react';
+import ReactDOM from 'react-dom'
 import { BlobServiceClient } from '@azure/storage-blob';
 
 const FileUpload = () => {
@@ -8,6 +9,7 @@ const FileUpload = () => {
     const handleFileChange = (event) => {
         setFile(event.target.files[0]);
     };
+
 
     const uploadFile = async () => {
         if (!file) {

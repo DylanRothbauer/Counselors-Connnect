@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="FrontEndDev\reactapp\.babelrc" />
+    <Content Include="FrontEndDev\reactapp\components\file-upload.js" />
+    <Content Include="FrontEndDev\reactapp\webpack.config.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.7" />
@@ -18,14 +24,18 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\css\compiledscss\" />
+    <Folder Include="wwwroot\js\compiledreact\" />
+    <Folder Include="wwwroot\reactapp\components\" />
+  </ItemGroup>
+
 	<Target Name="PreBuild" BeforeTargets="CoreCompile">
-		<Exec Command="npm install" />
-	
+		<Exec Command="npm install" />	
 	</Target>
 
 
 	<Target Name="PostPublish" AfterTargets="Publish">
-		<Exec Command="npm install" />
-		
+		<Exec Command="npm install" />		
 	</Target>
 </Project>
