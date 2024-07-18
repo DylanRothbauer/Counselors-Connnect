@@ -45,8 +45,6 @@ const FileUpload = () => {
         <div>
             <input type="file" onChange={handleFileChange} />
             <button onClick={uploadFile}>Upload</button>
-
-            <h1>Test</h1>
             {uploadURL && (
                 <div>
                     <p>File URL:</p>
