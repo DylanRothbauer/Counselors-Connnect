@@ -27,7 +27,6 @@
   <ItemGroup>
     <Folder Include="wwwroot\css\compiledscss\" />
     <Folder Include="wwwroot\js\compiledreact\" />
-    <Folder Include="wwwroot\reactapp\components\" />
   </ItemGroup>
 
 	<Target Name="PreBuild" BeforeTargets="CoreCompile">
