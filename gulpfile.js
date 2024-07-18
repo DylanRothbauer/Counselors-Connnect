@@ -5,7 +5,7 @@ const rename = require('gulp-rename')
 const sass = require('gulp-sass')(require('sass'));
 
 task("Styles", function () {
-    return src('./FrontEndDev/styles/*.scss')
+    return src('./FrontEndDev/styles/**/*.scss')
         .pipe(sass({ includePaths: './FrontEndDev/styles' }).on('error', sass.logError))
         .pipe(rename({extname: ".css"}))
         .pipe(dest('./wwwroot/css/compiledscss'));
@@ -28,7 +28,7 @@ task('React', function () {
 });
 task('Watch', function () {
     watch(['./FrontEndDev/reactapp/components/*.js'], series('React'))
-    watch(['./FrontEndDev/styles/*.scss'], series('Styles'))
+    watch(['./FrontEndDev/styles/**/*.scss'], series('Styles'))
 });
 
 
