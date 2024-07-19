@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\reactapp\**" />
+    <Content Remove="wwwroot\reactapp\**" />
+    <EmbeddedResource Remove="wwwroot\reactapp\**" />
+    <None Remove="wwwroot\reactapp\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="FrontEndDev\reactapp\.babelrc" />
     <Content Include="FrontEndDev\reactapp\components\file-upload.js" />
     <Content Include="FrontEndDev\reactapp\webpack.config.js" />
@@ -27,7 +34,6 @@
   <ItemGroup>
     <Folder Include="wwwroot\css\compiledscss\" />
     <Folder Include="wwwroot\js\compiledreact\" />
-    <Folder Include="wwwroot\reactapp\components\" />
   </ItemGroup>
 
 	<Target Name="PreBuild" BeforeTargets="CoreCompile">
