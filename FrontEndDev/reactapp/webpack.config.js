@@ -6,7 +6,8 @@ module.exports = {
     entry: {
         //Manually add any components using this convention: 'component name': 'path to file',
         'FileUpload': '/FrontEndDev/reactapp/components/FileUpload.js',
-        'CreateVisit': '/FrontEndDev/reactapp/components/CreateVisit.js'
+        'CreateVisit': '/FrontEndDev/reactapp/components/CreateVisit.js',
+        'Student': '/FrontEndDev/reactapp/components/Students.js'
     },
     output: {
         path: path.resolve(__dirname, '../../wwwroot/js/compiledreact/'),
