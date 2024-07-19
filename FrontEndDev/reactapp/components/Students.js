@@ -1,17 +1,14 @@
 ﻿import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom/client';
 
-const Students = () => {
+const StudentsList = () => {
     const [students, setStudents] = useState([]);
-    const [topics, setTopics] = useState([]);
-
 
     useEffect(() => {
         fetch('/api/Student')
             .then(response => response.json())
             .then(data => {
                 setStudents(data);
-                //setTopics(data);
             })
             .catch(error => console.error('Error fetching students:', error));
     }, []);
@@ -19,39 +16,47 @@ const Students = () => {
     return (
         <div>
             <h1>Students</h1>
-            <table>
+            <p>
+                <a href="/students/create">Create New</a>
+            </p>
+            <table className="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Grade</th>
                         <th>Advisor</th>
                         <th>Visits</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {students.map(student => (
-                        <tr key={student.StudentID}>
-                            <td>{student.StudentID}</td>
-                            <td>{student.FirstName}</td>
-                            <td>{student.LastName}</td>
-                            <td>{student.Grade}</td>
-                            <td>{student.AdvisorName}</td>
-                            <td>{student.Visits}</td>
+                        <tr key={student.studentID}>
+                            <td>{student.firstName}</td>
+                            <td>{student.lastName}</td>
+                            <td>{student.grade}</td>
+                            <td>{student.advisorName}</td>
+                            <td>{student.visits}</td>
+                            <td>
+                                <a href={`/students/edit/${student.StudentID}`}>Edit</a> |
+                                <a href={`/students/details/${student.StudentID}`}>Details</a> |
+                                <a href={`/students/delete/${student.StudentID}`}>Delete</a>
+                            </td>
                         </tr>
-                    )) }
+                    ))}
                 </tbody>
             </table>
         </div>
     );
 };
 
-export default Students;
+export default StudentsList;
 
-const stud = ReactDOM.createRoot(document.getElementById('students'));
-stud.render(
+// React DOM rendering
+const student = ReactDOM.createRoot(document.getElementById('students'));
+student.render(
     <React.StrictMode>
-        <Students />
+        <StudentsList />
     </React.StrictMode>
 );
