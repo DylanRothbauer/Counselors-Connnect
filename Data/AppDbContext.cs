@@ -22,7 +22,10 @@ namespace Counselors_Connect.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Student>().ToTable("Students");
-            modelBuilder.Entity<Counselor>().ToTable("Counselors");
+            modelBuilder.Entity<Counselor>().ToTable("Counselors").
+                HasData(
+                    new Counselor { CounselorID = 1, Name = "John Doe", Username = "johndoe", Password = "password" },
+                    new Counselor { CounselorID = 2, Name = "Brody Van Eperen", Username = "bvaneperen", Password = "BrodyV1" });
             modelBuilder.Entity<Visit>().ToTable("Visits");
             modelBuilder.Entity<Topic>().ToTable("Topics");
         }
