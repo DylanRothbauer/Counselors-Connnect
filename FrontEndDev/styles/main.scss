@@ -1,3 +1,88 @@
-.main-test {
-    color: black;
+#sidebar-menu {
+    height: 100vh;
+    width: 100%;
+    background-color: #294316 !important;
+    padding-left: .5rem;
+    position: relative;
+}
+
+#nav-edit-heading {
+    color: white;
+    background-color: #1c2d10;
+    margin-bottom: 0;
+    padding:.5rem;
+
+}
+
+#nav-edit-body {
+    background-color: #1f321282;
+   
+
+
+    .nav-link {
+
+        svg {
+            margin-left: 3rem;
+        }
+
+        &:first-of-type {
+            margin-top: 0;
+        }
+    }
+}
+
+.nav-item {
+
+
+    .nav-link {
+        color: white;
+        padding: .75rem;
+        align-content: center;
+        text-align: center;
+        border-radius: 25px;
+        margin: .5rem;
+        border: solid transparent 1px;
+        display: flex;
+        justify-content: start;
+
+        svg {
+            margin-right: 2rem;
+            margin-left: 1.5rem;
+        }
+
+        &:hover {
+            border: solid #B7B7A4 1px;
+            background-color: #fcfcfc40
+        }
+    }
+}
+
+#log-out-btn {
+    color: white;
+    padding: .75rem;
+    align-content: center;
+    text-align: center;
+    border-radius: 25px;
+    margin: .5rem;
+    border: solid transparent 1px;
+    display: flex;
+    justify-content: start;
+    position: absolute;
+    bottom: 1%;
+
+    svg {
+        margin-right: 2rem;
+        margin-left: 1.5rem;
+    }
+
+    &:hover {
+        border: solid #B7B7A4 1px;
+        background-color: #fcfcfc40
+    }
+
+}
+
+
+.page-title {
+    margin: 0;
 }

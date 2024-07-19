@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="wwwroot\reactapp\components\**" />
-    <Content Remove="wwwroot\reactapp\components\**" />
-    <EmbeddedResource Remove="wwwroot\reactapp\components\**" />
-    <None Remove="wwwroot\reactapp\components\**" />
+    <Compile Remove="wwwroot\reactapp\**" />
+    <Content Remove="wwwroot\reactapp\**" />
+    <EmbeddedResource Remove="wwwroot\reactapp\**" />
+    <None Remove="wwwroot\reactapp\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,7 +34,6 @@
   <ItemGroup>
     <Folder Include="wwwroot\css\compiledscss\" />
     <Folder Include="wwwroot\js\compiledreact\" />
-    <Folder Include="wwwroot\reactapp\" />
   </ItemGroup>
 
 	<Target Name="PreBuild" BeforeTargets="CoreCompile">
