@@ -12,6 +12,12 @@ namespace Counselors_Connect.Models
 
         [Required]
         public string Name { get; set;}
+
+        [Required]
+        public string Username { get; set; }
+
+        [Required]
+        public string Password { get; set; }    
         public ICollection<Visit> Visits { get; }
     }
 }
