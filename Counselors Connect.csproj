@@ -32,6 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Migrations\" />
     <Folder Include="wwwroot\css\compiledscss\" />
     <Folder Include="wwwroot\js\compiledreact\" />
     <Folder Include="wwwroot\reactapp\" />
