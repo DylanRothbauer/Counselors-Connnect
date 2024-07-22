@@ -1,0 +1,233 @@
+﻿@model Counselors_Connect.Models.Visit
+
+@{
+    ViewData["Title"] = "Demo Page";
+}
+@* Demo Page *@
+
+<!-- Filter -->
+<div class="row mb-3">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                Filter Table
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="filterVisitID">Visit ID:</label>
+                            <input type="text" id="filterVisitID" class="form-control" placeholder="Enter Visit ID...">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="filterStudentID">Student ID:</label>
+                            <input type="text" id="filterStudentID" class="form-control" placeholder="Enter Student ID...">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="filterCounselorID">Counselor ID:</label>
+                            <input type="text" id="filterCounselorID" class="form-control" placeholder="Enter Counselor ID...">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="filterDate">Date:</label>
+                            <input type="date" id="filterDate" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="filterDescription">Description:</label>
+                            <input type="text" id="filterDescription" class="form-control" placeholder="Enter Description...">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="filterFile">File:</label>
+                            <input type="text" id="filterFile" class="form-control" placeholder="Enter File...">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="filterParentsCalled">Parents Called:</label>
+                            <select id="filterParentsCalled" class="form-control">
+                                <option value="">All</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="filterTopics">Topics:</label>
+                            <input type="text" id="filterTopics" class="form-control" placeholder="Enter Topics...">
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary">Apply Filters</button>
+                <button type="button" class="btn btn-secondary">Clear Filters</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- A table -->
+<table class="table table-elements">
+    <thead class="table-head">
+        <tr class="table-row">
+            <th class="table-header">VisitID</th>
+            <th class="table-header">StudentID</th>
+            <th class="table-header">CounselorID</th>
+            <th class="table-header">Date</th>
+            <th class="table-header">Description</th>
+            <th class="table-header">File</th>
+            <th class="table-header">ParentsCalled</th>
+            <th class="table-header">Length</th>
+            <th class="table-header">Topics</th>
+            <th class="table-header">Actions</th> <!-- Added a header for actions -->
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 1; i <= 10; i++)
+        {
+            <tr class="table-row">
+                <td class="table-cell">VisitID@(i)</td>
+                <td class="table-cell">StudentID@(i)</td>
+                <td class="table-cell">CounselorID@(i)</td>
+                <td class="table-cell">2024-07-18</td>
+                <td class="table-cell">Description@(i)</td>
+                <td class="table-cell">File@(i)</td>
+                <td class="table-cell">@(i % 2 == 0 ? "Yes" : "No")</td>
+                <td class="table-cell">@(i * 10) min</td>
+                <td class="table-cell">Topic@(i), Topic@(i + 1)</td>
+                <td class="table-cell">
+                    <a href="#" class="action-link">Edit</a> |
+                    <a href="#" class="action-link">Details</a> |
+                    <a href="#" class="action-link">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Flagged Students -->
+<table class="flagged-table table-elements">
+    <thead class="table-head">
+        <tr class="table-row">
+            <th class="table-header">Student</th>
+            <th class="table-header">ID</th>
+            <th class="table-header"># of Visits</th>
+            <th class="table-header">Actions</th> <!-- Added a header for actions -->
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 1; i <= 5; i++)
+        {
+            <tr class="table-row">
+                <td class="table-cell">First Name@(i), Last Name@(i)</td>
+                <td class="table-cell">ID@(i)</td>
+                <td class="table-cell">@(i * 3)</td> <!-- Example number of visits -->
+                <td class="table-cell">
+                    <a href="#" class="action-link">View Details</a> |
+                    <a href="#" class="action-link">Flag</a> |
+                    <a href="#" class="action-link">Remove Flag</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="row">
+    <div class="form-wrapper">
+        <div class="col">
+            <form method="post" class="form-custom">
+                <div class="text-danger validation-summary-custom"></div>
+
+                <!-- Visit ID -->
+                <div class="form-group txt-input-group">
+                    <label class="control-label txt-input-label">Visit ID</label>
+                    <input type="text" class="form-control txt-input" />
+                    <span class="text-danger txt-input-validation"></span>
+                </div>
+
+                <!-- Student ID -->
+                <div class="form-group txt-input-group">
+                    <label class="control-label txt-input-label">Student ID</label>
+                    <input type="text" class="form-control txt-input" />
+                    <span class="text-danger txt-input-validation"></span>
+                </div>
+
+                <!-- Counselor ID -->
+                <div class="form-group txt-input-group">
+                    <label class="control-label txt-input-label">Counselor ID</label>
+                    <input type="text" class="form-control txt-input" />
+                    <span class="text-danger txt-input-validation"></span>
+                </div>
+
+                <!-- Date -->
+                <div class="form-group date-control-group">
+                    <label class="control-label date-control-label">Date</label>
+                    <input type="date" class="form-control date-control" />
+                    <span class="text-danger date-control-validation"></span>
+                </div>
+
+                <!-- Description -->
+                <div class="form-group long-text-input-group">
+                    <label class="control-label long-text-input-label">Description</label>
+                    <input type="text" class="form-control long-text-input" />
+                    <span class="text-danger long-text-input-validation"></span>
+                </div>
+
+                <!-- File upload -->
+                <div class="form-group file-input-group">
+                    <label class="control-label file-input-label">File</label>
+                    <input type="file" class="form-control-file file-input" />
+                    <span class="text-danger file-input-validation"></span>
+                </div>
+
+                <!-- Parents Called Checkbox -->
+                <div class="form-group checkbox-group">
+                    <div class="form-check checkbox-control-group">
+                        <input type="checkbox" class="form-check-input checkbox-control-input" />
+                        <label class="form-check-label checkbox-control-label">Parents Called</label>
+                    </div>
+                    <span class="text-danger checkbox-control-validation"></span>
+                </div>
+
+                <!-- Topics (List with checkboxes) -->
+                <div class="form-group checkbox-list-group">
+                    <label class="checkbox-list-label">Topics:</label>
+                    <div class="checkbox-list">
+                        <div class="form-check checkbox-control-group">
+                            <input type="checkbox" class="form-check-input checkbox-control-input" value="Topic1" />
+                            <label class="form-check-label checkbox-control-label">Topic 1</label>
+                        </div>
+                        <div class="form-check checkbox-control-group">
+                            <input type="checkbox" class="form-check-input checkbox-control-input" value="Topic2" />
+                            <label class="form-check-label checkbox-control-label">Topic 2</label>
+                        </div>
+                        <!-- Add more topics as needed -->
+                    </div>
+                    <span class="text-danger checkbox-control-validation"></span>
+                </div>
+
+                <div class="form-group submit-button-group">
+                    <button type="submit" class="btn btn-primary submit-button">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Components -->
+@section Scripts {
+    <!-- React & React DOM-->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Components -->
+}

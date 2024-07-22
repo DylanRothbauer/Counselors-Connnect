@@ -1,4 +1,145 @@
 html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+::-webkit-scrollbar {
+  display: none;
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+#all-content {
+  margin: 0;
+}
+
+#sidebar-menu {
+  height: 100vh;
+  width: 100%;
+  background-color: #294316 !important;
+  position: relative;
+}
+
+#nav-edit-heading {
+  color: white;
+  background-color: #1c2d10;
+  margin-bottom: 0;
+  padding: 0.5rem;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+}
+
+#nav-edit-body {
+  background-color: rgba(31, 50, 18, 0.5098039216);
+  border-bottom-left-radius: 25px;
+  border-bottom-right-radius: 25px;
+  padding: 0.5rem 0 0.5rem 0;
+}
+#nav-edit-body .nav-link svg {
+  margin-left: 3rem;
+}
+#nav-edit-body .nav-link:first-of-type {
+  margin-top: 0rem;
+}
+
+.nav-item .nav-link {
+  color: white;
+  padding: 0.75rem;
+  align-content: center;
+  text-align: center;
+  border-radius: 25px;
+  margin: 0.5rem;
+  border: solid transparent 1px;
+  display: flex;
+  justify-content: start;
+}
+.nav-item .nav-link svg {
+  margin-right: 2rem;
+  margin-left: 1.5rem;
+}
+.nav-item .nav-link:hover {
+  border: solid #B7B7A4 1px;
+  background-color: rgba(252, 252, 252, 0.2509803922);
+}
+
+#offcanvasnav {
+  width: 312px;
+}
+
+.offcanvas-header {
+  padding: 0;
+  justify-content: end;
+}
+.offcanvas-header .nav-item {
+  width: 80%;
+}
+.offcanvas-header .btn-close {
+  margin-right: 0.5rem;
+  color: white;
+}
+
+.offcanvas-body {
+  padding: 0;
+}
+
+#close-offcanvas {
+  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
+  padding-top: 1rem;
+}
+#close-offcanvas svg {
+  fill: white;
+}
+
+#log-out-container {
+  position: absolute;
+  bottom: 5%;
+  width: 100%;
+}
+#log-out-container #log-out-btn {
+  color: white;
+  padding: 0.75rem;
+  align-content: center;
+  text-align: center;
+  border-radius: 25px;
+  margin: 0.5rem;
+  border: solid transparent 1px;
+  display: flex;
+  justify-content: start;
+}
+#log-out-container #log-out-btn svg {
+  margin-right: 2rem;
+  margin-left: 1.5rem;
+}
+#log-out-container #log-out-btn:hover {
+  border: solid #B7B7A4 1px;
+  background-color: rgba(252, 252, 252, 0.2509803922);
+}
+
+#top-navigation {
+  margin: 0;
+}
+#top-navigation .page-title {
+  margin: 0;
+  padding-left: 1rem;
+html {
   position: relative;
   min-height: 100%;
 }

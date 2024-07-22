@@ -12,5 +12,8 @@ namespace Counselors_Connect.Models
 
         [Required]
         public string TopicName { get; set; }
+
+        [Required]
+        public ICollection<VisitTopic> VisitTopics { get; set; }
     }
 }

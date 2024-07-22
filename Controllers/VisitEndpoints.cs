@@ -40,6 +40,7 @@ public static class VisitEndpoints
                     .SetProperty(m => m.Date, visit.Date)
                     .SetProperty(m => m.Description, visit.Description)
                     .SetProperty(m => m.File, visit.File)
+                    .SetProperty(m => m.FilePath, visit.FilePath)
                     .SetProperty(m => m.ParentsCalled, visit.ParentsCalled)
                     .SetProperty(m => m.Length, visit.Length)
                     );

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Counselors_Connect.Data;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Counselors_Connect.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -17,6 +17,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 var app = builder.Build();
@@ -30,6 +33,8 @@ if (!app.Environment.IsDevelopment())
 }
 else
 {
+    app.UseSwagger();
+    app.UseSwaggerUI();
     app.UseDeveloperExceptionPage();
     app.UseMigrationsEndPoint();
 }
@@ -40,8 +45,14 @@ using (var scope = app.Services.CreateScope())
 
     var context = services.GetRequiredService<AppDbContext>();
     //context.Database.EnsureCreated();
-    // DbInitializer.Initialize(context);
+    //DbInitializer.Initialize(context);
 }
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+};
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -54,5 +65,13 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Login}/{action=index}/{id?}");
+
+app.MapStudentEndpoints();
+
+app.MapTopicEndpoints();
+
+app.MapVisitEndpoints();
+
+app.MapVisitTopicEndpoints();
 
 app.Run();
