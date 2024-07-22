@@ -16,7 +16,7 @@ console.log('Webpack Entries:', entries);
 
 module.exports = {
     mode: 'development',
-    entry: entries,
+    entry: entries, //No longer have to add components manually.
     output: {
         path: path.resolve(__dirname, '../../wwwroot/js/compiledreact/'),
         filename: '[name]Compiled.js', // will make the compiled version of the react components
