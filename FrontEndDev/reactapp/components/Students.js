@@ -9,7 +9,6 @@ const StudentsList = () => {
     const [maxPageNumbersToShow] = useState(5); // how many pagination buttons at once?
     const [searchTerm, setSearchTerm] = useState('');
     const [deleteStudentId, setDeleteStudentId] = useState(null); // Track student ID to delete
-    const [message, setMessage] = useState('');
 
     useEffect(() => {
         // Fetch students data
