@@ -361,5 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/wwwroot/css/compiledscss/main.css
-/wwwroot/css/compiledscss/vars.css
+
+#Ignore compiled scss
+/wwwroot/css/compiledscss/
+
