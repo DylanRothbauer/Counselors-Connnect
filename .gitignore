@@ -3,8 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-#custom counselor-connect ignores
+# Custom counselors-connect ignores
 wwwroot/js/compiledreact/
+
 
 
 
@@ -368,3 +369,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+

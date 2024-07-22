@@ -4,12 +4,12 @@ import Fuse from 'fuse.js';
 import FlaggedStudents from './FlaggedStudents'; // Import the FlaggedStudents component
 
 const Visits = () => {
-    const [visits, setVisits] = useState([]);
+    const [visits, setVisits] = useState([]); // methods for setting info for api calls
     const [students, setStudents] = useState([]);
     const [counselors, setCounselors] = useState([]);
     const [topics, setTopics] = useState([]);
     const [visitTopics, setVisitTopics] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1); // setting current page (default 1)
     const [visitsPerPage] = useState(10); // how many visits per page?
     const [maxPageNumbersToShow] = useState(5); // how many pagination buttons at once?
     const [searchQuery, setSearchQuery] = useState(''); // search query state
@@ -17,6 +17,15 @@ const Visits = () => {
     const [autocompleteOptions, setAutocompleteOptions] = useState([]); // autocomplete options state
     const [selectedOption, setSelectedOption] = useState(null); // selected autocomplete option state
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' }); // sorting state
+
+
+    //================================================================================//
+    //================================API Calls=======================================//
+    //================================================================================//
+    //gather the json data from all the tables
+    // since our DB is small, lets handle the organization of the data from the server in javascript
+    // another option for this, if your data is massive, you could handle things like search and pagination on the api itself
+    // but the amount of data we're receiving is not large enough for that
 
     useEffect(() => { // api call to gather information to populate table
         fetch('/api/Visit')
@@ -44,23 +53,26 @@ const Visits = () => {
             .then(data => setVisitTopics(data))
             .catch(error => console.error('Error fetching visit topics data:', error));
     }, []);
-
+    //================================================================================//
+    //=================================Merge Tables===================================//
+    //================================================================================//
     // Merge student, counselor names, and topics into visits data
+    // visits doesn't contain any information about these things by itself except for IDs
     useEffect(() => {
         const mergeVisitsData = () => {
             return visits.map(visit => {
-                const student = students.find(s => s.studentID === visit.studentID);
-                const counselor = counselors.find(c => c.counselorID === visit.counselorID);
-                const visitTopicIDs = visitTopics.filter(vt => vt.visitID === visit.visitID).map(vt => vt.topicID);
+                const student = students.find(s => s.studentID === visit.studentID); // get the student object from students array based on ID from visits
+                const counselor = counselors.find(c => c.counselorID === visit.counselorID); // same with counselors
+                const visitTopicIDs = visitTopics.filter(vt => vt.visitID === visit.visitID).map(vt => vt.topicID); // and topics
                 const visitTopicNames = topics.filter(topic => visitTopicIDs.includes(topic.topicID)).map(topic => topic.topicName);
-                const formattedDate = new Date(visit.date).toLocaleDateString();
+                const formattedDate = new Date(visit.date).toLocaleDateString(); // so that we may fuzzy search date, turn it to string instead of datetime
 
                 return {
                     ...visit,
-                    studentName: student ? `${student.firstName} ${student.lastName}` : 'Unknown',
-                    counselorName: counselor ? counselor.name : 'Unknown',
-                    topicNames: visitTopicNames.length ? visitTopicNames : ['No Topics'],
-                    formattedDate // Add formatted date for search purposes
+                    studentName: student ? `${student.firstName} ${student.lastName}` : 'Unknown', // get first name and last name for student
+                    counselorName: counselor ? counselor.name : 'Unknown', // counselor name
+                    topicNames: visitTopicNames.length ? visitTopicNames : ['No Topics'], // create an array of topics
+                    formattedDate // again, add formatted date for search purposes
                 };
             });
         };
@@ -69,6 +81,10 @@ const Visits = () => {
         setFilteredVisits(mergedVisits);
     }, [visits, students, counselors, topics, visitTopics]);
 
+
+    //================================================================================//
+    //========================Fuzzy Search functionality==============================//
+    //================================================================================//
     // Handle search query changes
     const handleSearchChange = (event) => {
         const query = event.target.value;
@@ -98,7 +114,7 @@ const Visits = () => {
             return;
         }
 
-        const fuse = new Fuse(filteredVisits, {
+        const fuse = new Fuse(filteredVisits, { // use fuse to fuzzy search
             keys: [
                 'studentName',
                 'counselorName',
@@ -113,16 +129,21 @@ const Visits = () => {
         setFilteredVisits(result);
 
         // Generate autocomplete options based on the search query
-        const options = Array.from(new Set(result.flatMap(visit => [
+        const options = Array.from(new Set(result.flatMap(visit => [ // create an array, which will act as a select box for underneath the search bar
             visit.studentName,
             visit.counselorName,
             ...visit.topicNames,
             visit.description,
-            visit.formattedDate // Include date in autocomplete options
+            visit.formattedDate
         ]))).filter(option => option.toLowerCase().includes(query.toLowerCase()));
 
         setAutocompleteOptions(options);
     };
+
+
+    //================================================================================//
+    //===========================AutoComplete selection===============================//
+    //================================================================================//
 
     // Handle autocomplete option selection
     const handleOptionSelect = (option) => {
@@ -145,18 +166,37 @@ const Visits = () => {
         setAutocompleteOptions([]);
     };
 
+    //================================================================================//
+    //==========================OnClick Sort Functionality============================//
+    //================================================================================//
+
     // Handle sorting
     const handleSort = (key) => {
         let direction = 'ascending';
-        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-            direction = 'descending';
+        if (sortConfig.key === key) {
+            if (sortConfig.direction === 'ascending') {
+                direction = 'descending';
+            } else if (sortConfig.direction === 'descending') {
+                direction = null; // Reset to default
+            }
         }
         setSortConfig({ key, direction });
     };
 
+    const getCaret = (key) => {
+        if (sortConfig.key === key) {
+            if (sortConfig.direction === 'ascending') {
+                return <i className="asc-icon" />;
+            } else if (sortConfig.direction === 'descending') {
+                return <i className="desc-icon" />;
+            }
+        }
+        return null;
+    };
+
     const sortedVisits = React.useMemo(() => {
         let sortableVisits = [...filteredVisits];
-        if (sortConfig.key) {
+        if (sortConfig.key && sortConfig.direction) {
             sortableVisits.sort((a, b) => {
                 if (a[sortConfig.key] < b[sortConfig.key]) {
                     return sortConfig.direction === 'ascending' ? -1 : 1;
@@ -166,9 +206,15 @@ const Visits = () => {
                 }
                 return 0;
             });
+        } else {
+            // Default sorting by visitID when sortConfig.direction is null
+            sortableVisits.sort((a, b) => a.visitID - b.visitID);
         }
         return sortableVisits;
     }, [filteredVisits, sortConfig]);
+
+
+
 
     // Calculate the current visits to display based on pagination
     const indexOfLastVisit = currentPage * visitsPerPage; // grab index of the last visit on this page (page 5 * visitsPerPage(10) = 50)
@@ -188,16 +234,9 @@ const Visits = () => {
     const startPage = Math.max(1, currentPage - Math.floor(maxPageNumbersToShow / 2));
     const endPage = Math.min(pageNumbers.length, startPage + maxPageNumbersToShow - 1);
 
-    const getCaret = (key) => {
-        if (sortConfig.key === key) {
-            if (sortConfig.direction === 'ascending') {
-                return '▲';
-            } else {
-                return '▼';
-            }
-        }
-        return '';
-    };
+    //================================================================================//
+    //===========================Flagged Students Table===============================//
+    //================================================================================//
 
     // Filter students with 5 or more visits in the current month
     const flaggedStudents = React.useMemo(() => {
@@ -217,10 +256,13 @@ const Visits = () => {
 
         return Object.values(studentVisits).filter(student => student.visitCount >= 5);
     }, [visits]);
-
+    //================================================================================//
+    //===========================Table Return Section=================================//
+    //================================================================================//
+    // section where data is returned to the DOM
     return (
         <div>
-            <h1>Visits</h1>
+
             <input
                 type="text"
                 placeholder="Search..."
@@ -303,7 +345,9 @@ const Visits = () => {
 
 export default Visits;
 
-// React DOM rendering
+//================================================================================//
+//===========================Render In DOM========================================//
+//================================================================================//
 const VisitsTable = ReactDOM.createRoot(document.getElementById('VisitsTable'));
 VisitsTable.render(
     <React.StrictMode>
