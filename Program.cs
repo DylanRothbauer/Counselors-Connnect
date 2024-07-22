@@ -37,8 +37,14 @@ using (var scope = app.Services.CreateScope())
 
     var context = services.GetRequiredService<AppDbContext>();
     //context.Database.EnsureCreated();
-    // DbInitializer.Initialize(context);
+    //DbInitializer.Initialize(context);
 }
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+};
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -52,7 +58,11 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapStudentEndpoints();
-app.MapVisitEndpoints();
+
 app.MapTopicEndpoints();
+
+app.MapVisitEndpoints();
+
+app.MapVisitTopicEndpoints();
 
 app.Run();
