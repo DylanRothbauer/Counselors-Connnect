@@ -8,6 +8,8 @@ const StudentsList = () => {
     const [studentsPerPage] = useState(10); // how many students per page?
     const [maxPageNumbersToShow] = useState(5); // how many pagination buttons at once?
     const [searchTerm, setSearchTerm] = useState('');
+    const [deleteStudentId, setDeleteStudentId] = useState(null); // Track student ID to delete
+    const [message, setMessage] = useState('');
 
     useEffect(() => {
         // Fetch students data
@@ -71,6 +73,36 @@ const StudentsList = () => {
     const startPage = Math.max(1, currentPage - Math.floor(maxPageNumbersToShow / 2));
     const endPage = Math.min(pageNumbers.length, startPage + maxPageNumbersToShow - 1);
 
+    // Function to handle edit button click
+    const handleEditButtonClick = (studentID) => {
+        // Redirect to the edit page or handle edit functionality as needed
+        window.location.href = `/Edit/EditStudent/${studentID}`;
+    };
+
+    // Function to handle delete confirmation
+    const handleDeleteConfirmation = (studentID) => {
+        setDeleteStudentId(studentID);
+        // You can show a confirmation modal here if you have one
+        if (window.confirm(`Are you sure you want to delete student ${studentID}?`)) {
+            // Perform delete operation
+            deleteStudent(studentID);
+        }
+    };
+
+    // Function to delete student via POST request
+    const deleteStudent = (studentID) => {
+        fetch(`/api/Student/Delete?studentid=${studentID}`,
+            {
+                method: "Delete",
+                body: {studentid: studentID}
+            }).then(() => {
+                window.location.reload();
+            }).catch((err) => {
+                console.log(err.message)
+            })
+
+    };
+
     return (
         <div>
             <h1>Students</h1>
@@ -103,9 +135,8 @@ const StudentsList = () => {
                             <td>{student.studentID}</td>
                             <td>{student.grade}</td>
                             <td>
-                                <a href={`/Students/Edit/${student.studentID}`}>Edit</a> |
-                                <a href={`/Students/Details/${student.studentID}`}>Details</a> |
-                                <a href={`/Students/Delete/${student.studentID}`}>Delete</a>
+                                <button className="btn btn-primary" onClick={() => handleEditButtonClick(student.studentID)}>Edit</button> 
+                                <button className="btn btn-danger" onClick={() => handleDeleteConfirmation(student.studentID)}>Delete</button>
                             </td>
                         </tr>
                     ))}
