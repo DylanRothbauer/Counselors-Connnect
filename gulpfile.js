@@ -1,4 +1,4 @@
-/// <binding ProjectOpened='Watch' />
+/// <binding ProjectOpened='Watch, React' />
 const { src, dest, task, watch, series} = require('gulp');
 const webpack = require('webpack')
 const rename = require('gulp-rename')

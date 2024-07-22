@@ -4,8 +4,7 @@ namespace Counselors_Connect.Controllers
 {
     public class LoginController : Controller
     {
-        [Route("login")]
-        public IActionResult Login()
+        public IActionResult Index()
         {
             return View();
         }
