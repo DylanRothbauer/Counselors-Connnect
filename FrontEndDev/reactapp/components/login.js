@@ -12,8 +12,9 @@ const Login = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        if (!username || !password) {
+        if (username === "" || password === "") {
             setErrorMessage('Please enter username and password');
+            return; 
         }
 
         setErrorMessage('');
