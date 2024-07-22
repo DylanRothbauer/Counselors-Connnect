@@ -76,8 +76,6 @@
     </div>
 </div>
 
-
-
 <!-- A table -->
 <table class="table table-elements">
     <thead class="table-head">
@@ -95,26 +93,27 @@
         </tr>
     </thead>
     <tbody>
-        <tr class="table-row">
-            <td class="table-cell">VisitID1</td>
-            <td class="table-cell">StudentID1</td>
-            <td class="table-cell">CounselorID1</td>
-            <td class="table-cell">2024-07-18</td>
-            <td class="table-cell">Description1</td>
-            <td class="table-cell">File1</td>
-            <td class="table-cell">Yes</td>
-            <td class="table-cell">30 min</td>
-            <td class="table-cell">Topic1, Topic2</td>
-            <td class="table-cell">
-                <a href="#" class="action-link">Edit</a> |
-                <a href="#" class="action-link">Details</a> |
-                <a href="#" class="action-link">Delete</a>
-            </td>
-        </tr>
-        <!-- Repeat the above row structure for each table row -->
+        @for (int i = 1; i <= 10; i++)
+        {
+            <tr class="table-row">
+                <td class="table-cell">VisitID@(i)</td>
+                <td class="table-cell">StudentID@(i)</td>
+                <td class="table-cell">CounselorID@(i)</td>
+                <td class="table-cell">2024-07-18</td>
+                <td class="table-cell">Description@(i)</td>
+                <td class="table-cell">File@(i)</td>
+                <td class="table-cell">@(i % 2 == 0 ? "Yes" : "No")</td>
+                <td class="table-cell">@(i * 10) min</td>
+                <td class="table-cell">Topic@(i), Topic@(i + 1)</td>
+                <td class="table-cell">
+                    <a href="#" class="action-link">Edit</a> |
+                    <a href="#" class="action-link">Details</a> |
+                    <a href="#" class="action-link">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
-
 
 <!-- Flagged Students -->
 <table class="flagged-table table-elements">
@@ -127,99 +126,97 @@
         </tr>
     </thead>
     <tbody>
-        <tr class="table-row">
-            <td class="table-cell">First Name, Last Name</td>
-            <td class="table-cell">ID1</td>
-            <td class="table-cell">5</td> <!-- Example number of visits -->
-            <td class="table-cell">
-                <a href="#" class="action-link">View Details</a> |
-                <a href="#" class="action-link">Flag</a> |
-                <a href="#" class="action-link">Remove Flag</a>
-            </td>
-        </tr>
-        <!-- Repeat the above row structure for each flagged student -->
+        @for (int i = 1; i <= 5; i++)
+        {
+            <tr class="table-row">
+                <td class="table-cell">First Name@(i), Last Name@(i)</td>
+                <td class="table-cell">ID@(i)</td>
+                <td class="table-cell">@(i * 3)</td> <!-- Example number of visits -->
+                <td class="table-cell">
+                    <a href="#" class="action-link">View Details</a> |
+                    <a href="#" class="action-link">Flag</a> |
+                    <a href="#" class="action-link">Remove Flag</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
-
-
-
-<!-- A form --> 
 <div class="row">
-    <div class="form">
+    <div class="form-wrapper">
         <div class="col">
-            <form asp-action="Create" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <form method="post" class="form-custom">
+                <div class="text-danger validation-summary-custom"></div>
 
                 <!-- Visit ID -->
-                <div class="form-group">
-                    <label asp-for="VisitID" class="control-label"></label>
-                    <input asp-for="VisitID" class="form-control" />
-                    <span asp-validation-for="VisitID" class="text-danger"></span>
+                <div class="form-group txt-input-group">
+                    <label class="control-label txt-input-label">Visit ID</label>
+                    <input type="text" class="form-control txt-input" />
+                    <span class="text-danger txt-input-validation"></span>
                 </div>
 
                 <!-- Student ID -->
-                <div class="form-group">
-                    <label asp-for="StudentID" class="control-label"></label>
-                    <input asp-for="StudentID" class="form-control" />
-                    <span asp-validation-for="StudentID" class="text-danger"></span>
+                <div class="form-group txt-input-group">
+                    <label class="control-label txt-input-label">Student ID</label>
+                    <input type="text" class="form-control txt-input" />
+                    <span class="text-danger txt-input-validation"></span>
                 </div>
 
                 <!-- Counselor ID -->
-                <div class="form-group">
-                    <label asp-for="CounselorID" class="control-label"></label>
-                    <input asp-for="CounselorID" class="form-control" />
-                    <span asp-validation-for="CounselorID" class="text-danger"></span>
+                <div class="form-group txt-input-group">
+                    <label class="control-label txt-input-label">Counselor ID</label>
+                    <input type="text" class="form-control txt-input" />
+                    <span class="text-danger txt-input-validation"></span>
                 </div>
 
                 <!-- Date -->
-                <div class="form-group">
-                    <label asp-for="Date" class="control-label"></label>
-                    <input asp-for="Date" class="form-control" />
-                    <span asp-validation-for="Date" class="text-danger"></span>
+                <div class="form-group date-control-group">
+                    <label class="control-label date-control-label">Date</label>
+                    <input type="date" class="form-control date-control" />
+                    <span class="text-danger date-control-validation"></span>
                 </div>
 
                 <!-- Description -->
-                <div class="form-group">
-                    <label asp-for="Description" class="control-label"></label>
-                    <input asp-for="Description" class="form-control" />
-                    <span asp-validation-for="Description" class="text-danger"></span>
+                <div class="form-group long-text-input-group">
+                    <label class="control-label long-text-input-label">Description</label>
+                    <input type="text" class="form-control long-text-input" />
+                    <span class="text-danger long-text-input-validation"></span>
                 </div>
 
                 <!-- File upload -->
-                <div class="form-group">
-                    <label asp-for="File" class="control-label"></label>
-                    <input asp-for="File" type="file" class="form-control-file" />
-                    <span asp-validation-for="File" class="text-danger"></span>
+                <div class="form-group file-input-group">
+                    <label class="control-label file-input-label">File</label>
+                    <input type="file" class="form-control-file file-input" />
+                    <span class="text-danger file-input-validation"></span>
                 </div>
 
                 <!-- Parents Called Checkbox -->
-                <div class="form-group checkbox">
-                    <div class="form-check">
-                        <input asp-for="ParentsCalled" class="form-check-input" />
-                        <label asp-for="ParentsCalled" class="form-check-label"></label>
+                <div class="form-group checkbox-group">
+                    <div class="form-check checkbox-control-group">
+                        <input type="checkbox" class="form-check-input checkbox-control-input" />
+                        <label class="form-check-label checkbox-control-label">Parents Called</label>
                     </div>
-                    <span asp-validation-for="ParentsCalled" class="text-danger"></span>
+                    <span class="text-danger checkbox-control-validation"></span>
                 </div>
 
-                <!-- Topics (List with checkboxes) (they are buttons for testing) -->
-                <div class="form-group">
-                    <label>Topics:</label>
+                <!-- Topics (List with checkboxes) -->
+                <div class="form-group checkbox-list-group">
+                    <label class="checkbox-list-label">Topics:</label>
                     <div class="checkbox-list">
-                        <div class="form-check">
-                            <input asp-for="Topics" type="button" class="form-check-input" value="Topic1" />
-                            <label class="form-check-label">Topic 1</label>
+                        <div class="form-check checkbox-control-group">
+                            <input type="checkbox" class="form-check-input checkbox-control-input" value="Topic1" />
+                            <label class="form-check-label checkbox-control-label">Topic 1</label>
                         </div>
-                        <div class="form-check">
-                            <input asp-for="Topics" type="button" class="form-check-input" value="Topic2" />
-                            <label class="form-check-label">Topic 2</label>
+                        <div class="form-check checkbox-control-group">
+                            <input type="checkbox" class="form-check-input checkbox-control-input" value="Topic2" />
+                            <label class="form-check-label checkbox-control-label">Topic 2</label>
                         </div>
                         <!-- Add more topics as needed -->
                     </div>
-                    <span asp-validation-for="Topics" class="text-danger"></span>
+                    <span class="text-danger checkbox-control-validation"></span>
                 </div>
 
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Create</button>
+                <div class="form-group submit-button-group">
+                    <button type="submit" class="btn btn-primary submit-button">Create</button>
                 </div>
             </form>
         </div>
@@ -227,14 +224,10 @@
 </div>
 
 
-
 <!-- Components -->
-
-
 @section Scripts {
     <!-- React & React DOM-->
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <!-- Components -->
-    
 }
