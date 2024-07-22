@@ -105,24 +105,18 @@
                 <div class="position-sticky pt-xl-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active" asp-area="" asp-controller="Home" asp-action="Index">
-                                <span data-feather="home"></span>
-                                Home
+                            <a class="nav-link" asp-area="" asp-controller="StudentView" asp-action="StudentView">
+                                <span data-feather="users"></span>
+                                Student View
                             </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="CreateAVisit" asp-action="CreateAVisit">
-                                <span data-feather="file"></span>
-                                Create A Visit
-                            </a>
-                        </li>
+                        </li>                       
                         <li class="nav-item">
                             <div id="nav-edit-heading">
                                 <p class="fs-4 m-0 ms-5">
                                     Edit
                                 </p>
                             </div>
-                            <div id="nav-edit-body">
+                            <div id="nav-edit-body" class="py-2">
                                 <a class="nav-link" asp-area="" asp-controller="Edit" asp-action="EditVisit">
                                     <span data-feather="edit"></span>
                                     Visit
@@ -139,25 +133,13 @@
                             
                             
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Edit" asp-action="EditTopics">
-                                <span data-feather="edit-3"></span>
-                                Edit Topic
+                            <a class="nav-link" asp-area="" asp-controller="CreateAVisit" asp-action="CreateAVisit">
+                                <span data-feather="file"></span>
+                                Create A Visit
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Edit" asp-action="EditStudent">
-                                <span data-feather="user"></span>
-                                Edit Student
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="StudentView" asp-action="StudentView">
-                                <span data-feather="users"></span>
-                                Student View
-                            </a>
-                        </li>
-                        
                     </ul>
                 </div>
                 <div id="log-out-container">
@@ -170,8 +152,8 @@
                 
             </div>
             <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasnav" aria-labelledby="offcanvasLabel" style="visibility: visible;background-color: rgb(41, 67, 22) !important;" aria-modal="true" role="dialog">
-                <div class="offcanvas-header nav">
-                    <a id="close-offcanvas" href="#" type="button" data-bs-dismiss="offcanvas" aria-label="Close">
+                <div class="offcanvas-header pt-2 nav">
+                    <a id="close-offcanvas" class="me-2" href="#" type="button" data-bs-dismiss="offcanvas" aria-label="Close">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="white" class="bi bi-x-lg" viewBox="0 0 16 16">
                             <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
                         </svg>
@@ -180,16 +162,11 @@
                 <div class="offcanvas-body">
                     <div class="position-sticky">
                         <ul  class="nav flex-column">
+
                             <li class="nav-item">
-                                <a class="nav-link active" asp-area="" asp-controller="Home" asp-action="Index">
-                                    <span data-feather="home"></span>
-                                    Home
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="CreateAVisit" asp-action="CreateAVisit">
-                                    <span data-feather="file"></span>
-                                    Create A Visit
+                                <a class="nav-link" asp-area="" asp-controller="StudentView" asp-action="StudentView">
+                                    <span data-feather="users"></span>
+                                    Student View
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -198,7 +175,7 @@
                                         Edit
                                     </p>
                                 </div>
-                                <div id="nav-edit-body">
+                                <div id="nav-edit-body" class="py-2">
                                     <a class="nav-link" asp-area="" asp-controller="Edit" asp-action="EditVisit">
                                         <span data-feather="edit"></span>
                                         Visit
@@ -212,27 +189,15 @@
                                         Student
                                     </a>
                                 </div>
-
-
                             </li>
+                          
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Edit" asp-action="EditTopics">
-                                    <span data-feather="edit-3"></span>
-                                    Edit Topic
+                                <a class="nav-link" asp-area="" asp-controller="CreateAVisit" asp-action="CreateAVisit">
+                                    <span data-feather="file"></span>
+                                    Create A Visit
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Edit" asp-action="EditStudent">
-                                    <span data-feather="user"></span>
-                                    Edit Student
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="StudentView" asp-action="StudentView">
-                                    <span data-feather="users"></span>
-                                    Student View
-                                </a>
-                            </li>
+                           
 
 
                         </ul>
@@ -257,8 +222,8 @@
                             <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
                         </svg>
                     </button>
-                    <p class="page-title fs-2">@ViewData["Title"]</p>
-                    <button class="navbar-toggler collapsed" type="button" aria-label="Displays teacher that is loged in.">
+                    <p class="page-title fs-2 ps-xxl-5">@ViewData["Title"]</p>
+                    <button class="navbar-toggler collapsed pe-xxl-5" type="button" aria-label="Displays teacher that is loged in.">
                         Dr. Teacher
                     </button>
                 </nav>

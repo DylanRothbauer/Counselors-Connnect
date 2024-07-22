@@ -1,25 +1,37 @@
 
-html {
-    font-size: 14px;
-}
+// Variables
+$primary-color: #294316;
+$secondary-color: #263C17;
+$tertiary-color: #1c2d10;
+$hover-border-color: #B7B7A4;
+$hover-background-color: rgba(252, 252, 252, 0.25);
+$text-color: white;
+$border-radius: 25px;
+$padding-small: 0.5rem;
+$padding-medium: 1rem;
+$padding-large: 1.5rem;
+$margin-small: 0.5rem;
+$margin-medium: 1.5rem;
+$margin-large: 2rem;
 
-@media (min-width: 768px) {
-    html {
-        font-size: 16px;
-    }
-}
+//============================================Shared Layout Styles=================================================//
 
 ::-webkit-scrollbar {
     display: none;
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem $secondary-color;
 }
 
 html {
     position: relative;
     min-height: 100%;
+    font-size: 14px;
+
+    @media (min-width: 768px) {
+        font-size: 16px;
+    }
 }
 
 body {
@@ -29,73 +41,68 @@ body {
 
 #all-content {
     margin: 0;
-    
 }
 
 #sidebar-menu {
     height: 100vh;
     width: 100%;
-    background-color: #294316 !important;
+    background-color: $primary-color !important;
     position: relative;
 }
 
 #nav-edit-heading {
-    color: white;
-    background-color: #1c2d10;
+    color: $text-color;
+    background-color: $tertiary-color;
     margin-bottom: 0;
-    padding:.5rem;
-    border-top-left-radius: 25px;
-    border-top-right-radius: 25px;
+    padding: $padding-small;
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
 }
 
 #nav-edit-body {
-    background-color: #1f321282;
-    border-bottom-left-radius: 25px;
-    border-bottom-right-radius: 25px;
-    padding: .5rem 0 .5rem 0;
+    background-color: rgba(31, 50, 18, 0.51);
+    border-bottom-left-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
 
     .nav-link {
-
         svg {
-            margin-left: 3rem;
+            margin-left: $margin-large;
         }
 
         &:first-of-type {
-            margin-top: 0rem;
-            
+            margin-top: 0;
         }
     }
 }
 
 .nav-item {
-
-
     .nav-link {
-        color: white;
-        padding: .75rem;
+        color: $text-color;
+        padding: $padding-medium;
         align-content: center;
         text-align: center;
-        border-radius: 25px;
-        margin: .5rem;
+        border-radius: $border-radius;
+        margin: $margin-small;
         border: solid transparent 1px;
         display: flex;
         justify-content: start;
 
         svg {
-            margin-right: 2rem;
-            margin-left: 1.5rem;
+            margin-right: $margin-large;
+            margin-left: $margin-medium;
         }
 
         &:hover {
-            border: solid #B7B7A4 1px;
-            background-color: #fcfcfc40
+            border: solid $hover-border-color 1px;
+            background-color: $hover-background-color;
         }
     }
 }
 
 #offcanvasnav {
-    width: 312px;
+    width: 255px;
 }
+
 .offcanvas-header {
     padding: 0;
     justify-content: end;
@@ -103,23 +110,18 @@ body {
     .nav-item {
         width: 80%;
     }
-    .btn-close {
-        margin-right: 0.5rem;
-        color: white;
-    }
 }
+
 .offcanvas-body {
     padding: 0;
 }
 
 #close-offcanvas {
-    margin-right: 0.5rem;
     display: flex;
     align-items: center;
-    padding-top: 1rem;
 
     svg {
-        fill: white;
+        fill: $text-color;
     }
 }
 
@@ -129,24 +131,24 @@ body {
     width: 100%;
 
     #log-out-btn {
-        color: white;
-        padding: .75rem;
+        color: $text-color;
+        padding: $padding-medium;
         align-content: center;
         text-align: center;
-        border-radius: 25px;
-        margin: .5rem;
+        border-radius: $border-radius;
+        margin: $margin-small;
         border: solid transparent 1px;
         display: flex;
         justify-content: start;
 
         svg {
-            margin-right: 2rem;
-            margin-left: 1.5rem;
+            margin-right: $margin-large;
+            margin-left: $margin-medium;
         }
 
         &:hover {
-            border: solid #B7B7A4 1px;
-            background-color: #fcfcfc40
+            border: solid $hover-border-color 1px;
+            background-color: $hover-background-color;
         }
     }
 }
@@ -156,11 +158,6 @@ body {
 
     .page-title {
         margin: 0;
-        padding-left: 1rem;
+        padding-left: $margin-large;
     }
 }
-
-
-
-
-
