@@ -1,23 +1,20 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
 ::-webkit-scrollbar {
   display: none;
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #263C17;
 }
 
 html {
   position: relative;
   min-height: 100%;
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
 }
 
 body {
@@ -46,21 +43,20 @@ body {
 }
 
 #nav-edit-body {
-  background-color: rgba(31, 50, 18, 0.5098039216);
+  background-color: rgba(31, 50, 18, 0.51);
   border-bottom-left-radius: 25px;
   border-bottom-right-radius: 25px;
-  padding: 0.5rem 0 0.5rem 0;
 }
 #nav-edit-body .nav-link svg {
-  margin-left: 3rem;
+  margin-left: 2rem;
 }
 #nav-edit-body .nav-link:first-of-type {
-  margin-top: 0rem;
+  margin-top: 0;
 }
 
 .nav-item .nav-link {
   color: white;
-  padding: 0.75rem;
+  padding: 1rem;
   align-content: center;
   text-align: center;
   border-radius: 25px;
@@ -75,11 +71,11 @@ body {
 }
 .nav-item .nav-link:hover {
   border: solid #B7B7A4 1px;
-  background-color: rgba(252, 252, 252, 0.2509803922);
+  background-color: rgba(252, 252, 252, 0.25);
 }
 
 #offcanvasnav {
-  width: 312px;
+  width: 255px;
 }
 
 .offcanvas-header {
@@ -89,20 +85,14 @@ body {
 .offcanvas-header .nav-item {
   width: 80%;
 }
-.offcanvas-header .btn-close {
-  margin-right: 0.5rem;
-  color: white;
-}
 
 .offcanvas-body {
   padding: 0;
 }
 
 #close-offcanvas {
-  margin-right: 0.5rem;
   display: flex;
   align-items: center;
-  padding-top: 1rem;
 }
 #close-offcanvas svg {
   fill: white;
@@ -115,7 +105,7 @@ body {
 }
 #log-out-container #log-out-btn {
   color: white;
-  padding: 0.75rem;
+  padding: 1rem;
   align-content: center;
   text-align: center;
   border-radius: 25px;
@@ -130,7 +120,7 @@ body {
 }
 #log-out-container #log-out-btn:hover {
   border: solid #B7B7A4 1px;
-  background-color: rgba(252, 252, 252, 0.2509803922);
+  background-color: rgba(252, 252, 252, 0.25);
 }
 
 #top-navigation {
@@ -138,17 +128,10 @@ body {
 }
 #top-navigation .page-title {
   margin: 0;
-  padding-left: 1rem;
-html {
-  position: relative;
-  min-height: 100%;
+  padding-left: 2rem;
 }
 
-body {
-  min-height: 100vh;
-}
-
-/*====================!LOGIN PAGE!==============================*/
+/*====================!LOGIN PAGE!===========================================================================================================*/
 .split {
   height: 100%;
   width: 50%;
@@ -296,3 +279,5 @@ body {
   transform: scale(1.07);
   transition: 150ms linear;
 }
+
+/*==========================!LOGIN PAGE!=================================================================================================================*/

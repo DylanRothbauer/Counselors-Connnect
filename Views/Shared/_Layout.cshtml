@@ -1,99 +1,4 @@
-﻿@* <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Counselors Connect</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="~/css/compiledscss//main.css"asp-append-version="true" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-   
-    <link rel="stylesheet" href="https://getbootstrap.com/docs/5.0/examples/sidebars/sidebars.css" />
-</head>
-<body>
-                @if (ViewData["HideHeader"] == null || !(bool)ViewData["HideHeader"])
-            {
-    <header>
-        <nav class="navbar p-3 shadow" aria-label="Top Navigation">
-            <p class="page-title ">@ViewData["Title"]</p>
-            <button class="navbar-toggler d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon">Dr.Teacher</span>
-            </button>
-        </nav>
-    </header>
-            }
-    <div class="container-fluid">
-        <div class="row">
-            @if (ViewData["HideNavBar"] == null || !(bool)ViewData["HideNavBar"])
-            {
-            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-                <div class="position-sticky pt-3">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active" asp-area="" asp-controller="Home" asp-action="Index">
-                                <span data-feather="home"></span>
-                                Home
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="CreateAVisit" asp-action="CreateAVisit">
-                                <span data-feather="file"></span>
-                                Create A Visit
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Edit" asp-action="EditVisit">
-                                <span data-feather="edit"></span>
-                                Edit Visit
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Edit" asp-action="EditTopics">
-                                <span data-feather="edit-3"></span>
-                                Edit Topic
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Edit" asp-action="EditStudent">
-                                <span data-feather="user"></span>
-                                Edit Student
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="StudentView" asp-action="StudentView">
-                                <span data-feather="users"></span>
-                                Student View
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" onclick="">
-                                <span data-feather="log-out"></span>
-                                Logout
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-            }
-
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">              
-                @RenderBody()
-            </main>
-        </div>
-    </div>
-
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script>
-        feather.replace()
-    </script>
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
-</html> *@
+﻿
 
 <!DOCTYPE html>
 <html lang="en">
@@ -104,9 +9,15 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/compiledscss/main.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://getbootstrap.com/docs/5.0/examples/sidebars/sidebars.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div id="all-content" class="row g-0">
+        @if (ViewData["HideNavBar"] == null || !(bool)ViewData["HideNavBar"])
+        {
         <div class="col-xxl-2 p-0">
             <div id="sidebar-menu" class="d-sm-none d-xxl-block bg-light sidebar collapse" aria-label="Side Navigation">
                 <div class="position-sticky pt-xl-3">
@@ -218,10 +129,13 @@
                     </div>
                 </div>
             </div>
-        </div>       
+        </div>   
+        }
 
         <div class="col-12 col-xxl-10">
             <div id="top-navigation"class="row g-0">
+                            @if (ViewData["HideNavBar"] == null || !(bool)ViewData["HideNavBar"])
+            {
 
                 <nav class="navbar p-3 shadow" aria-label="Top Navigation">
                     <button class="navbar-toggler d-xxl-none d-sm-block d-md-block d-xl-block" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasnav" aria-controls="offcanvasnav" aria-label="Toggle navigation">
@@ -234,6 +148,7 @@
                         Dr. Teacher
                     </button>
                 </nav>
+                }
 
                 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                     @RenderBody()
