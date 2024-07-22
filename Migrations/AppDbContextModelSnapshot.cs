@@ -83,6 +83,32 @@ namespace Counselors_Connect.Migrations
                     b.HasKey("StudentID");
 
                     b.ToTable("Students", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            StudentID = 1,
+                            AdvisorName = "Mr. Brown",
+                            FirstName = "Alice",
+                            Grade = 10,
+                            LastName = "Smith"
+                        },
+                        new
+                        {
+                            StudentID = 2,
+                            AdvisorName = "Mrs. Green",
+                            FirstName = "Bob",
+                            Grade = 11,
+                            LastName = "Johnson"
+                        },
+                        new
+                        {
+                            StudentID = 3,
+                            AdvisorName = "Mr. White",
+                            FirstName = "Charlie",
+                            Grade = 12,
+                            LastName = "Brown"
+                        });
                 });
 
             modelBuilder.Entity("Counselors_Connect.Models.Topic", b =>
@@ -94,14 +120,26 @@ namespace Counselors_Connect.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("VisitID")
-                        .HasColumnType("int");
-
                     b.HasKey("TopicID");
 
-                    b.HasIndex("VisitID");
-
                     b.ToTable("Topics", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            TopicID = 1,
+                            TopicName = "Academic"
+                        },
+                        new
+                        {
+                            TopicID = 2,
+                            TopicName = "Career"
+                        },
+                        new
+                        {
+                            TopicID = 3,
+                            TopicName = "Personal"
+                        });
                 });
 
             modelBuilder.Entity("Counselors_Connect.Models.Visit", b =>
@@ -125,6 +163,10 @@ namespace Counselors_Connect.Migrations
                     b.Property<bool>("File")
                         .HasColumnType("bit");
 
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Length")
                         .HasColumnType("int");
 
@@ -141,13 +183,86 @@ namespace Counselors_Connect.Migrations
                     b.HasIndex("StudentID");
 
                     b.ToTable("Visits", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            VisitID = 1,
+                            CounselorID = 1,
+                            Date = new DateTime(2024, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Initial counseling session",
+                            File = false,
+                            FilePath = "http://example.com/files/1",
+                            Length = 30,
+                            ParentsCalled = true,
+                            StudentID = 1
+                        },
+                        new
+                        {
+                            VisitID = 2,
+                            CounselorID = 1,
+                            Date = new DateTime(2024, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Follow-up session",
+                            File = true,
+                            FilePath = "http://example.com/files/2",
+                            Length = 45,
+                            ParentsCalled = false,
+                            StudentID = 2
+                        },
+                        new
+                        {
+                            VisitID = 3,
+                            CounselorID = 2,
+                            Date = new DateTime(2024, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Career guidance",
+                            File = true,
+                            FilePath = "http://example.com/files/3",
+                            Length = 60,
+                            ParentsCalled = true,
+                            StudentID = 3
+                        });
                 });
 
-            modelBuilder.Entity("Counselors_Connect.Models.Topic", b =>
+            modelBuilder.Entity("Counselors_Connect.Models.VisitTopic", b =>
                 {
-                    b.HasOne("Counselors_Connect.Models.Visit", null)
-                        .WithMany("Topics")
-                        .HasForeignKey("VisitID");
+                    b.Property<int>("VisitID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TopicID")
+                        .HasColumnType("int");
+
+                    b.HasKey("VisitID", "TopicID");
+
+                    b.HasIndex("TopicID");
+
+                    b.ToTable("VisitTopics", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            VisitID = 1,
+                            TopicID = 1
+                        },
+                        new
+                        {
+                            VisitID = 1,
+                            TopicID = 2
+                        },
+                        new
+                        {
+                            VisitID = 2,
+                            TopicID = 3
+                        },
+                        new
+                        {
+                            VisitID = 3,
+                            TopicID = 1
+                        },
+                        new
+                        {
+                            VisitID = 3,
+                            TopicID = 3
+                        });
                 });
 
             modelBuilder.Entity("Counselors_Connect.Models.Visit", b =>
@@ -165,6 +280,25 @@ namespace Counselors_Connect.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Counselors_Connect.Models.VisitTopic", b =>
+                {
+                    b.HasOne("Counselors_Connect.Models.Topic", "Topic")
+                        .WithMany("VisitTopics")
+                        .HasForeignKey("TopicID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Counselors_Connect.Models.Visit", "Visit")
+                        .WithMany("VisitTopics")
+                        .HasForeignKey("VisitID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Topic");
+
+                    b.Navigation("Visit");
+                });
+
             modelBuilder.Entity("Counselors_Connect.Models.Counselor", b =>
                 {
                     b.Navigation("Visits");
@@ -175,9 +309,14 @@ namespace Counselors_Connect.Migrations
                     b.Navigation("Visits");
                 });
 
+            modelBuilder.Entity("Counselors_Connect.Models.Topic", b =>
+                {
+                    b.Navigation("VisitTopics");
+                });
+
             modelBuilder.Entity("Counselors_Connect.Models.Visit", b =>
                 {
-                    b.Navigation("Topics");
+                    b.Navigation("VisitTopics");
                 });
 #pragma warning restore 612, 618
         }
