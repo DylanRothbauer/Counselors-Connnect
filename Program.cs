@@ -65,9 +65,4 @@ app.MapVisitEndpoints();
 
 app.MapVisitTopicEndpoints();
 
-app.MapStudentEndpoints();
-app.MapVisitEndpoints();
-app.MapTopicEndpoints();
-app.MapVisitTopicEndpoints();
-
 app.Run();
