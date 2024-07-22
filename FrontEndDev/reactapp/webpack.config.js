@@ -1,13 +1,22 @@
 ﻿const path = require('path');
+const glob = require('glob');
 const webpack = require('webpack');
+
+const componentsDir = path.resolve(__dirname, 'components');
+const entries = {};
+
+// Read all .js or .jsx files from the components directory
+glob.sync(`${componentsDir}/**/*.{js,jsx}`).forEach((file) => {
+    const relativePath = path.relative(__dirname, file);
+    const componentName = path.basename(file, path.extname(file));
+    entries[componentName] = `./${relativePath.replace(/\\/g, '/')}`;
+});
+
+console.log('Webpack Entries:', entries);
 
 module.exports = {
     mode: 'development',
-    entry: {
-        //Manually add any components using this convention: 'component name': 'path to file',
-        'FileUpload': '/FrontEndDev/reactapp/components/FileUpload.js',
-        'CreateVisit': '/FrontEndDev/reactapp/components/CreateVisit.js'
-    },
+    entry: entries,
     output: {
         path: path.resolve(__dirname, '../../wwwroot/js/compiledreact/'),
         filename: '[name]Compiled.js', // will make the compiled version of the react components
@@ -31,10 +40,10 @@ module.exports = {
         ],
     },
     resolve: {
-        extensions: ['.js'],
+        extensions: ['.js', '.jsx'],
         fallback: {
             buffer: require.resolve('buffer/'),
-        }
+        },
     },
     plugins: [
         new webpack.ProvidePlugin({
