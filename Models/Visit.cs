@@ -21,15 +21,17 @@ namespace Counselors_Connect.Models
         public string Description { get; set; }
 
         [Required]
-        public bool File {  get; set; }
+        public bool File { get; set; }
+
+        [Required]
+        public string FilePath { get; set; }
 
         [Required]
         public bool ParentsCalled { get; set; }
 
         [Required]
         public int Length { get; set; }
-        public ICollection<Topic> Topics { get; }
-
+        public ICollection<VisitTopic> VisitTopics { get; set; }
 
     }
 }

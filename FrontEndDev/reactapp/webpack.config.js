@@ -5,11 +5,12 @@ module.exports = {
     mode: 'development',
     entry: {
         //Manually add any components using this convention: 'component name': 'path to file',
-        'file-upload': '/FrontEndDev/reactapp/components/file-upload.js'
+        'FileUpload': '/FrontEndDev/reactapp/components/FileUpload.js',
+        'CreateVisit': '/FrontEndDev/reactapp/components/CreateVisit.js'
     },
     output: {
         path: path.resolve(__dirname, '../../wwwroot/js/compiledreact/'),
-        filename: '[name]-compiled.js', // will make the compiled version of the react components
+        filename: '[name]Compiled.js', // will make the compiled version of the react components
     },
     module: {
         rules: [
