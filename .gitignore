@@ -3,6 +3,13 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+#custom counselor-connect ignores
+wwwroot/js/compiledreact/
+
+
+
+
+
 # User-specific files
 *.rsuser
 *.suo
