@@ -1,7 +1,11 @@
 ﻿using Counselors_Connect.Data;
 using Counselors_Connect.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Counselors_Connect.Controllers
 {
@@ -30,12 +34,40 @@ namespace Counselors_Connect.Controllers
 
             if (user != null && user.Password == loginDTO.Password)
             {
-                return Ok(new {Message = "Login successful"});
+                var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, user.Username),
+        };
+
+                var claimsIdentity = new ClaimsIdentity(
+                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    claimsPrincipal,
+                    new AuthenticationProperties
+                    {
+                        IsPersistent = loginDTO.RememberMe, 
+                        ExpiresUtc = DateTimeOffset.UtcNow.AddDays(1) 
+                    });
+
+                return Ok(new { Message = "Login successful" });
             }
             else
             {
                 return Unauthorized(new {Message = "Invalid username or password"});
             }
+        }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        { 
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return RedirectToAction("Index", "Login"); 
         }
     }
 }

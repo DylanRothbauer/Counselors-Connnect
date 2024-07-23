@@ -246,7 +246,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 6%;
+  margin-bottom: 1.5rem;
   background: white;
   border-radius: 3px;
   border: 0.5px solid black;
@@ -260,7 +260,7 @@ body {
 }
 
 .login-btn {
-  margin-top: 12%;
+  margin-top: 2rem;
   width: 100%;
   height: 9vh;
   justify-content: center;
@@ -278,6 +278,28 @@ body {
   background: #2F7532;
   transform: scale(1.07);
   transition: 150ms linear;
+}
+
+.login-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  font-family: Montserrat;
+}
+.login-options label {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+.login-options input[type=checkbox] {
+  margin-right: 10px;
+  transform: scale(1.5);
+}
+.login-options a {
+  text-decoration: underline;
+  color: #4CAF50;
+  font-weight: 600;
 }
 
 /*==========================!LOGIN PAGE!=================================================================================================================*/

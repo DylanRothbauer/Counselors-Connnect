@@ -7,19 +7,20 @@ import logo from '../../../wwwroot/images/logo.png';
 const Login = () => {
     const [username, setUsername] = useState(''); 
     const [password, setPassword] = useState(''); 
+    const [rememberMe, setRememberMe] = useState(false); 
     const [errorMessage, setErrorMessage] = useState('');
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         if (username === "" || password === "") {
-            setErrorMessage('Please enter username and password');
+            setErrorMessage('Please enter usernam and password');
             return; 
         }
 
         setErrorMessage('');
         try {
-            const response = await axios.post('/api/auth/login', { username, password });
+            const response = await axios.post('/api/auth/login', { username, password, rememberMe});
             console.log('Login successful:', response.data);
             setErrorMessage(''); 
             window.location.href = '/Home';  
@@ -30,7 +31,7 @@ const Login = () => {
                 setErrorMessage('Invalid username or password');
             } else {
                 console.log(error); 
-                setErrorMessage('An error occurred, Please try again later.');
+                setErrorMessage('An error occurred, Please try again later.');    
             }
         }
     }
@@ -62,6 +63,17 @@ const Login = () => {
                                     onChange={(e) => setPassword(e.target.value)}
                                     placeholder="Password"
                                 />
+                            </div>
+                            <div className="login-options">
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        checked={rememberMe}
+                                        onChange={(e) => setRememberMe(e.target.checked)}
+                                    />
+                                    Remember Me
+                                </label>
+                                <a href="/forgot-password" className="forgot-password-link">Forgot Password?</a>
                             </div>
                             <div>
                                 {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
