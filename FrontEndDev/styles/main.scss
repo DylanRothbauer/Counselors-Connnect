@@ -1,10 +1,5 @@
-
-
+@import 'vars.scss';
 //============================================Shared Layout Styles=================================================//
-@import "vars.scss";
-::-webkit-scrollbar {
-    display: none;
-}
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem $secondary-color;
@@ -21,7 +16,6 @@ html {
 }
 
 body {
-    -ms-overflow-style: none;
     scrollbar-width: none;
 }
 
@@ -140,7 +134,7 @@ body {
 }
 
 #top-navigation {
-    margin: 0;
+    height: 10vh;
 
     .page-title {
         margin: 0;
@@ -150,46 +144,10 @@ body {
 
 
 
-
-//================================================================================//
-//=================================Table Styles===================================//
-//================================================================================//
-
-table {
-    border-radius: 1rem;
-    border-collapse: separate;
-    border-spacing: 0;
-    border: $gray-bg .0125rem solid;
-    overflow: hidden;
-    width: 100%;
-
-    &.visitsTable {
-        min-height: 25rem;
-    }
-
-
-    thead {
-        background: $gray-bg;
-    }
-
-
-    thead {
-        th:first-child {
-            border-top-left-radius: 10px;
-        }
-
-        th:last-child {
-            border-top-right-radius: 10px;
-        }
-    }
-
-    tbody {
-        tr:last-child td:first-child {
-            border-bottom-left-radius: 10px;
-        }
-
-        tr:last-child td:last-child {
-            border-bottom-right-radius: 10px;
-        }
-    }
+#main-content {
+    max-height: 90vh;
+    overflow: auto;
 }
+
+
+

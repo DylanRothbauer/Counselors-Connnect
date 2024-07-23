@@ -10,9 +10,32 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddControllers();
+builder.Services.AddHttpClient();
+
+
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+builder.Services.AddHttpClient("CounselorsClient", client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7169");
+});
+
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
+
 
 var app = builder.Build();
 
@@ -66,5 +89,6 @@ app.MapVisitEndpoints();
 app.MapVisitTopicEndpoints();
 
 app.MapCounselorEndpoints();
+
 
 app.Run();

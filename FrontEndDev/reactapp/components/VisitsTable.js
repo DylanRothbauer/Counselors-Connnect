@@ -1,8 +1,8 @@
 ﻿import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import Fuse from 'fuse.js';
-import FlaggedStudents from './flaggedStudents'; // Import the FlaggedStudents component
-
+import FlaggedStudents from './FlaggedStudents'; // Import the FlaggedStudents component
+import CsvUpload from './CsvUpload';
 const Visits = () => {
     const [visits, setVisits] = useState([]); // methods for setting info for api calls
     const [students, setStudents] = useState([]);
@@ -14,6 +14,7 @@ const Visits = () => {
     const [maxPageNumbersToShow] = useState(5); // how many pagination buttons at once?
     const [searchQuery, setSearchQuery] = useState(''); // search query state
     const [filteredVisits, setFilteredVisits] = useState([]); // filtered visits state
+    const [mergedVisits, setMergedVisits] = useState([])
     const [autocompleteOptions, setAutocompleteOptions] = useState([]); // autocomplete options state
     const [selectedOption, setSelectedOption] = useState(null); // selected autocomplete option state
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' }); // sorting state
@@ -78,10 +79,11 @@ const Visits = () => {
         };
 
         const mergedVisits = mergeVisitsData();
+        setMergedVisits(mergedVisits);
         setFilteredVisits(mergedVisits);
     }, [visits, students, counselors, topics, visitTopics]);
 
-    
+
     //================================================================================//
     //========================Fuzzy Search functionality==============================//
     //================================================================================//
@@ -90,33 +92,14 @@ const Visits = () => {
         const query = event.target.value;
         setSearchQuery(query);
         setSelectedOption(null);
+        setCurrentPage(1);
 
-       
-            // get merged visits (IE. the defautl view) if there is no query
-            const mergedVisits = visits.map(visit => {
-                const student = students.find(s => s.studentID === visit.studentID);
-                const counselor = counselors.find(c => c.counselorID === visit.counselorID);
-                const visitTopicIDs = visitTopics.filter(vt => vt.visitID === visit.visitID).map(vt => vt.topicID);
-                const visitTopicNames = topics.filter(topic => visitTopicIDs.includes(topic.topicID)).map(topic => topic.topicName);
-                const formattedDate = new Date(visit.date).toLocaleDateString();
+        if (query.length === 0) { //return  the filtered visits if there is no active search query 
+            setFilteredVisits(mergedVisits);
+            setAutocompleteOptions([]);
+            return;
+        }
 
-                return {
-                    ...visit,
-                    studentName: student ? `${student.firstName} ${student.lastName}` : 'Unknown',
-                    counselorName: counselor ? counselor.name : 'Unknown',
-                    topicNames: visitTopicNames.length ? visitTopicNames : ['No Topics'],
-                    formattedDate // Add formatted date for search purposes
-                };
-            });
-
-
-            if (query.length === 0) { //return  the filtered visits if there is no active search query 
-                setFilteredVisits(mergedVisits);
-                setAutocompleteOptions([]);
-                return;
-            }
-     
-        
         const fuse = new Fuse(mergedVisits, { // use fuse to fuzzy search
             keys: [
                 'studentName',
@@ -127,11 +110,10 @@ const Visits = () => {
             ],
             threshold: 0.3
         });
-      
+
         const result = fuse.search(query).map(result => result.item);
         setFilteredVisits(result);
 
-       
         // Generate autocomplete options based on the search query
         const options = Array.from(new Set(result.flatMap(visit => [ // create an array, which will act as a select box for underneath the search bar
             visit.studentName,
@@ -141,7 +123,8 @@ const Visits = () => {
             visit.formattedDate
         ]))).filter(option => option.toLowerCase().includes(query.toLowerCase()));
 
-        setAutocompleteOptions(options);
+
+        setAutocompleteOptions(options.slice(0, 5));
     };
 
 
@@ -167,6 +150,7 @@ const Visits = () => {
 
         const result = fuse.search(option).map(result => result.item);
         setFilteredVisits(result);
+        setCurrentPage(1);
         setAutocompleteOptions([]);
     };
 
@@ -244,7 +228,7 @@ const Visits = () => {
         const currentMonth = new Date().getMonth();
         const currentYear = new Date().getFullYear();
 
-        const studentVisits = visits.reduce((acc, visit) => {
+        const studentVisits = mergedVisits.reduce((acc, visit) => {
             const visitDate = new Date(visit.date);
             if (visitDate.getMonth() === currentMonth && visitDate.getFullYear() === currentYear) {
                 if (!acc[visit.studentID]) {
@@ -254,9 +238,8 @@ const Visits = () => {
             }
             return acc;
         }, {});
-
         return Object.values(studentVisits).filter(student => student.visitCount >= 5);
-    }, [visits]);
+    }, [mergedVisits]);
 
     //================================================================================//
     //===========================Table Return Section=================================//
@@ -292,7 +275,7 @@ const Visits = () => {
                 </div>
             ) : (
                 <>
-                    <table itemID="visitsTable">
+                    <table id="visitsTable">
                         <thead>
                             <tr>
                                 <th onClick={() => handleSort('studentName')}>Student {getCaret('studentName')}</th>
@@ -345,9 +328,13 @@ const Visits = () => {
                             </ul>
                         </nav>
                         <span>Page {currentPage} of {pageNumbers.length}</span>
-                    </div>
-                </>
+                        </div>
+
+                        
+                    </>
+                
             )}
+            <CsvUpload />
             <FlaggedStudents flaggedStudents={flaggedStudents} />
         </div>
     );
@@ -364,4 +351,3 @@ VisitsTable.render(
         <Visits />
     </React.StrictMode>
 );
-

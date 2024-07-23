@@ -4,7 +4,8 @@ const FlaggedStudents = ({ flaggedStudents }) => {
     return (
         <div>
             <h2>Flagged Students</h2>
-            <table>
+            <a href="studentview/studentview" className="flaggedStudents">
+            <table id="flaggedStudentsTable">
                 <thead>
                     <tr>
                         <th>Student Name</th>
@@ -14,14 +15,15 @@ const FlaggedStudents = ({ flaggedStudents }) => {
                 </thead>
                 <tbody>
                     {flaggedStudents.slice(0, 4).map(student => (
-                        <tr key={student.studentID} onClick={() => window.location.href = `/student/${student.studentID}`}>
+                        <tr key={student.studentID}>
                             <td>{student.studentName}</td>
                             <td>{student.studentID}</td>
                             <td>{student.visitCount}</td>
                         </tr>
                     ))}
                 </tbody>
-            </table>
+                </table>
+            </a>
         </div>
     );
 };
