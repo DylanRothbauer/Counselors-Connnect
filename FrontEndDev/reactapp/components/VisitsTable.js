@@ -1,7 +1,7 @@
 ﻿import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import Fuse from 'fuse.js';
-import FlaggedStudents from './FlaggedStudents'; // Import the FlaggedStudents component
+import FlaggedStudents from './flaggedStudents'; // Import the FlaggedStudents component
 
 const Visits = () => {
     const [visits, setVisits] = useState([]); // methods for setting info for api calls
@@ -81,7 +81,7 @@ const Visits = () => {
         setFilteredVisits(mergedVisits);
     }, [visits, students, counselors, topics, visitTopics]);
 
-
+    
     //================================================================================//
     //========================Fuzzy Search functionality==============================//
     //================================================================================//
@@ -91,8 +91,8 @@ const Visits = () => {
         setSearchQuery(query);
         setSelectedOption(null);
 
-        if (query.length === 0) {
-            // Reset to merged visits data when search query is empty
+       
+            // get merged visits (IE. the defautl view) if there is no query
             const mergedVisits = visits.map(visit => {
                 const student = students.find(s => s.studentID === visit.studentID);
                 const counselor = counselors.find(c => c.counselorID === visit.counselorID);
@@ -109,12 +109,15 @@ const Visits = () => {
                 };
             });
 
-            setFilteredVisits(mergedVisits);
-            setAutocompleteOptions([]);
-            return;
-        }
 
-        const fuse = new Fuse(filteredVisits, { // use fuse to fuzzy search
+            if (query.length === 0) { //return  the filtered visits if there is no active search query 
+                setFilteredVisits(mergedVisits);
+                setAutocompleteOptions([]);
+                return;
+            }
+     
+        
+        const fuse = new Fuse(mergedVisits, { // use fuse to fuzzy search
             keys: [
                 'studentName',
                 'counselorName',
@@ -124,10 +127,11 @@ const Visits = () => {
             ],
             threshold: 0.3
         });
-
+      
         const result = fuse.search(query).map(result => result.item);
         setFilteredVisits(result);
 
+       
         // Generate autocomplete options based on the search query
         const options = Array.from(new Set(result.flatMap(visit => [ // create an array, which will act as a select box for underneath the search bar
             visit.studentName,
@@ -213,9 +217,6 @@ const Visits = () => {
         return sortableVisits;
     }, [filteredVisits, sortConfig]);
 
-
-
-
     // Calculate the current visits to display based on pagination
     const indexOfLastVisit = currentPage * visitsPerPage; // grab index of the last visit on this page (page 5 * visitsPerPage(10) = 50)
     const indexOfFirstVisit = indexOfLastVisit - visitsPerPage; // grab index of first visit on this page (indexoflastvisit(50) - visitsPerPage(10) = 40 )
@@ -256,13 +257,14 @@ const Visits = () => {
 
         return Object.values(studentVisits).filter(student => student.visitCount >= 5);
     }, [visits]);
+
     //================================================================================//
     //===========================Table Return Section=================================//
     //================================================================================//
     // section where data is returned to the DOM
+
     return (
         <div>
-
             <input
                 type="text"
                 placeholder="Search..."
@@ -284,60 +286,68 @@ const Visits = () => {
                     ))}
                 </ul>
             )}
-            <table>
-                <thead>
-                    <tr>
-                        <th onClick={() => handleSort('studentName')}>Student {getCaret('studentName')}</th>
-                        <th onClick={() => handleSort('counselorName')}>Counselor {getCaret('counselorName')}</th>
-                        <th onClick={() => handleSort('formattedDate')}>Date {getCaret('formattedDate')}</th>
-                        <th onClick={() => handleSort('description')}>Description {getCaret('description')}</th>
-                        <th onClick={() => handleSort('file')}>File {getCaret('file')}</th>
-                        <th onClick={() => handleSort('filePath')}>File Path {getCaret('filePath')}</th>
-                        <th onClick={() => handleSort('parentsCalled')}>Parents Called {getCaret('parentsCalled')}</th>
-                        <th onClick={() => handleSort('length')}>Length {getCaret('length')}</th>
-                        <th onClick={() => handleSort('topicNames')}>Topics {getCaret('topicNames')}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {currentVisits.map(visit => (
-                        <tr key={visit.visitID}>
-                            <td>{visit.studentName}</td>
-                            <td>{visit.counselorName}</td>
-                            <td>{visit.formattedDate}</td>
-                            <td>{visit.description}</td>
-                            <td>{visit.file ? 'Yes' : 'No'}</td>
-                            <td>{visit.filePath}</td>
-                            <td>{visit.parentsCalled ? 'Yes' : 'No'}</td>
-                            <td>{visit.length}</td>
-                            <td>{visit.topicNames.join(', ')}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            <div className="pagination-container">
-                <nav>
-                    <ul className="pagination">
-                        <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                            <a onClick={() => paginate(currentPage - 1)} href="#!" className="page-link">
-                                &laquo;
-                            </a>
-                        </li>
-                        {pageNumbers.slice(startPage - 1, endPage).map(number => (
-                            <li key={number} className={`page-item ${currentPage === number ? 'active' : ''}`}>
-                                <a onClick={() => paginate(number)} href="#!" className="page-link">
-                                    {number}
-                                </a>
-                            </li>
-                        ))}
-                        <li className={`page-item ${currentPage === pageNumbers.length ? 'disabled' : ''}`}>
-                            <a onClick={() => paginate(currentPage + 1)} href="#!" className="page-link">
-                                &raquo;
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <span>Page {currentPage} of {pageNumbers.length}</span>
-            </div>
+            {currentVisits.length === 0 ? (
+                <div>
+                    <div className="no-results-message">No results found</div> {/*display an error message instead of table if there is nothing there*/}
+                </div>
+            ) : (
+                <>
+                    <table itemID="visitsTable">
+                        <thead>
+                            <tr>
+                                <th onClick={() => handleSort('studentName')}>Student {getCaret('studentName')}</th>
+                                <th onClick={() => handleSort('counselorName')}>Counselor {getCaret('counselorName')}</th>
+                                <th onClick={() => handleSort('formattedDate')}>Date {getCaret('formattedDate')}</th>
+                                <th onClick={() => handleSort('description')}>Description {getCaret('description')}</th>
+                                <th onClick={() => handleSort('file')}>File {getCaret('file')}</th>
+                                <th onClick={() => handleSort('filePath')}>File Path {getCaret('filePath')}</th>
+                                <th onClick={() => handleSort('parentsCalled')}>Parents Called {getCaret('parentsCalled')}</th>
+                                <th onClick={() => handleSort('length')}>Length {getCaret('length')}</th>
+                                <th onClick={() => handleSort('topicNames')}>Topics {getCaret('topicNames')}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {currentVisits.map(visit => (
+                                <tr key={visit.visitID}>
+                                    <td>{visit.studentName}</td>
+                                    <td>{visit.counselorName}</td>
+                                    <td>{visit.formattedDate}</td>
+                                    <td>{visit.description}</td>
+                                    <td>{visit.file ? 'Yes' : 'No'}</td>
+                                    <td>{visit.filePath}</td>
+                                    <td>{visit.parentsCalled ? 'Yes' : 'No'}</td>
+                                    <td>{visit.length}</td>
+                                    <td>{visit.topicNames.join(', ')}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    <div className="pagination-container">
+                        <nav>
+                            <ul className="pagination">
+                                <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                                    <a onClick={() => paginate(currentPage - 1)} href="#!" className="page-link">
+                                        &laquo;
+                                    </a>
+                                </li>
+                                {pageNumbers.slice(startPage - 1, endPage).map(number => (
+                                    <li key={number} className={`page-item ${currentPage === number ? 'active' : ''}`}>
+                                        <a onClick={() => paginate(number)} href="#!" className="page-link">
+                                            {number}
+                                        </a>
+                                    </li>
+                                ))}
+                                <li className={`page-item ${currentPage === pageNumbers.length ? 'disabled' : ''}`}>
+                                    <a onClick={() => paginate(currentPage + 1)} href="#!" className="page-link">
+                                        &raquo;
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <span>Page {currentPage} of {pageNumbers.length}</span>
+                    </div>
+                </>
+            )}
             <FlaggedStudents flaggedStudents={flaggedStudents} />
         </div>
     );
@@ -348,9 +358,10 @@ export default Visits;
 //================================================================================//
 //===========================Render In DOM========================================//
 //================================================================================//
-const VisitsTable = ReactDOM.createRoot(document.getElementById('VisitsTable'));
+const VisitsTable = ReactDOM.createRoot(document.getElementById('homeTables'));
 VisitsTable.render(
     <React.StrictMode>
         <Visits />
     </React.StrictMode>
 );
+

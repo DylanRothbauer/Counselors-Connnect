@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿@* <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -10,8 +10,9 @@
     <link rel="stylesheet" href="https://getbootstrap.com/docs/5.0/examples/sidebars/sidebars.css" />
 </head>
 <body>
+
     <header>
-        <nav class="navbar navbar-dark bg-dark p-0 shadow">
+        <nav class="navbar p-3 shadow" aria-label="Top Navigation">
             <p class="page-title ">@ViewData["Title"]</p>
             <button class="navbar-toggler d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon">Dr.Teacher</span>
@@ -21,7 +22,7 @@
 
     <div class="container-fluid">
         <div class="row">
-            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+            <nav id="sidebar-menu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse" aria-label="Side Navigation">
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
@@ -70,22 +71,173 @@
                 </div>
             </nav>
 
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">              
                 @RenderBody()
             </main>
         </div>
     </div>
 
-    <footer class="footer text-muted">
-        <div class="container">
-            &copy; 2021 - Contoso University - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>
-
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        feather.replace()
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html> *@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Counselors Connect</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/compiledscss/main.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://getbootstrap.com/docs/5.0/examples/sidebars/sidebars.css" />
+</head>
+<body>
+    <div id="all-content" class="row g-0">
+        <div class="col-xxl-2 p-0">
+            <div id="sidebar-menu" class="d-sm-none d-xxl-block bg-light sidebar collapse" aria-label="Side Navigation">
+                <div class="position-sticky pt-xl-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="StudentView" asp-action="StudentView">
+                                <span data-feather="users"></span>
+                                Student View
+                            </a>
+                        </li>                       
+                        <li class="nav-item">
+                            <div id="nav-edit-heading">
+                                <p class="fs-4 m-0 ms-5">
+                                    Edit
+                                </p>
+                            </div>
+                            <div id="nav-edit-body" class="py-2">
+                                <a class="nav-link" asp-area="" asp-controller="Edit" asp-action="EditVisit">
+                                    <span data-feather="edit"></span>
+                                    Visit
+                                </a>
+                                <a class="nav-link" asp-area="" asp-controller="Edit" asp-action="EditTopic">
+                                    <span data-feather="edit"></span>
+                                    Topic
+                                </a>
+                                <a class="nav-link" asp-area="" asp-controller="Edit" asp-action="EditStudent">
+                                    <span data-feather="edit"></span>
+                                    Student
+                                </a>
+                            </div>
+                            
+                            
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="CreateAVisit" asp-action="CreateAVisit">
+                                <span data-feather="file"></span>
+                                Create A Visit
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="log-out-container">
+                    <a id="log-out-btn" onclick="">
+                        <span data-feather="log-out"></span>
+                        Log Out
+
+                    </a>
+                </div>
+                
+            </div>
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasnav" aria-labelledby="offcanvasLabel" style="visibility: visible;background-color: rgb(41, 67, 22) !important;" aria-modal="true" role="dialog">
+                <div class="offcanvas-header pt-2 nav">
+                    <a id="close-offcanvas" class="me-2" href="#" type="button" data-bs-dismiss="offcanvas" aria-label="Close">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="white" class="bi bi-x-lg" viewBox="0 0 16 16">
+                            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
+                        </svg>
+                    </a>
+                </div>
+                <div class="offcanvas-body">
+                    <div class="position-sticky">
+                        <ul  class="nav flex-column">
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="StudentView" asp-action="StudentView">
+                                    <span data-feather="users"></span>
+                                    Student View
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <div id="nav-edit-heading">
+                                    <p class="fs-4 m-0 ms-5">
+                                        Edit
+                                    </p>
+                                </div>
+                                <div id="nav-edit-body" class="py-2">
+                                    <a class="nav-link" asp-area="" asp-controller="Edit" asp-action="EditVisit">
+                                        <span data-feather="edit"></span>
+                                        Visit
+                                    </a>
+                                    <a class="nav-link" asp-area="" asp-controller="Edit" asp-action="EditTopic">
+                                        <span data-feather="edit"></span>
+                                        Topic
+                                    </a>
+                                    <a class="nav-link" asp-area="" asp-controller="Edit" asp-action="EditStudent">
+                                        <span data-feather="edit"></span>
+                                        Student
+                                    </a>
+                                </div>
+                            </li>
+                          
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="CreateAVisit" asp-action="CreateAVisit">
+                                    <span data-feather="file"></span>
+                                    Create A Visit
+                                </a>
+                            </li>
+                           
+
+
+                        </ul>
+                    </div>
+                    <div id="log-out-container">
+                        <a id="log-out-btn" onclick="">
+                            <span data-feather="log-out"></span>
+                            Log Out
+
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>       
+
+        <div class="col-12 col-xxl-10">
+            <div id="top-navigation"class="row g-0">
+
+                <nav class="navbar p-3 shadow" aria-label="Top Navigation">
+                    <button class="navbar-toggler d-xxl-none d-sm-block d-md-block d-xl-block" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasnav" aria-controls="offcanvasnav" aria-label="Toggle navigation">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+                        </svg>
+                    </button>
+                    <p class="page-title fs-2 ps-xxl-5">@ViewData["Title"]</p>
+                    <button class="navbar-toggler collapsed pe-xxl-5" type="button" aria-label="Displays teacher that is loged in.">
+                        Dr. Teacher
+                    </button>
+                </nav>
+
+                <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                    @RenderBody()
+                </main>
+            </div>
+        </div>
+
+    </div>
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/feather-icons"></script>
     <script>
         feather.replace()
