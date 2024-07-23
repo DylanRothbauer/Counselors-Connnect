@@ -21,15 +21,12 @@ const StudentsList = () => {
 
     }, []);
 
-    
-
     // Filtered students based on search term (manual)
     //const filteredStudents = students.filter(student =>
     //    `${student.firstName} ${student.lastName} ${student.studentID} ${student.grade} ${student.advisorName}`
     //        .toLowerCase()
     //        .includes(searchTerm.toLowerCase())
     //);
-
 
     // Fuse.js configuration for fuzzy search
     const fuseOptions = {
@@ -41,16 +38,20 @@ const StudentsList = () => {
     // Create a Fuse instance with students data and fuseOptions
     const fuse = new Fuse(students, fuseOptions);
 
-    // Function to perform fuzzy search
-    const performSearch = (value) => {
-        const results = fuse.search(value);
-        const filteredStudents = results.map(result => result.item);
-        return filteredStudents;
-    };
+    // Function to perform fuzzy search and update filtered students
+    useEffect(() => {
+        if (searchTerm.trim() === '') {
+            setFilteredStudents(students);
+        } else {
+            const results = fuse.search(searchTerm);
+            const filteredStudents = results.map(result => result.item);
+            setFilteredStudents(filteredStudents);
+        }
+        setCurrentPage(1); // Reset to first page after search
+    }, [searchTerm, students]); // Dependencies that will execute the effect when either one changes?
 
-    // Filtered students based on search term
-    const filteredStudents = searchTerm ? performSearch(searchTerm) : students;
-
+    // State to hold filtered students
+    const [filteredStudents, setFilteredStudents] = useState(students);
 
     // Pagination logic
     const indexOfLastStudent = currentPage * studentsPerPage;
@@ -62,9 +63,9 @@ const StudentsList = () => {
         setCurrentPage(pageNumber);
     };
 
-    // Get the page numbers
+    // Get the page numbers on filtered students
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(students.length / studentsPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(filteredStudents.length / studentsPerPage); i++) {
         pageNumbers.push(i);
     }
 
@@ -88,18 +89,17 @@ const StudentsList = () => {
         }
     };
 
-    // Function to delete student via POST request
+    // Function to delete student via DELETE request
     const deleteStudent = (studentID) => {
         fetch(`/api/Student/Delete?studentid=${studentID}`,
             {
                 method: "Delete",
-                body: {studentid: studentID}
+                body: { studentid: studentID }
             }).then(() => {
                 window.location.reload();
             }).catch((err) => {
                 console.log(err.message)
             })
-
     };
 
     return (
@@ -134,7 +134,7 @@ const StudentsList = () => {
                             <td>{student.studentID}</td>
                             <td>{student.grade}</td>
                             <td>
-                                <button className="btn btn-primary" onClick={() => handleEditButtonClick(student.studentID)}>Edit</button> 
+                                <button className="btn btn-primary" onClick={() => handleEditButtonClick(student.studentID)}>Edit</button>
                                 <button className="btn btn-danger" onClick={() => handleDeleteConfirmation(student.studentID)}>Delete</button>
                             </td>
                         </tr>
