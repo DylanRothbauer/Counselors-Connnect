@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom/client';
 import Fuse from 'fuse.js';
 import FlaggedStudents from './FlaggedStudents'; // Import the FlaggedStudents component
 import CsvUpload from './CsvUpload';
+import axios from 'axios';
+
 const Visits = () => {
     const [visits, setVisits] = useState([]); // methods for setting info for api calls
     const [students, setStudents] = useState([]);
@@ -14,7 +16,7 @@ const Visits = () => {
     const [maxPageNumbersToShow] = useState(5); // how many pagination buttons at once?
     const [searchQuery, setSearchQuery] = useState(''); // search query state
     const [filteredVisits, setFilteredVisits] = useState([]); // filtered visits state
-    const [mergedVisits, setMergedVisits] = useState([])
+    const [mergedVisits, setMergedVisits] = useState([]);
     const [autocompleteOptions, setAutocompleteOptions] = useState([]); // autocomplete options state
     const [selectedOption, setSelectedOption] = useState(null); // selected autocomplete option state
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' }); // sorting state
@@ -54,6 +56,20 @@ const Visits = () => {
             .then(data => setVisitTopics(data))
             .catch(error => console.error('Error fetching visit topics data:', error));
     }, []);
+
+    // Function to delete a visit
+    const handleDelete = async (visitID) => {
+        if (window.confirm("Are you sure you want to delete this visit?")) {
+            try {
+                await axios.delete(`/api/Visit/Delete?visitID=${visitID}`);
+                setVisits(visits.filter(visit => visit.visitID !== visitID));
+                setFilteredVisits(filteredVisits.filter(visit => visit.visitID !== visitID));
+            } catch (error) {
+                console.error("Error deleting visit:", error);
+            }
+        }
+    };
+
     //================================================================================//
     //=================================Merge Tables===================================//
     //================================================================================//
@@ -241,6 +257,7 @@ const Visits = () => {
         return Object.values(studentVisits).filter(student => student.visitCount >= 5);
     }, [mergedVisits]);
 
+
     //================================================================================//
     //===========================Table Return Section=================================//
     //================================================================================//
@@ -287,6 +304,7 @@ const Visits = () => {
                                 <th onClick={() => handleSort('parentsCalled')}>Parents Called {getCaret('parentsCalled')}</th>
                                 <th onClick={() => handleSort('length')}>Length {getCaret('length')}</th>
                                 <th onClick={() => handleSort('topicNames')}>Topics {getCaret('topicNames')}</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -301,6 +319,7 @@ const Visits = () => {
                                     <td>{visit.parentsCalled ? 'Yes' : 'No'}</td>
                                     <td>{visit.length}</td>
                                     <td>{visit.topicNames.join(', ')}</td>
+                                    <td><button onClick={() => window.location.href = `/Edit/EditVisit/${visit.visitID}`}>Edit</button><button onClick={() => handleDelete(visit.visitID)}>Delete</button></td>
                                 </tr>
                             ))}
                         </tbody>
@@ -328,13 +347,10 @@ const Visits = () => {
                             </ul>
                         </nav>
                         <span>Page {currentPage} of {pageNumbers.length}</span>
-                        </div>
-
-                        
-                    </>
-                
+                    </div>
+                </>
             )}
-            <CsvUpload />
+            <CsvUpload onUploadSuccess={() => { /* Implement this if you want to re-fetch data after CSV upload */ }} />
             <FlaggedStudents flaggedStudents={flaggedStudents} />
         </div>
     );

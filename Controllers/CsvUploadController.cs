@@ -35,7 +35,7 @@ namespace Counselors_Connect.Controllers
 
             var requiredHeaders = new List<string>
             {
-                 "StudentID","CounselorID", "VisitDate", "Description", "File",
+                "StudentID", "CounselorID", "VisitDate", "Description", "File",
                 "FilePath", "ParentsCalled", "Length", "FirstName", "LastName", "Grade",
                 "AdvisorName", "CounselorName", "CounselorUsername", "CounselorPassword", "Topics"
             };
@@ -55,7 +55,7 @@ namespace Counselors_Connect.Controllers
                 var students = new List<Student>();
                 var counselors = new List<Counselor>();
                 var visits = new List<Visit>();
-                var visitTopics = new List<VisitTopic>();
+                var visitTopics = new List<(Visit Visit, List<int> TopicIDs)>();
 
                 while (csv.Read())
                 {
@@ -88,49 +88,64 @@ namespace Counselors_Connect.Controllers
                         Password = csv.GetField<string>("CounselorPassword")
                     };
 
-                    var topics = csv.GetField<string>("Topics").Split('|').Select(int.Parse);
+                    var topicIDs = csv.GetField<string>("Topics").Split('|').Select(int.Parse).ToList();
 
                     visits.Add(visit);
                     students.Add(student);
                     counselors.Add(counselor);
-                    visitTopics.AddRange(topics.Select(topicId => new VisitTopic { VisitID = visit.VisitID, TopicID = topicId }));
+                    visitTopics.Add((visit, topicIDs));
                 }
 
                 var client = _httpClientFactory.CreateClient("CounselorsClient");
 
                 foreach (var student in students)
                 {
-                    var response = await client.PostAsJsonAsync("/api/Student", student);
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        return StatusCode((int)response.StatusCode, $"Failed to upload student with ID {student.StudentID}");
+                    var response = await client.GetAsync($"/api/Student/GetStudentById?StudentID={student.StudentID}");
+                    if (!response.IsSuccessStatusCode) { 
+                   
+                        response = await client.PostAsJsonAsync("/api/Student", student);
+                        if (!response.IsSuccessStatusCode)
+                        {
+                            return StatusCode((int)response.StatusCode, $"Failed to upload student with ID {student.StudentID}");
+                        }
                     }
                 }
 
                 foreach (var counselor in counselors)
                 {
-                    var response = await client.PostAsJsonAsync("/api/Counselor", counselor);
+                    var response = await client.GetAsync($"/api/Counselor/GetCounselorById?CounselorID={counselor.CounselorID}");
                     if (!response.IsSuccessStatusCode)
                     {
-                        return StatusCode((int)response.StatusCode, $"Failed to upload counselor with ID {counselor.CounselorID}");
+                      response = await client.PostAsJsonAsync("/api/Counselor", counselor);
+                        if (!response.IsSuccessStatusCode)
+                        {
+                            return StatusCode((int)response.StatusCode, $"Failed to upload counselor with ID {counselor.CounselorID}");
+                        }
                     }
                 }
 
-                foreach (var visit in visits)
+                foreach (var (visit, topicIDs) in visitTopics)
                 {
                     var response = await client.PostAsJsonAsync("/api/Visit", visit);
                     if (!response.IsSuccessStatusCode)
                     {
-                        return StatusCode((int)response.StatusCode, $"Failed to upload visit with ID {visit.VisitID}");
+                        return StatusCode((int)response.StatusCode, $"Failed to upload visit for student ID {visit.StudentID}");
                     }
-                }
 
-                foreach (var visitTopic in visitTopics)
-                {
-                    var response = await client.PostAsJsonAsync("/api/VisitTopic", visitTopic);
-                    if (!response.IsSuccessStatusCode)
+                    var createdVisit = await response.Content.ReadFromJsonAsync<Visit>();
+
+                    foreach (var topicID in topicIDs)
                     {
-                        return StatusCode((int)response.StatusCode, $"Failed to upload visit topic for visit ID {visitTopic.VisitID} and topic ID {visitTopic.TopicID}");
+                        var visitTopic = new VisitTopic
+                        {
+                            VisitID = createdVisit.VisitID,
+                            TopicID = topicID
+                        };
+                        var visitTopicResponse = await client.PostAsJsonAsync("/api/VisitTopic", visitTopic);
+                        if (!visitTopicResponse.IsSuccessStatusCode)
+                        {
+                            return StatusCode((int)visitTopicResponse.StatusCode, $"Failed to upload visit topic for visit ID {createdVisit.VisitID} and topic ID {topicID}");
+                        }
                     }
                 }
 

@@ -57,21 +57,20 @@ const CsvUpload = ({ onUploadSuccess }) => {
 
             if (response.data.success) {
                 setSuccessMessage('File uploaded successfully!');
-                onUploadSuccess();
             } else {
                 setErrorMessage('File upload failed. Please try again.');
             }
         } catch (error) {
             console.error(error);
-            setErrorMessage(error.response?.data?.message || 'An error occurred. Please try again.');
+            setErrorMessage(error.response?.data|| 'An error occurred. Please try again.');
         }
     };
 
     return (
         <div>
             <h2>Upload the CSV File</h2>
-            <input type="file" accept=".csv" onChange={handleFileChange} />
-            <button onClick={handleUpload}>Upload</button>
+            <input className="buttonPrimary" type="file" accept=".csv" onChange={handleFileChange} />
+            <button className="buttonPrimary" onClick={handleUpload}>Upload</button>
             {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
             {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
         </div>
