@@ -74,7 +74,7 @@ body {
 
         &:hover {
             border: solid $hover-border-color 1px;
-            background-color: $hover-background-color;
+            background-color: $hover-bg-color;
         }
     }
 }
@@ -128,22 +128,170 @@ body {
 
         &:hover {
             border: solid $hover-border-color 1px;
-            background-color: $hover-background-color;
+            background-color: $hover-bg-color;
         }
     }
 }
 
 #top-navigation {
     height: 10vh;
-
+    background-color: $white-bg;
     .page-title {
         margin: 0;
         padding-left: $margin-large;
+        
     }
 }
 
 
 #main-content {
-    max-height: 90vh;
+    height: 90vh;
     overflow: auto;
+    background-color: #EEF1F4;
+    justify-content: center;
+
+    .primary-btn{
+        background-color: $btn-primary;
+        color: $text-color;
+        border-radius: $border-radius;
+        padding: $padding-small $padding-large;
+    }
+}
+
+//================================================================================//
+//=================================Table Styles===================================//
+//================================================================================//
+#table-container {
+    width: 90%;
+
+    .search-bar {
+        width: 50%;
+
+        input {
+            width: 100%;
+        }
+    }
+
+ /*   table {
+        border-radius: $border-radius;
+        border-collapse: separate;
+        border-spacing: 0;
+        border: $gray-bg .0125rem solid;
+        overflow: hidden;
+        width: 100%;
+
+        & #visitsTable {
+            min-height: 25rem;
+        }
+
+
+        thead {
+            background: $gray-bg;
+        }
+
+
+        thead {
+            th:first-child {
+                border-top-left-radius: 10px;
+            }
+
+            th:last-child {
+                border-top-right-radius: 10px;
+            }
+        }
+
+        tbody {
+            tr:last-child td:first-child {
+                border-bottom-left-radius: 10px;
+            }
+
+            tr:last-child td:last-child {
+                border-bottom-right-radius: 10px;
+            }
+        }
+    }*/
+    table {
+        border-radius: $border-radius;
+        border-color: $gray-bg;
+        overflow: hidden;
+        width: 100%;
+        margin: 0;
+
+        & #visitsTable {
+            min-height: 25rem;
+        }
+
+
+        thead {
+            background: $gray-bg;
+        }
+
+
+        tbody {
+            
+            border-bottom-left-radius: $border-radius;
+            border-bottom-right-radius: $border-radius;
+
+            td {
+                padding: 0 $padding-small 0 $padding-small !important;
+                vertical-align: middle;
+                
+            }
+        }
+    }
+}
+
+//================================================================================//
+//==============================Pagination Styles===============================//
+//================================================================================//
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+    .pagination {
+        margin: $margin-small;
+
+        .page-item {
+            &:first-of-type {
+                .page-link {
+                    background-color: transparent;
+                }
+            }
+
+            &:last-of-type {
+                .page-link {
+                    background-color: transparent;
+                }
+            }
+
+            .page-link {
+                background-color: $btn-primary;
+                color: $text-color;
+                border: 0;
+               
+
+                svg {
+                    fill: $btn-primary;
+                }
+            }
+        }
+    }
+}
+
+//================================================================================//
+//==============================Student View Styles===============================//
+//================================================================================//
+
+#students {
+    display: flex;
+    justify-content: center;
+    width: 75%;
+    background-color: $white-bg;
+    border-radius: $border-radius;
+    margin: auto;
+    position: relative;
+    height: fit-content;
 }
