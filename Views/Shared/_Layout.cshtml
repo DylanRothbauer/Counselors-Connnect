@@ -16,9 +16,9 @@
 </head>
 
 <body>
-    <div id="all-content" class="row g-0">
-        @if (ViewData["HideNavBar"] == null || !(bool)ViewData["HideNavBar"])
+            @if (ViewData["HideNavBar"] == null || !(bool)ViewData["HideNavBar"])
         {
+            <div id="all-content" class="row g-0">
         <div class="col-xxl-2 p-0">
             <div id="sidebar-menu" class="d-sm-none d-xxl-block bg-light sidebar collapse" aria-label="Side Navigation">
                 <div class="position-sticky pt-xl-3">
@@ -131,12 +131,9 @@
                 </div>
             </div>
         </div>   
-        }
 
         <div class="col-12 col-xxl-10">
             <div id="top-navigation"class="row g-0">
-                            @if (ViewData["HideNavBar"] == null || !(bool)ViewData["HideNavBar"])
-            {
 
                 <nav class="navbar p-3 shadow" aria-label="Top Navigation">
                     <button class="navbar-toggler d-xxl-none d-sm-block d-md-block d-xl-block" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasnav" aria-controls="offcanvasnav" aria-label="Toggle navigation">
@@ -149,15 +146,20 @@
                         @User.FindFirst(ClaimTypes.Name)?.Value
                     </button>
                 </nav>
-                }
-
-                <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                    @RenderBody()
-                </main>
+                    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                        @RenderBody()
+                    </main>
             </div>
         </div>
 
     </div>
+    }
+    else
+    {
+        <main class="container-fluid custom-container-fluid">
+            @RenderBody()
+        </main>
+    }
     
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

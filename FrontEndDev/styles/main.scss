@@ -166,169 +166,162 @@ body {
 $green: #4CAF50;
 $hover-green: #2F7532; 
 
-.split {
-    height: 100%;
-    width: 50%;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    overflow-x: hidden;
-
+.login-view {
+    width: 100%; 
+    font-family: Montserrat;
 }
 
-.left {
-    left: 0;
+.custom-container-fluid {
+    padding-left: 0;
+    padding-right: 0; 
+}
+
+.background-image-container {
+    background-size: cover;
+    background-position: center; 
+    height: 100vh; 
+    width: 100%; 
     display: flex; 
     justify-content: center; 
     align-items: center; 
+    overflow-y: auto; 
+  
 }
 
-.right {
-    right: 0;
+.logo-text-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-top: -30%;
+    height: 100%;
+
+    h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+    }
+
+    p {
+        font-size: 1.25rem;
+        font-weight: 400;
+    }
+
+    @media (max-width: 1000px) {
+        h1 {
+            font-size: 2rem; // Smaller font size for smaller screens
+        }
+
+        p {
+            font-size: 1rem; // Smaller font size for smaller screens
+        }
+
+        img {
+            transform: scale(.8); 
+        }
+    }
+}
+.col-sm-8 {
+    height: 100vh; 
 }
 
-.background-container {
-    position: relative;
-    height:100vh; 
-    width: 100%; 
-}
-
-.background {
-    position: absolute;
-    top: 0; 
-    left: 0; 
-    height: 100vh;  
-    width: 100%;
-    background-size: cover; 
-    z-index: 1; 
-}
-
-.logo {
-   position: absolute; 
-   top: 31%; 
-   left: 50%; 
-   transform: translate(-50%, -50%); 
-   z-index: 2; 
-   height: 21%; 
-}
-
-@mixin login-text($size: 34px, $weight: 400) {
-    color: #000; 
-    font-family: Montserrat; 
-    font-size: $size;
-    font-style: normal; 
-    font-weight: $weight;
-    line-height: normal; 
-}
-
-.login-text-p {
-    @include login-text(2.4vh, 400);
-    position: absolute;
-    top: 60%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
-    text-align: center;
-}
-
-.login-text-h1-bold {
-    @include login-text(clamp(16px, 4.7vh, 32px), 700);
-    position: absolute;
-    top: 51%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
-    text-align: center; 
-}
-
-.login-container {
-    position: relative; 
-    height: 62.7vh; 
-    width: 61.5%; 
-    display: flex; 
-    flex-direction: column; 
-}
-
-
-.login-text-p-left {
-    @include login-text(2.4vh, 400); 
-    position: relative; 
-    left: 0%; 
-    margin-bottom: 6%; 
-}
-
-.login-text-h1 {
-    @include login-text(4.7vh, 400); 
-    position: relative; 
-    top: 0%; 
-    left: 0%; 
-    margin-bottom: 5.6%; 
-}
-
-.login-container input {
-    width: 100%;
-    height: 77px;
+.login-info-container {
+    display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    margin-bottom: $margin-medium;
-    background: white;
-    border-radius: 3px;
-    border: .5px solid black;
-}
+    align-items: flex-start;
+    gap: 5%;
+    height: 100%;
 
-.login-container input ::placeholder {
-    font-family: Montserrat;
-    color: rgba(183, 183, 164, 0.67);
-    left: 15px;
-    position: absolute; 
-}
-
-.login-btn {
-    margin-top: $margin-large; 
-    width: 100%; 
-    height: 9vh; 
-    justify-content: center; 
-    align-items: center;  
-    flex-shrink: 0; 
-    border-radius: 50px; 
-    background: $green; 
-    color: white; 
-    border: none; 
-    font-weight: 700;
-    font-family: Montserrat; 
-}
-
-.login-btn:hover {
-    background: $hover-green; 
-    transform: scale(1.07); 
-    transition: 150ms linear; 
-}
-
-.login-options {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 18px;
-    font-family: Montserrat; 
-
-    label {
-        display: flex;
-        align-items: center;
-        white-space: nowrap;
+    @media (max-width: 576px) {
+        margin-left: 16.7%; 
+        margin-right: 16.7%; 
     }
 
-    input[type="checkbox"] {
-        margin-right: 10px;
-        transform: scale(1.5);
+    @media (max-height: 650px) {
+        gap: 5px;
     }
 
-    a {
-        text-decoration: underline;
-        color: #4CAF50;
-        font-weight: 600; 
 
+    form {
+        width: 100%;
+
+        input {
+            border-radius: 3px;
+            border: .5px solid black;
+            background: white;
+            margin-bottom: 7%;
+            height: 70px;
+
+            @media (max-height: 650px) {
+                margin-bottom: 10px;
+            }
+        }
+
+
+        button {
+            border-radius: 50px;
+            background: $green;
+            margin-bottom: 6%;
+            height: 70px;
+            border: none;
+            color: white;
+            font-weight: 600;
+
+            &:hover {
+                background: $hover-green;
+                color: white;
+                font-weight: 600;
+            }
+
+            @media (max-height: 650px) {
+                margin-bottom: 3%;
+            }
+        }
+
+
+
+        .checking {
+            margin-bottom: 6%;
+
+            .row {
+                .col-6 {
+                    display: flex;
+                    align-items: center;
+
+                    .checkbox-label {
+                        display: flex;
+                        align-items: center;
+                        cursor: pointer;
+
+                        input[type="checkbox"] {
+                            margin: 0 0.5rem 0 0;
+                            transform: scale(1.2);
+                        }
+                    }
+                }
+
+                .text-end {
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: center;
+                }
+
+                .forgot {
+                    color: #4CAF50; 
+                    font-weight: 600;
+                    text-decoration-line: underline;
+
+                    &:hover {
+                        color: $hover-green;
+                    }
+                }
+            }
+
+            @media (max-height: 650px) {
+                margin-bottom: 10px;
+            }
+        }
     }
 }
-
-/*==========================!LOGIN PAGE!=================================================================================================================*/
+    /*==========================!LOGIN PAGE!=================================================================================================================*/

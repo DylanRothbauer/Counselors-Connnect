@@ -37,60 +37,69 @@ const Login = () => {
     }
 
     return (
-        <div>
-            <div className="split left">
-                <div className="login-container">
-                    <div>
-                        <h1 className="login-text-h1">Login</h1>
-                    </div>
-                    <div>
-                        <p className="login-text-p-left">Welcome Back! Please login to your account</p>
-                    </div>
-                    <div>
-                        <form onSubmit={handleSubmit}>
-                            <div>
-                                <input
-                                    type="text"
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
-                                    placeholder="Username"
-                                />
+        <div className="container-fluid custom-container-fluid">
+            <div className="row">
+                {/* Login Form Section */}
+                <div className="col-lg-6">
+                    <div className="row d-flex align-items-center">
+                        <div className="col-sm-2"></div>
+                        <div className="col-sm-8">
+                            <div className="login-info-container">
+                                <h1>Login</h1>
+                                <p>Welcome Back! Please login to your account</p>
+                                <form onSubmit={handleSubmit}>
+                                    <div>
+                                        <input
+                                            type="text"
+                                            value={username}
+                                            onChange={(e) => setUsername(e.target.value)}
+                                            placeholder="Username"
+                                            className="form-control"
+                                        />
+                                    </div>
+                                    <div className="mt-3">
+                                        <input
+                                            type="password"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            placeholder="Password"
+                                            className="form-control"
+                                        />
+                                    </div>
+                                    <div className="checking">
+                                        <div className="row">
+                                            <div className="col-6 d-flex align-items-center">
+                                                <label className="checkbox-label">
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={rememberMe}
+                                                        onChange={(e) => setRememberMe(e.target.checked)}
+                                                    />
+                                                    Remember Me
+                                                </label>
+                                            </div>
+                                            <div className="col-6 text-end">
+                                                <a href="/forgot-password" className="forgot">Forgot Password?</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+                                    <button className="btn w-100" type="submit">Login</button>
+                                </form>
                             </div>
-                            <div>
-                                <input
-                                    type="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    placeholder="Password"
-                                />
-                            </div>
-                            <div className="login-options">
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        checked={rememberMe}
-                                        onChange={(e) => setRememberMe(e.target.checked)}
-                                    />
-                                    Remember Me
-                                </label>
-                                <a href="/forgot-password" className="forgot-password-link">Forgot Password?</a>
-                            </div>
-                            <div>
-                                {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-                            </div>
-                            <div>
-                                <button className="login-btn" type="submit">Login</button>
-                            </div>
-                        </form>
+                        </div>
+                        <div className="col-sm-2"></div>
                     </div>
                 </div>
-            </div>
-            <div className="split right">
-                <div className="background-container">
-                    <img src={backgroundImage} alt="Background" className="background" />
-                    <img src={logo} alt="Logo" className="logo" />
-                    <h1 className="login-text-h1-bold">Counselors Connect</h1>
-                    <p className="login-text-p">Driving Student Connection</p>
+                {/* Background Image Section */}
+                <div className="col-lg-6">
+                    <div className="background-image-container" style={{ backgroundImage: `url(${backgroundImage})` }}>
+                        <div className="logo-text-container">
+                            <img src={logo} alt="Logo" />
+                            <h1 className="">Counselors Connect</h1>
+                            <p className="">Driving Student Connection</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
