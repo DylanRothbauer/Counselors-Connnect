@@ -176,6 +176,30 @@ $hover-green: #2F7532;
     padding-right: 0; 
 }
 
+.mobile-logo {
+    position: absolute; 
+    top: 0; 
+    left: 50%; 
+    transform: translateX(-49%); 
+
+    img {
+        height: 120px; 
+        width: auto; 
+
+        @media(max-height: 780px) {
+            height: 80px; 
+        }
+
+        @media(min-height: 1100px) {
+            height: 160px; 
+        }
+    }
+}
+
+.for-logo {
+    position: relative; 
+}
+
 .background-image-container {
     background-size: cover;
     background-position: center; 
@@ -187,6 +211,8 @@ $hover-green: #2F7532;
     overflow-y: auto; 
   
 }
+
+
 
 .logo-text-container {
     display: flex;

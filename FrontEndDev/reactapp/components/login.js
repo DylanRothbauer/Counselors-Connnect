@@ -39,9 +39,11 @@ const Login = () => {
     return (
         <div className="container-fluid custom-container-fluid">
             <div className="row">
-                {/* Login Form Section */}
                 <div className="col-lg-6">
-                    <div className="row d-flex align-items-center">
+                    <div className="mobile-logo d-lg-none">
+                        <img src={logo} alt="Logo" className="login-page-logo" />
+                    </div>
+                    <div className="for-logo row d-flex align-items-center">
                         <div className="col-sm-2"></div>
                         <div className="col-sm-8">
                             <div className="login-info-container">
