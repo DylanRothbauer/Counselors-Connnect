@@ -14,7 +14,7 @@ const Login = () => {
         event.preventDefault();
 
         if (username === "" || password === "") {
-            setErrorMessage('Please enter usernam and password');
+            setErrorMessage('Please enter username and password');
             return; 
         }
 
