@@ -363,9 +363,9 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # Hide Compiled React folder
-wwwroot/js/compiledreact/*
-FodyWeavers.xsd
+# wwwroot/js/compiledreact/*
+# FodyWeavers.xsd
 
 #Ignore compiled scss
-/wwwroot/css/compiledscss/
+# /wwwroot/css/compiledscss/
 
