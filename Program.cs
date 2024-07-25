@@ -93,4 +93,6 @@ app.MapVisitEndpoints();
 
 app.MapVisitTopicEndpoints();
 
+app.MapCounselorEndpoints();
+
 app.Run();
