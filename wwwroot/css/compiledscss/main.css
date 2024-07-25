@@ -322,3 +322,7 @@ body {
   max-height: 90vh;
   overflow: auto;
 }
+
+.topicCheck {
+  display: block;
+}
