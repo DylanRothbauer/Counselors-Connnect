@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 
-const FlaggedStudents = ({ flaggedStudents }) => {
+const FlaggedStudents = ({ FlaggedStudents }) => {
     return (
         <div>
             <h2>Flagged Students</h2>
