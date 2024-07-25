@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 
-const FlaggedStudents = ({ flaggedStudents }) => {
+const FlaggedStudentsTable = ({ FlaggedStudents }) => {
     return (
         <div>
             <h2>Flagged Students</h2>
@@ -14,7 +14,7 @@ const FlaggedStudents = ({ flaggedStudents }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {flaggedStudents.slice(0, 4).map(student => (
+                    {FlaggedStudents.slice(0, 4).map(student => (
                         <tr key={student.studentID}>
                             <td>{student.studentName}</td>
                             <td>{student.studentID}</td>
@@ -28,4 +28,4 @@ const FlaggedStudents = ({ flaggedStudents }) => {
     );
 };
 
-export default FlaggedStudents;
+export default FlaggedStudentsTable;

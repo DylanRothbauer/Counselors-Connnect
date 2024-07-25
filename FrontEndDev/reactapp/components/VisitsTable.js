@@ -1,9 +1,13 @@
 ﻿import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import Fuse from 'fuse.js';
-import FlaggedStudents from './FlaggedStudents'; // Import the FlaggedStudents component
+import FlaggedStudentsTable from './FlaggedStudentsTable'; // Import the FlaggedStudents component
 import CsvUpload from './CsvUpload';
 import axios from 'axios';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { MultiSelect } from 'react-multi-select-component';
+import { CSVLink } from 'react-csv';
 
 const Visits = () => {
     const [visits, setVisits] = useState([]); // methods for setting info for api calls
@@ -13,14 +17,27 @@ const Visits = () => {
     const [visitTopics, setVisitTopics] = useState([]);
     const [currentPage, setCurrentPage] = useState(1); // setting current page (default 1)
     const [visitsPerPage] = useState(10); // how many visits per page?
-    const [maxPageNumbersToShow] = useState(5); // how many pagination buttons at once?
+    const [maxPageNumbersToShow] = useState(10); // how many pagination buttons at once?
     const [searchQuery, setSearchQuery] = useState(''); // search query state
     const [filteredVisits, setFilteredVisits] = useState([]); // filtered visits state
     const [mergedVisits, setMergedVisits] = useState([]);
     const [autocompleteOptions, setAutocompleteOptions] = useState([]); // autocomplete options state
     const [selectedOption, setSelectedOption] = useState(null); // selected autocomplete option state
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' }); // sorting state
-
+    const [selectedStudents, setSelectedStudents] = useState([]); // students filter state
+    const [selectedCounselors, setSelectedCounselors] = useState([]); // counselors filter state
+    const [selectedTopics, setSelectedTopics] = useState([]); // topics filter state
+    const [selectedDate, setSelectedDate] = useState(null); // date filter state
+    const [selectedColumns, setSelectedColumns] = useState({
+        studentName: true,
+        counselorName: true,
+        formattedDate: true,
+        description: true,
+        filePath: true,
+        parentsCalled: true,
+        length: true,
+        topicNames: true,
+    }); // columns selection state
 
     //================================================================================//
     //================================API Calls=======================================//
@@ -99,6 +116,36 @@ const Visits = () => {
         setFilteredVisits(mergedVisits);
     }, [visits, students, counselors, topics, visitTopics]);
 
+    //================================================================================//
+    //========================Filter Functionality====================================//
+    //================================================================================//
+    // Function to handle filter changes
+    const handleFilterChange = () => {
+        let filtered = mergedVisits;
+
+        if (selectedStudents.length > 0) {
+            const selectedStudentIDs = selectedStudents.map(option => option.value);
+            filtered = filtered.filter(visit => selectedStudentIDs.includes(visit.studentID));
+        }
+        if (selectedCounselors.length > 0) {
+            const selectedCounselorIDs = selectedCounselors.map(option => option.value);
+            filtered = filtered.filter(visit => selectedCounselorIDs.includes(visit.counselorID));
+        }
+        if (selectedTopics.length > 0) {
+            const selectedTopicNames = selectedTopics.map(option => option.value);
+            filtered = filtered.filter(visit => visit.topicNames.some(topic => selectedTopicNames.includes(topic)));
+        }
+        if (selectedDate) {
+            const formattedSelectedDate = new Date(selectedDate).toLocaleDateString();
+            filtered = filtered.filter(visit => visit.formattedDate === formattedSelectedDate);
+        }
+
+        setFilteredVisits(filtered);
+    };
+
+    useEffect(() => {
+        handleFilterChange();
+    }, [selectedStudents, selectedCounselors, selectedTopics, selectedDate]);
 
     //================================================================================//
     //========================Fuzzy Search functionality==============================//
@@ -110,13 +157,13 @@ const Visits = () => {
         setSelectedOption(null);
         setCurrentPage(1);
 
-        if (query.length === 0) { //return  the filtered visits if there is no active search query 
-            setFilteredVisits(mergedVisits);
+        if (query.length === 0) { //return the filtered visits if there is no active search query
+            handleFilterChange();
             setAutocompleteOptions([]);
             return;
         }
 
-        const fuse = new Fuse(mergedVisits, { // use fuse to fuzzy search
+        const fuse = new Fuse(filteredVisits, { // use fuse to fuzzy search
             keys: [
                 'studentName',
                 'counselorName',
@@ -139,10 +186,8 @@ const Visits = () => {
             visit.formattedDate
         ]))).filter(option => option.toLowerCase().includes(query.toLowerCase()));
 
-
         setAutocompleteOptions(options.slice(0, 5));
     };
-
 
     //================================================================================//
     //===========================AutoComplete selection===============================//
@@ -240,7 +285,7 @@ const Visits = () => {
     //================================================================================//
 
     // Filter students with 5 or more visits in the current month
-    const flaggedStudents = React.useMemo(() => {
+    const FlaggedStudents = React.useMemo(() => {
         const currentMonth = new Date().getMonth();
         const currentYear = new Date().getFullYear();
 
@@ -257,6 +302,28 @@ const Visits = () => {
         return Object.values(studentVisits).filter(student => student.visitCount >= 5);
     }, [mergedVisits]);
 
+    // Function to handle column selection change
+    const handleColumnSelectionChange = (column) => {
+        setSelectedColumns(prevState => ({
+            ...prevState,
+            [column]: !prevState[column]
+        }));
+    };
+    const downloadName = "visits_" + (new Date().getMonth() + 1) + "_" + new Date().getDate() + "_" + new Date().getFullYear() + ".csv";
+
+    // Prepare data for CSV download
+    const csvData = filteredVisits.map(visit => {
+        const rowData = {};
+        if (selectedColumns.studentName) rowData.StudentName = visit.studentName;
+        if (selectedColumns.counselorName) rowData.CounselorName = visit.counselorName;
+        if (selectedColumns.formattedDate) rowData.Date = visit.formattedDate;
+        if (selectedColumns.description) rowData.Description = visit.description;
+        if (selectedColumns.filePath) rowData.FilePath = visit.filePath;
+        if (selectedColumns.parentsCalled) rowData.ParentsCalled = visit.parentsCalled ? 'Yes' : 'No';
+        if (selectedColumns.length) rowData.Length = visit.length;
+        if (selectedColumns.topicNames) rowData.Topics = visit.topicNames.join(', ');
+        return rowData;
+    });
 
     //================================================================================//
     //===========================Table Return Section=================================//
@@ -265,14 +332,109 @@ const Visits = () => {
 
     return (
         <div>
-            <input
-                type="text"
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={handleSearchChange}
-                className="search-bar"
-                autoComplete="off"
-            />
+            <div className="searchFeilds">
+                <input
+                    type="text"
+                    placeholder="Search..."
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                    className="search-bar"
+                    autoComplete="off"
+                />
+                <MultiSelect
+                    options={students.map(student => ({ label: `${student.firstName} ${student.lastName}`, value: student.studentID }))}
+                    value={selectedStudents}
+                    onChange={setSelectedStudents}
+                    labelledBy="Select Students"
+                />
+                <MultiSelect
+                    options={counselors.map(counselor => ({ label: counselor.name, value: counselor.counselorID }))}
+                    value={selectedCounselors}
+                    onChange={setSelectedCounselors}
+                    labelledBy="Select Counselors"
+                />
+                <MultiSelect
+                    options={topics.map(topic => ({ label: topic.topicName, value: topic.topicName }))}
+                    value={selectedTopics}
+                    onChange={setSelectedTopics}
+                    labelledBy="Select Topics"
+                />
+                <DatePicker
+                    selected={selectedDate}
+                    onChange={(date) => setSelectedDate(date)}
+                    isClearable
+                    placeholderText="MM/DD/YYYY"
+                />
+            </div>
+            <div>
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={selectedColumns.studentName}
+                        onChange={() => handleColumnSelectionChange('studentName')}
+                    />
+                    Student Name
+                </label>
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={selectedColumns.counselorName}
+                        onChange={() => handleColumnSelectionChange('counselorName')}
+                    />
+                    Counselor Name
+                </label>
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={selectedColumns.formattedDate}
+                        onChange={() => handleColumnSelectionChange('formattedDate')}
+                    />
+                    Date
+                </label>
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={selectedColumns.description}
+                        onChange={() => handleColumnSelectionChange('description')}
+                    />
+                    Description
+                </label>
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={selectedColumns.filePath}
+                        onChange={() => handleColumnSelectionChange('filePath')}
+                    />
+                    File Path
+                </label>
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={selectedColumns.parentsCalled}
+                        onChange={() => handleColumnSelectionChange('parentsCalled')}
+                    />
+                    Parents Called
+                </label>
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={selectedColumns.length}
+                        onChange={() => handleColumnSelectionChange('length')}
+                    />
+                    Length
+                </label>
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={selectedColumns.topicNames}
+                        onChange={() => handleColumnSelectionChange('topicNames')}
+                    />
+                    Topics
+                </label>
+                <CSVLink data={csvData} filename={downloadName}>
+                    Download CSV
+                </CSVLink>
+            </div>
             {autocompleteOptions.length > 0 && (
                 <ul className="autocomplete-options">
                     {autocompleteOptions.map((option, index) => (
@@ -295,30 +457,28 @@ const Visits = () => {
                     <table id="visitsTable">
                         <thead>
                             <tr>
-                                <th onClick={() => handleSort('studentName')}>Student {getCaret('studentName')}</th>
-                                <th onClick={() => handleSort('counselorName')}>Counselor {getCaret('counselorName')}</th>
-                                <th onClick={() => handleSort('formattedDate')}>Date {getCaret('formattedDate')}</th>
-                                <th onClick={() => handleSort('description')}>Description {getCaret('description')}</th>
-                                <th onClick={() => handleSort('file')}>File {getCaret('file')}</th>
-                                <th onClick={() => handleSort('filePath')}>File Path {getCaret('filePath')}</th>
-                                <th onClick={() => handleSort('parentsCalled')}>Parents Called {getCaret('parentsCalled')}</th>
-                                <th onClick={() => handleSort('length')}>Length {getCaret('length')}</th>
-                                <th onClick={() => handleSort('topicNames')}>Topics {getCaret('topicNames')}</th>
+                                {selectedColumns.studentName && <th onClick={() => handleSort('studentName')}>Student {getCaret('studentName')}</th>}
+                                {selectedColumns.counselorName && <th onClick={() => handleSort('counselorName')}>Counselor {getCaret('counselorName')}</th>}
+                                {selectedColumns.formattedDate && <th onClick={() => handleSort('formattedDate')}>Date {getCaret('formattedDate')}</th>}
+                                {selectedColumns.description && <th onClick={() => handleSort('description')}>Description {getCaret('description')}</th>}
+                                {selectedColumns.filePath && <th onClick={() => handleSort('filePath')}>File Path {getCaret('filePath')}</th>}
+                                {selectedColumns.parentsCalled && <th onClick={() => handleSort('parentsCalled')}>Parents Called {getCaret('parentsCalled')}</th>}
+                                {selectedColumns.length && <th onClick={() => handleSort('length')}>Length {getCaret('length')}</th>}
+                                {selectedColumns.topicNames && <th onClick={() => handleSort('topicNames')}>Topics {getCaret('topicNames')}</th>}
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {currentVisits.map(visit => (
                                 <tr key={visit.visitID}>
-                                    <td>{visit.studentName}</td>
-                                    <td>{visit.counselorName}</td>
-                                    <td>{visit.formattedDate}</td>
-                                    <td>{visit.description}</td>
-                                    <td>{visit.file ? 'Yes' : 'No'}</td>
-                                    <td>{visit.filePath}</td>
-                                    <td>{visit.parentsCalled ? 'Yes' : 'No'}</td>
-                                    <td>{visit.length}</td>
-                                    <td>{visit.topicNames.join(', ')}</td>
+                                    {selectedColumns.studentName && <td>{visit.studentName}</td>}
+                                    {selectedColumns.counselorName && <td>{visit.counselorName}</td>}
+                                    {selectedColumns.formattedDate && <td>{visit.formattedDate}</td>}
+                                    {selectedColumns.description && <td>{visit.description}</td>}
+                                    {selectedColumns.filePath && <td>{visit.filePath}</td>}
+                                    {selectedColumns.parentsCalled && <td>{visit.parentsCalled ? 'Yes' : 'No'}</td>}
+                                    {selectedColumns.length && <td>{visit.length}</td>}
+                                    {selectedColumns.topicNames && <td>{visit.topicNames.join(', ')}</td>}
                                     <td><button onClick={() => window.location.href = `/Edit/EditVisit/${visit.visitID}`}>Edit</button><button onClick={() => handleDelete(visit.visitID)}>Delete</button></td>
                                 </tr>
                             ))}
@@ -351,7 +511,7 @@ const Visits = () => {
                 </>
             )}
             <CsvUpload onUploadSuccess={() => { /* Implement this if you want to re-fetch data after CSV upload */ }} />
-            <FlaggedStudents flaggedStudents={flaggedStudents} />
+            <FlaggedStudentsTable FlaggedStudents={FlaggedStudents} />
         </div>
     );
 };
