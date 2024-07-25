@@ -261,7 +261,11 @@ body {
                     background-color: transparent;
 
                     &:hover {
-                        background-color: transparent;
+                        background-color: transparent !important;
+                    }
+
+                    &:not(:focus-visible) {
+                        box-shadow: none;
                     }
                 }
             }
@@ -272,6 +276,10 @@ body {
 
                     &:hover {
                         background-color: transparent !important;
+                    }
+
+                    &:not(:focus-visible) {
+                        box-shadow: none;
                     }
                 }
             }
