@@ -142,6 +142,212 @@ body {
     }
 }
 
+/*====================!LOGIN PAGE!===========================================================================================================*/
+$green: #4CAF50;
+$hover-green: #2F7532; 
+
+.login-view {
+    width: 100%; 
+    font-family: Montserrat;
+}
+
+.custom-container-fluid {
+    padding-left: 0;
+    padding-right: 0; 
+}
+
+.mobile-logo {
+    position: absolute; 
+    top: 0; 
+    left: 50%; 
+    transform: translateX(-49%); 
+
+    img {
+        height: 7.5rem; 
+        width: auto; 
+
+        @media(max-height: 780px) {
+            height: 5rem; 
+        }
+
+        @media(min-height: 1100px) {
+            height: 10rem; 
+        }
+    }
+}
+
+.for-logo {
+    position: relative; 
+}
+
+.background-image-container {
+    background-size: cover;
+    background-position: center; 
+    height: 100vh; 
+    width: 100%; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    overflow-y: auto; 
+  
+}
+
+
+
+.logo-text-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    margin-top: -30%;
+    height: 100%;
+
+    h1 {
+        font-size: 2.5rem;
+        font-weight: 700;
+    }
+
+    p {
+        font-size: 1.25rem;
+        font-weight: 400;
+    }
+
+    @media (max-width: 1000px) {
+        h1 {
+            font-size: 2rem; // Smaller font size for smaller screens
+        }
+
+        p {
+            font-size: 1rem; // Smaller font size for smaller screens
+        }
+
+        img {
+            transform: scale(.8); 
+        }
+    }
+}
+.col-sm-8 {
+    height: 100vh; 
+}
+
+.login-info-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 5%;
+    height: 100%;
+
+    @media (max-width: 576px) {
+        margin-left: 16.7%; 
+        margin-right: 16.7%; 
+    }
+
+    @media (max-width: 992px) {
+        align-items: center; 
+        p {
+            text-align: center; 
+        }
+    }
+
+    @media (max-height: 650px) {
+        gap: 5px;
+    }
+
+
+    form {
+        width: 100%;
+
+        input {
+            border-radius: 3px;
+            border: .5px solid black;
+            background: white;
+            margin-bottom: 7%;
+            height: 4.375rem;
+
+            @media (max-height: 650px) {
+                margin-bottom: .625rem;
+            }
+        }
+
+
+        button {
+            border-radius: 50px;
+            background: $green;
+            margin-bottom: 6%;
+            height: 4.375rem;
+            border: none;
+            color: white;
+            font-weight: 600;
+
+            &:hover {
+                background: $hover-green;
+                color: white;
+                font-weight: 600;
+            }
+
+            @media (max-height: 650px) {
+                margin-bottom: 3%;
+            }
+        }
+
+
+
+        .checking {
+            margin-bottom: 6%;
+
+            @media (max-width: 422px) {
+                font-size: .75rem; 
+            }
+
+            .row {
+                .col-6 {
+                    display: flex;
+                    align-items: center;
+
+                    .checkbox-label {
+                        display: flex;
+                        align-items: center;
+                        cursor: pointer;
+
+                        input[type="checkbox"] {
+                            margin: 0 0.5rem 0 0;
+                            transform: scale(1.2);
+
+                            @media (max-width: 422px) {
+                                transform: scale(1);
+                            }
+                        }
+                    }
+                }
+
+                .text-end {
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: center;
+                }
+
+                .forgot {
+                    color: #4CAF50; 
+                    font-weight: 600;
+                    text-decoration-line: underline;
+
+                    &:hover {
+                        color: $hover-green;
+                    }
+                }
+            }
+
+            @media (max-height: 650px) {
+                margin-bottom: .625rem;
+            }
+        }
+    }
+}
+    /*==========================!LOGIN PAGE!=================================================================================================================*/
+
+
 
 
 #main-content {
