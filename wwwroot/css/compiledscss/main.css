@@ -7,13 +7,27 @@ html {
   min-height: 100%;
   font-size: 14px;
 }
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;
   }
 }
+::-webkit-scrollbar {
+  display: none;
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
 
 body {
+  -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
@@ -41,6 +55,7 @@ body {
   background-color: rgba(31, 50, 18, 0.51);
   border-bottom-left-radius: 25px;
   border-bottom-right-radius: 25px;
+  padding: 0.5rem 0 0.5rem 0;
 }
 #nav-edit-body .nav-link svg {
   margin-left: 2rem;
