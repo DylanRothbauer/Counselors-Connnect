@@ -62,11 +62,10 @@
                     </ul>
                 </div>
                     <div id="log-out-container">
-                        <form asp-controller="Auth" asp-action="Logout" method="post">
-                            <button type="submit" class="btn btn-link">
-                                <span data-feather="log-out"></span> Log Out
-                            </button>
-                        </form>
+                        <a id="log-out-btn" href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">
+                            <span data-feather="log-out"></span>
+                            Log Out
+                        </a>
                     </div>
                 
             </div>
@@ -122,11 +121,10 @@
                         </ul>
                     </div>
                         <div id="log-out-container">
-                            <form asp-controller="Auth" asp-action="Logout" method="post">
-                                <button type="submit" class="btn btn-link">
-                                    <span data-feather="log-out"></span> Log Out
-                                </button>
-                            </form>
+                            <a id="log-out-btn" href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">
+                                <span data-feather="log-out"></span>
+                                Log Out
+                            </a>
                         </div>
                 </div>
             </div>
@@ -160,6 +158,9 @@
             @RenderBody()
         </main>
     }
+
+    <form id="logoutForm" asp-controller="Auth" asp-action="Logout" method="post" style="display: none;">
+    </form>
     
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
