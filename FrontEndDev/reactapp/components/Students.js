@@ -109,7 +109,7 @@ const StudentsList = () => {
                 <div className="search-bar">
                     <input
                         type="text"
-                        class="p-2"
+                        className="p-2"
                         placeholder="Search..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
@@ -117,35 +117,37 @@ const StudentsList = () => {
                 </div>
                 <a type="button" href="/students/create" className="btn primary-btn">Create New</a>
             </div>
-          
-            <table className="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Student</th>
-                        <th>Advisor</th>
-                        <th>ID #</th>
-                        <th>Grade Level</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {currentStudents.map(student => (
-                        <tr key={student.studentID}>
-                            <td>{student.lastName}, {student.firstName}</td>
-                            <td>{student.advisorName}</td>
-                            <td>{student.studentID}</td>
-                            <td>{student.grade}</td>
-                            <td className="text-center">
-                                <button className="btn" onClick={() => handleEditButtonClick(student.studentID)}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
-                                <button className="btn" onClick={() => handleDeleteConfirmation(student.studentID)}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
-                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
-                                </svg></button>
-                            </td>
+            <div className="round-table">
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Advisor</th>
+                            <th>ID #</th>
+                            <th>Grade Level</th>
+                            <th>Actions</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {currentStudents.map(student => (
+                            <tr key={student.studentID}>
+                                <td>{student.lastName}, {student.firstName}</td>
+                                <td>{student.advisorName}</td>
+                                <td>{student.studentID}</td>
+                                <td>{student.grade}</td>
+                                <td className="text-center">
+                                    <button className="btn" onClick={() => handleEditButtonClick(student.studentID)}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
+                                    <button className="btn" onClick={() => handleDeleteConfirmation(student.studentID)}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fillRule="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
+                                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                    </svg></button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+          
             {/* Pagination */}
             <div className="pagination-container py-3">
                
@@ -153,22 +155,22 @@ const StudentsList = () => {
                     <ul className="pagination">
                         <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
                             <a onClick={() => paginate(currentPage - 1)} href="#!" className="page-link">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#4CAF50 !important" class="bi bi-chevron-left" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#4CAF50 !important" className="bi bi-chevron-left" viewBox="0 0 16 16">
+                                    <path fillRule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
                                 </svg>
                             </a>
                         </li>
                         {pageNumbers.slice(startPage - 1, endPage).map(number => (
                             <li key={number} className={`ms-2 page-item ${currentPage === number ? 'active' : ''}`}>
-                                <a onClick={() => paginate(number)} href="#!" className="rounded-circle page-link py-1">
+                                <a onClick={() => paginate(number)} href="#!" className="btn rounded-circle page-link py-1 ">
                                     {number}
                                 </a>
                             </li>
                         ))}
                         <li className={`page-item ms-2 ${currentPage === pageNumbers.length ? 'disabled' : ''}`}>
                             <a onClick={() => paginate(currentPage + 1)} href="#!" className="page-link">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#4CAF50 !important" class="bi bi-chevron-right" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#4CAF50 !important" className="bi bi-chevron-right" viewBox="0 0 16 16">
+                                    <path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
                                 </svg>
                             </a>
                         </li>
