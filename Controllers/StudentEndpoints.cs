@@ -54,7 +54,7 @@ public static class StudentEndpoints
         .WithName("CreateStudent")
         .WithOpenApi();
 
-        group.MapDelete("/{id}", async Task<Results<Ok, NotFound>> (int studentid, AppDbContext db) =>
+        group.MapDelete("/Delete", async Task<Results<Ok, NotFound>> (int studentid, AppDbContext db) =>
         {
             var affected = await db.Students
                 .Where(model => model.StudentID == studentid)
