@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -6,10 +9,15 @@
     <title>@ViewData["Title"] - Counselors Connect</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/compiledscss/main.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://getbootstrap.com/docs/5.0/examples/sidebars/sidebars.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
+
 <body>
-    <div id="all-content" class="row g-0">
+            @if (ViewData["HideNavBar"] == null || !(bool)ViewData["HideNavBar"])
+        {
+            <div id="all-content" class="row g-0">
         <div class="col-xxl-2 p-0">
             <div id="sidebar-menu" class="d-sm-none d-xxl-block bg-light sidebar collapse" aria-label="Side Navigation">
                 <div class="position-sticky pt-xl-3">
@@ -52,13 +60,12 @@
                         </li>
                     </ul>
                 </div>
-                <div id="log-out-container">
-                    <a id="log-out-btn" onclick="">
-                        <span data-feather="log-out"></span>
-                        Log Out
-
-                    </a>
-                </div>
+                    <div id="log-out-container">
+                        <a id="log-out-btn" class="btn" href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">
+                            <span data-feather="log-out"></span>
+                            Log Out
+                        </a>
+                    </div>
                 
             </div>
             <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasnav" aria-labelledby="offcanvasLabel" style="visibility: hidden;background-color: rgb(41, 67, 22) !important;" aria-modal="true" role="dialog">
@@ -112,16 +119,15 @@
 
                         </ul>
                     </div>
-                    <div id="log-out-container">
-                        <a id="log-out-btn" onclick="">
-                            <span data-feather="log-out"></span>
-                            Log Out
-
-                        </a>
-                    </div>
+                        <div id="log-out-container">
+                            <a id="log-out-btn" class="btn" href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">
+                                <span data-feather="log-out"></span>
+                                Log Out
+                            </a>
+                        </div>
                 </div>
             </div>
-        </div>       
+        </div>   
 
         <div class="col-12 col-xxl-10">
             <div class="row g-0 m-0">
@@ -132,9 +138,9 @@
                         </svg>
                     </button>
                     <p class="page-title fs-2 ps-xxl-5">@ViewData["Title"]</p>
-                    <p class="navbar-toggler collapsed mb-0 me-2 pe-xxl-5" type="button" aria-label="Displays teacher that is loged in.">
-                        Dr. Teacher
-                    </p>
+                    <button class="navbar-toggler collapsed me-xxl-5" type="button" aria-label="Displays teacher that is loged in.">
+                        @User.FindFirst(ClaimTypes.Name)?.Value
+                    </button>
                 </nav>
 
                 <main id="main-content">
@@ -144,10 +150,21 @@
         </div>
 
     </div>
+    }
+    else
+    {
+        <main class="container-fluid custom-container-fluid">
+            @RenderBody()
+        </main>
+    }
+
+    <form id="logoutForm" asp-controller="Auth" asp-action="Logout" method="post" style="display: none;">
+    </form>
     
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.js"></script>
     <script>
         feather.replace()
     </script>
