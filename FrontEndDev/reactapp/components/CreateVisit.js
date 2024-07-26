@@ -13,7 +13,14 @@ const CreateVisit = () => {
     const [length, setLength] = useState('');
     const [fileLoaded, setFileLoaded] = useState(null);
     const [uploadURL, setUploadURL] = useState('');
+    const [topics, setTopics] = useState([]);
+    const [selectedTopics, setSelectedTopics] = useState([]);
     
+    useEffect(() => {
+        fetchStudentIDs();
+        fetchCounselorIDs();
+        fetchTopics();
+    }, []);
 
     const handleFileChange = (event) => {
         setFileLoaded(event.target.files[0]);
@@ -52,6 +59,14 @@ const CreateVisit = () => {
         }
     };
 
+    const handleTopicChange = (topicID) => {
+        setSelectedTopics((prevSelected) =>
+            prevSelected.includes(topicID)
+                ? prevSelected.filter((id) => id !== topicID)
+                : [...prevSelected, topicID]
+        );
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -80,44 +95,91 @@ const CreateVisit = () => {
             }
 
             const data = await response.json();
-            console.log('Success:', data); 
+            console.log('success', data);
+            const visitID = data.visitID;
+
+            await Promise.all(
+                selectedTopics.map((topicID) =>
+                    fetch('/api/VisitTopic', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ visitID, topicID })
+                    })
+                )
+            );
+            
+            alert('Visit submitted successfully!');
             window.location.replace("/");
-           /* const VisitID = data.visitID;
-
-            const topic = {
-                visitID,
-                topicID
-            };
-
-            const topics = document.getElementsByClassName('topicCheck');
-            foreach(t in topics)
-            if (t.checked = true) {
-                topic.visitID = VisitID;
-                topic.topicID = t.id;
-                const response = await fetch('/api/VisitTopics', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(topic)
-                });
-
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-            }
-            
-           */
-        }
-            
-           
-        
-
-        catch (error) {
+        } catch (error) {
             console.error('Error:', error);
+        }  
+        
+    };
+
+    async function fetchStudentIDs() {
+        try {
+            const response = await fetch('/api/Student/', {
+                method: 'GET',
+            });
+            var students = await response.json();
+
+            var studentListLength = studentIDSelectList.options.length - 1
+            for (var i = studentListLength; i >= 0; i--) {
+                studentIDSelectList.remove(i);
+            }
+
+            const collator = new Intl.Collator('en', { sensitivity: 'base' });
+            let result = students.sort((a, b) => collator.compare(a.lastName, b.lastName));
+
+            result.forEach(stud => {
+                const option = document.createElement('option');
+                option.value = stud.studentID;
+                option.textContent = stud.firstName + ' ' + stud.lastName;
+                studentIDSelectList.appendChild(option)
+            })
         }
-        
-        
+        catch (error) {
+            console.error(error);
+        }
+    };
+
+    async function fetchCounselorIDs() {
+        try {
+            const response = await fetch('/api/Counselor/', {
+                method: 'GET',
+            });
+            var counselors = await response.json();
+
+            var counselorListLength = counselorIDSelectList.options.length - 1
+            for (var i = counselorListLength; i >= 0; i--) {
+                counselorIDSelectList.remove(i);
+            }
+
+            const collator = new Intl.Collator('en', { sensitivity: 'base' });
+            let result = counselors.sort((a, b) => collator.compare(a.name.split(' ')[1], b.name.split(' ')[1]));
+
+            result.forEach(couns => {
+                const option = document.createElement('option');
+                option.value = couns.counselorID;
+                option.textContent = couns.name;
+                counselorIDSelectList.appendChild(option)
+            })
+        }
+        catch (error) {
+            console.error(error);
+        }
+    };
+
+    const fetchTopics = async () => {
+        try {
+            const response = await fetch('/api/Topic/', { method: 'GET' });
+            const topics = await response.json();
+            setTopics(topics);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (
@@ -206,12 +268,22 @@ const CreateVisit = () => {
                 </label>
                         <br />
                     </div>
-                    <div class="col-md">
-                        <label id="topicsCheckboxes">
-                            Topics Discussed:
-                            <br />
-                            <br />
-                        </label>
+                    <div className="col-md">
+                        <label>Topics Discussed:</label>
+                        <br />
+                        {topics.map(topic => (
+                            <div key={topic.topicID}>
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        checked={selectedTopics.includes(topic.topicID)}
+                                        onChange={() => handleTopicChange(topic.topicID)}
+                                    />
+                                    {topic.topicName}
+                                </label>
+                            </div>
+                        ))}
+                        <br />
                     </div>
                 </div>
                 <button type="submit">Submit</button>
@@ -220,91 +292,9 @@ const CreateVisit = () => {
     );
 };
 
-async function fetchStudentIDs() {
-    try {
-        const response = await fetch('/api/Student/', {
-            method: 'GET',
-        });
-        var students = await response.json();
 
-        var studentListLength = studentIDSelectList.options.length - 1
-        for (var i = studentListLength; i >= 0; i--) {
-            studentIDSelectList.remove(i);
-        }
 
-        const collator = new Intl.Collator('en', { sensitivity: 'base' });
-        let result = students.sort((a, b) => collator.compare(a.lastName, b.lastName));
 
-        result.forEach(stud => {
-            const option = document.createElement('option');
-            option.value = stud.studentID;
-            option.textContent = stud.firstName + ' ' + stud.lastName;
-            studentIDSelectList.appendChild(option)
-        })
-    }
-    catch (error) {
-        console.error(error);
-    }
-};
-
-async function fetchCounselorIDs() {
-    try {
-        const response = await fetch('/api/Counselor/', {
-            method: 'GET',
-        });
-        var counselors = await response.json();
-
-        var counselorListLength = counselorIDSelectList.options.length - 1
-        for (var i = counselorListLength; i >= 0; i--) {
-            counselorIDSelectList.remove(i);
-        }
-
-        const collator = new Intl.Collator('en', { sensitivity: 'base' });
-        let result = counselors.sort((a, b) => collator.compare(a.name.split(' ')[1], b.name.split(' ')[1]));
-
-        result.forEach(couns => {
-            const option = document.createElement('option');
-            option.value = couns.counselorID;
-            option.textContent = couns.name;
-            counselorIDSelectList.appendChild(option)
-        })
-    }
-    catch (error) {
-        console.error(error);
-    }
-};
-
-async function fetchTopics()
-{
-    try {
-        const response = await fetch('/api/Topic/', {
-            method: 'GET',
-        });
-        var topics = await response.json();
-
-        topics.forEach(topic => {
-            const topicsCheckboxes = document.getElementById('topicsCheckboxes');
-
-            const label = document.createElement('label');
-            label.innerHTML = topic.topicName;
-            const input = document.createElement('input');
-            input.type = 'checkbox';
-            input.id = topic.topicID;
-            label.className = 'topicCheck';
-            label.appendChild(input);
-            topicsCheckboxes.appendChild(label); 
-        })
-    }
-    catch (error) {
-        console.error(error);
-    }
-}
-
-fetchStudentIDs();
-fetchCounselorIDs();
-fetchTopics();
-
-export default CreateVisit;
 
 // React DOM rendering
 const createVisitForm = ReactDOM.createRoot(document.getElementById('CreateVisitForm'));
@@ -313,3 +303,5 @@ createVisitForm.render(
         <CreateVisit />
     </React.StrictMode>
 );
+
+export default CreateVisit;
