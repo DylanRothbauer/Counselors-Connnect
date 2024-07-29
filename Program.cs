@@ -27,6 +27,14 @@ builder.Services.AddAuthentication(options =>
     options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
 });
 
+builder.Services.AddLogging(options =>
+{
+
+    options.AddConsole();
+    options.AddDebug();
+
+});
+
 // Add services to the container.
 builder.Services.AddControllersWithViews(options =>
 {
@@ -94,5 +102,23 @@ app.MapVisitEndpoints();
 app.MapVisitTopicEndpoints();
 
 app.MapCounselorEndpoints();
+
+using (var scope = app.Services.CreateScope()) {
+
+    try
+    {
+        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        if (app.Environment.IsDevelopment())
+        {
+            context.Database.Migrate();
+        }
+}
+    catch(Exception ex)
+    {
+
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+            logger.LogError(ex, "Error executing database migration");
+    }
+}
 
 app.Run();
