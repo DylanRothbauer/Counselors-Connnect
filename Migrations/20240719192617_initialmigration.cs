@@ -65,7 +65,7 @@ namespace Counselors_Connect.Migrations
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     File = table.Column<bool>(type: "bit", nullable: false),
-                    FilePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FilePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ParentsCalled = table.Column<bool>(type: "bit", nullable: false),
                     Length = table.Column<int>(type: "int", nullable: false)
                 },

@@ -2,14 +2,14 @@
 import ReactDOM from 'react-dom'
 import { BlobServiceClient } from '@azure/storage-blob';
 
-const FileUpload = () => {
+const FileUpload = ({ sendFilePath }) => {
     const [file, setFile] = useState(null);
     const [uploadURL, setUploadURL] = useState('');
+    
 
     const handleFileChange = (event) => {
         setFile(event.target.files[0]);
     };
-
 
     const uploadFile = async () => {
         if (!file) {
@@ -35,6 +35,8 @@ const FileUpload = () => {
             const url = blockBlobClient.url;
             setUploadURL(url);
             alert(`File uploaded successfully! URL: ${url}`);
+            sendFilePath(uploadURL);
+
         } catch (error) {
             console.error('Error uploading file:', error);
             alert('Error uploading file');
@@ -56,10 +58,14 @@ const FileUpload = () => {
 };
 
 export default FileUpload;
+
+
 // React DOM rendering
+/*
 const fileUpload = ReactDOM.createRoot(document.getElementById('fileUpload'));
 fileUpload.render(
     <React.StrictMode>
         <FileUpload />
     </React.StrictMode>
 );
+*/

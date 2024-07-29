@@ -1,5 +1,6 @@
 ﻿import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
+import { BlobServiceClient } from '@azure/storage-blob';
 
 const CreateVisit = () => {
     const [studentID, setStudentID] = useState('');
@@ -7,21 +8,47 @@ const CreateVisit = () => {
     const [date, setDate] = useState('');
     const [description, setDescription] = useState('');
     const [file, setFile] = useState(false);
+    const [filePath, setFilePath] = useState('');
     const [parentsCalled, setParentsCalled] = useState(false);
     const [length, setLength] = useState('');
-    //const [topicID, setTopicID] = useState('');
+    const [fileLoaded, setFileLoaded] = useState(null);
+    const [uploadURL, setUploadURL] = useState('');
+    
 
-    async function fetchStudentIDs() {
-        try {
-            const response = await fetch('/api/Students/', {
-                method: 'GET',
-            });
-            const students = await response.json();
-            const studentIDs = students.StudentID;
-            return studentIDs;
+    const handleFileChange = (event) => {
+        setFileLoaded(event.target.files[0]);
+    };
+
+    const uploadFile = async () => {
+        if (!fileLoaded) {
+            alert('Please select a file first');
+            return;
         }
-        catch (error) {
-            console.error(error);
+
+        const sasToken = 'se=2025-07-17T15%3A01Z&sp=rwdlacup&sv=2022-11-02&ss=b&srt=sco&sig=1XY%2BMeNSlOESK4gQoK/alt3FIIonrk7RhX%2B3u7Jy9XE%3D'; // Your SAS token
+        const accountName = 'counselorsconnectstor';
+        const containerName = 'counselorsconnectblob';
+
+        const blobServiceClient = new BlobServiceClient(
+            `https://${accountName}.blob.core.windows.net?${sasToken}`
+        );
+
+        const containerClient = blobServiceClient.getContainerClient(containerName);
+
+        const blobName = new Date().getTime() + '-' + fileLoaded.name;
+        const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+
+        try {
+            await blockBlobClient.uploadData(fileLoaded);
+            const url = blockBlobClient.url;
+            setUploadURL(url);
+            alert(`File uploaded successfully! URL: ${url}`);
+            setFilePath(url);
+            document.getElementById("fileUploadedCheckbox").setAttribute("checked", true)
+            setFile(true);
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            alert('Error uploading file');
         }
     };
 
@@ -33,10 +60,10 @@ const CreateVisit = () => {
             counselorID,
             date,
             description,
-            file,//: file, ? new URL(file) : null, // Ensure the file is converted to a URL object if provided
+            file,
+            filePath,
             parentsCalled,
             length
-            
         };
 
         try {
@@ -53,87 +80,231 @@ const CreateVisit = () => {
             }
 
             const data = await response.json();
-            console.log('Success:', data);
+            console.log('Success:', data); 
             window.location.replace("/");
+           /* const VisitID = data.visitID;
+
+            const topic = {
+                visitID,
+                topicID
+            };
+
+            const topics = document.getElementsByClassName('topicCheck');
+            foreach(t in topics)
+            if (t.checked = true) {
+                topic.visitID = VisitID;
+                topic.topicID = t.id;
+                const response = await fetch('/api/VisitTopics', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(topic)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+            }
+            
+           */
         }
+            
+           
+        
+
         catch (error) {
             console.error('Error:', error);
         }
+        
+        
     };
 
     return (
-       
         <div>
-            <h1>Add Visit</h1>
             <form onSubmit={handleSubmit}>
-                <label>
-                    Student:
-                    <input
-                        type="number"
-                        onChange={(e) => setStudentID(e.target.value)}
-                    />
-                </label>
-                <br />
-                <label>
-                    Counselor:
-                    <input
-                        type="number"
-                        onChange={(e) => setCounselorID(e.target.value)}
-                    />
-                </label>
-                <br />
+                <div class="row">
+                    <div class="col-md">
+                        <label>
+                            Student:
+                            <br />
+                            <select
+                                id="studentIDSelectList"
+                                onChange={(e) => setStudentID(e.target.value)}
+                            />
+                        </label>
+                        <br />
+                        <label>
+                            Counselor:
+                            <br />
+                            <select
+                                id="counselorIDSelectList"
+                                onChange={(e) => setCounselorID(e.target.value)}
+                            />
+                        </label>
+                        <br />
+                    </div>
+                    <div class="col-md">
+                        <label>
+                            Date:
+                            <br />
+                            <input
+                                type="datetime-local"
+                                onChange={(e) => setDate(e.target.value)}
+                            />
+                        </label>
+                        <br />
+                        <label>
+                            Length:
+                            <br />
+                            <input
+                                type="number"
+                                onChange={(e) => setLength(e.target.value)}
+                            />
+                        </label>
+                        <br />
+                    </div>
+                    <div class="col-md">
+                        <label>
+                            File Uploaded? 
+                            <input
+                                id="fileUploadedCheckbox"
+                                type="checkbox"
+                                onChange={(e) => setFile(e.target.checked)}
+                            />
+                        </label>
+                        <br />
+                        <div>
+                            <input type="file" onChange={handleFileChange} />
+                            <button type="button" onClick={uploadFile}>Upload</button>
+
+                        </div>
+                        <br />
+                    </div>
+                    <div class="col-md">
+                        <label>
+                            Parents Contacted?
+                            <input
+                                type="checkbox"
+                                onChange={(e) => setParentsCalled(e.target.checked)}
+                            />
+                        </label>
+                        <br />
+                        
+                    </div>
+                </div>
+                <div class="row">
+                <div class="col-md">
                 <label>
                     Description:
-                    <input
-                        type="text"
+                    <br />
+                    <textarea
+                        rows="10"
+                        cols="50"
                         onChange={(e) => setDescription(e.target.value)}
                     />
                 </label>
-                <br />
-                <label>
-                    Date:
-                    <input
-                        type="datetime-local"
-                        onChange={(e) => setDate(e.target.value)}
-                    />
-                </label>
-                <br />
-                <label>
-                    File Uploaded?
-                    <input
-                        type="checkbox"
-                        onChange={(e) => setFile(e.target.checked)}      
-                    />
-                </label>            
-                <br />
-                <label>
-                    Parents Contacted?
-                    <input
-                        type="checkbox"
-                        onChange={(e) => setParentsCalled(e.target.checked)}                            
-                />
-                </label>
-                <br />
-                <label>
-                    Length:
-                    <input
-                        type="number"
-                        onChange={(e) => setLength(e.target.value)}
-                    />
-                </label>
-                <br />
-
+                        <br />
+                    </div>
+                    <div class="col-md">
+                        <label id="topicsCheckboxes">
+                            Topics Discussed:
+                            <br />
+                            <br />
+                        </label>
+                    </div>
+                </div>
                 <button type="submit">Submit</button>
             </form>
-            </div>
-        
+        </div>
     );
 };
 
+async function fetchStudentIDs() {
+    try {
+        const response = await fetch('/api/Student/', {
+            method: 'GET',
+        });
+        var students = await response.json();
+
+        var studentListLength = studentIDSelectList.options.length - 1
+        for (var i = studentListLength; i >= 0; i--) {
+            studentIDSelectList.remove(i);
+        }
+
+        const collator = new Intl.Collator('en', { sensitivity: 'base' });
+        let result = students.sort((a, b) => collator.compare(a.lastName, b.lastName));
+
+        result.forEach(stud => {
+            const option = document.createElement('option');
+            option.value = stud.studentID;
+            option.textContent = stud.firstName + ' ' + stud.lastName;
+            studentIDSelectList.appendChild(option)
+        })
+    }
+    catch (error) {
+        console.error(error);
+    }
+};
+
+async function fetchCounselorIDs() {
+    try {
+        const response = await fetch('/api/Counselor/', {
+            method: 'GET',
+        });
+        var counselors = await response.json();
+
+        var counselorListLength = counselorIDSelectList.options.length - 1
+        for (var i = counselorListLength; i >= 0; i--) {
+            counselorIDSelectList.remove(i);
+        }
+
+        const collator = new Intl.Collator('en', { sensitivity: 'base' });
+        let result = counselors.sort((a, b) => collator.compare(a.name.split(' ')[1], b.name.split(' ')[1]));
+
+        result.forEach(couns => {
+            const option = document.createElement('option');
+            option.value = couns.counselorID;
+            option.textContent = couns.name;
+            counselorIDSelectList.appendChild(option)
+        })
+    }
+    catch (error) {
+        console.error(error);
+    }
+};
+
+async function fetchTopics()
+{
+    try {
+        const response = await fetch('/api/Topic/', {
+            method: 'GET',
+        });
+        var topics = await response.json();
+
+        topics.forEach(topic => {
+            const topicsCheckboxes = document.getElementById('topicsCheckboxes');
+
+            const label = document.createElement('label');
+            label.innerHTML = topic.topicName;
+            const input = document.createElement('input');
+            input.type = 'checkbox';
+            input.id = topic.topicID;
+            label.className = 'topicCheck';
+            label.appendChild(input);
+            topicsCheckboxes.appendChild(label); 
+        })
+    }
+    catch (error) {
+        console.error(error);
+    }
+}
+
+fetchStudentIDs();
+fetchCounselorIDs();
+fetchTopics();
 
 export default CreateVisit;
-
-
 
 // React DOM rendering
 const createVisitForm = ReactDOM.createRoot(document.getElementById('CreateVisitForm'));
@@ -142,4 +313,3 @@ createVisitForm.render(
         <CreateVisit />
     </React.StrictMode>
 );
-    

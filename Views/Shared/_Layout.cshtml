@@ -9,7 +9,6 @@
     <title>@ViewData["Title"] - Counselors Connect</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/compiledscss/main.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://getbootstrap.com/docs/5.0/examples/sidebars/sidebars.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -40,7 +39,7 @@
                                     <span data-feather="edit"></span>
                                     Visit
                                 </a>
-                                <a class="nav-link" asp-area="" asp-controller="Edit" asp-action="EditTopics">
+                                <a class="nav-link" asp-area="" asp-controller="Edit" asp-action="EditTopic">
                                     <span data-feather="edit"></span>
                                     Topic
                                 </a>
@@ -98,7 +97,7 @@
                                         <span data-feather="edit"></span>
                                         Visit
                                     </a>
-                                    <a class="nav-link" asp-area="" asp-controller="Edit" asp-action="EditTopics">
+                                    <a class="nav-link" asp-area="" asp-controller="Edit" asp-action="EditTopic">
                                         <span data-feather="edit"></span>
                                         Topic
                                     </a>
@@ -131,9 +130,10 @@
         </div>   
 
         <div class="col-12 col-xxl-10">
-            <div class="row g-0 m-0">
-                <nav class="navbar shadow" aria-label="Top Navigation" id="top-navigation">
-                    <button class="navbar-toggler ms-2 d-xxl-none d-sm-block d-md-block d-xl-block" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasnav" aria-controls="offcanvasnav" aria-label="Toggle navigation">
+            <div id="top-navigation"class="row g-0">
+
+                <nav class="navbar p-3 shadow" aria-label="Top Navigation">
+                    <button class="navbar-toggler d-xxl-none d-sm-block d-md-block d-xl-block" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasnav" aria-controls="offcanvasnav" aria-label="Toggle navigation">
                         <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
                         </svg>
@@ -165,6 +165,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.js"></script>
     <script>
         feather.replace()
     </script>

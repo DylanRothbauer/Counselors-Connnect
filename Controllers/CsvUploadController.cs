@@ -144,7 +144,7 @@ namespace Counselors_Connect.Controllers
                         var visitTopicResponse = await client.PostAsJsonAsync("/api/VisitTopic", visitTopic);
                         if (!visitTopicResponse.IsSuccessStatusCode)
                         {
-                            return StatusCode((int)visitTopicResponse.StatusCode, $"Failed to upload visit topic for visit ID {createdVisit.VisitID} and topic ID {topicID}");
+                            return StatusCode((int)visitTopicResponse.StatusCode, $"Failed to upload visit topic for visit ID {createdVisit.VisitID} and topic ID {topicID}, please ensure your upload does not contain duplicate topics for a visit");
                         }
                     }
                 }

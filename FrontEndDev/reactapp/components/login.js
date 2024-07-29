@@ -25,7 +25,6 @@ const Login = () => {
             setErrorMessage(''); 
             window.location.href = '/Home';  
             return; 
-            // handle success
         } catch (error) {
             if (error.response && error.response.status === 401) {
                 setErrorMessage('Invalid username or password');
