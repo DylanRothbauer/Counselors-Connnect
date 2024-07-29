@@ -3,6 +3,14 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Custom counselors-connect ignores
+wwwroot/js/compiledreact/
+
+
+
+
+
+
 # User-specific files
 *.rsuser
 *.suo
@@ -362,10 +370,8 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-# Hide Compiled React folder
-# wwwroot/js/compiledreact/*
-# FodyWeavers.xsd
+# Remove compiledreact folder from being tracked 
+/wwwroot/js/compiledreact/**
 
-#Ignore compiled scss
-# /wwwroot/css/compiledscss/
-
+# Remove compiledscss folder from being tracked
+/wwwroot/css/compiledscss/**
