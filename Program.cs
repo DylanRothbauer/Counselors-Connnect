@@ -5,6 +5,7 @@ using Counselors_Connect.Controllers;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -36,9 +37,43 @@ builder.Services.AddControllersWithViews(options =>
     options.Filters.Add(new AuthorizeFilter(policy));
 });
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddControllers();
+builder.Services.AddHttpClient();
+
+
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+
+
+builder.Services.AddHttpClient("CounselorsClient", (serviceProvider,client) =>
+{
+
+    var environment = serviceProvider.GetRequiredService<IWebHostEnvironment>();
+    if (environment.IsDevelopment())
+    {
+        client.BaseAddress = new Uri("https://localhost:7169");
+    }
+    else
+    {
+        client.BaseAddress = new Uri("https://counselorsconnect.azurewebsites.net/");
+    }
+});
+
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
+
 
 var app = builder.Build();
 
@@ -94,5 +129,6 @@ app.MapVisitEndpoints();
 app.MapVisitTopicEndpoints();
 
 app.MapCounselorEndpoints();
+
 
 app.Run();
