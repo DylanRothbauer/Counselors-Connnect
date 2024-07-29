@@ -169,9 +169,9 @@ const StudentsList = () => {
                                     </a>
                                 </li>
                                 {Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index).map(number => (
-                                    <li key={number} className={`ms-2 page-item ${currentPage === number ? 'active' : ''}`}>
-                                        <a onClick={() => paginate(number)} href="#!" className="btn rounded-circle page-link py-1">
-                                            {number}
+                                    <li key={number} className={`ms-2 page-item ${currentPage === number ? 'active' : ''}`}>                                     
+                                        <a onClick={() => paginate(number)} href="#!" className="btn rounded-circle page-link">
+                                            <span>{number}</span>
                                         </a>
                                     </li>
                                 ))}
