@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
+    
     options.UseSqlServer(builder.Configuration.GetConnectionString("AppDbContext") ?? throw new InvalidOperationException("Connection string 'AppDbContext' not found.")));
 
 builder.Services.AddAuthentication(options =>
@@ -108,11 +109,21 @@ using (var scope = app.Services.CreateScope()) {
     try
     {
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        context.Database.Migrate();
+
         if (app.Environment.IsDevelopment())
         {
-            context.Database.Migrate();
+            // Seed dev data
+            
         }
-}
+
+        if (app.Environment.IsProduction())
+        {
+            // seed production data
+        }
+
+        
+    }
     catch(Exception ex)
     {
 
