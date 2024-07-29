@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
+    
     options.UseSqlServer(builder.Configuration.GetConnectionString("AppDbContext") ?? throw new InvalidOperationException("Connection string 'AppDbContext' not found.")));
 
 builder.Services.AddAuthentication(options =>
@@ -26,6 +27,14 @@ builder.Services.AddAuthentication(options =>
     options.ExpireTimeSpan = TimeSpan.FromDays(1);
     options.SlidingExpiration = true;
     options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+});
+
+builder.Services.AddLogging(options =>
+{
+
+    options.AddConsole();
+    options.AddDebug();
+
 });
 
 // Add services to the container.
@@ -130,5 +139,32 @@ app.MapVisitTopicEndpoints();
 
 app.MapCounselorEndpoints();
 
+using (var scope = app.Services.CreateScope()) {
+
+    try
+    {
+        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        context.Database.Migrate();
+
+        if (app.Environment.IsDevelopment())
+        {
+            // Seed dev data
+            
+        }
+
+        if (app.Environment.IsProduction())
+        {
+            // seed production data
+        }
+
+        
+    }
+    catch(Exception ex)
+    {
+
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+            logger.LogError(ex, "Error executing database migration");
+    }
+}
 
 app.Run();

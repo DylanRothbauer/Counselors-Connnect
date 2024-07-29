@@ -46,7 +46,8 @@ namespace Counselors_Connect.Migrations
                 name: "Topics",
                 columns: table => new
                 {
-                    TopicID = table.Column<int>(type: "int", nullable: false),
+                    TopicID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     TopicName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -65,7 +66,7 @@ namespace Counselors_Connect.Migrations
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     File = table.Column<bool>(type: "bit", nullable: false),
-                    FilePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FilePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ParentsCalled = table.Column<bool>(type: "bit", nullable: false),
                     Length = table.Column<int>(type: "int", nullable: false)
                 },
