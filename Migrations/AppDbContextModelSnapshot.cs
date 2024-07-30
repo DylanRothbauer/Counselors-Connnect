@@ -41,23 +41,7 @@ namespace Counselors_Connect.Migrations
 
                     b.HasKey("CounselorID");
 
-                    b.ToTable("Counselors", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            CounselorID = 1,
-                            Name = "John Doe",
-                            Password = "password",
-                            Username = "johndoe"
-                        },
-                        new
-                        {
-                            CounselorID = 2,
-                            Name = "Brody Van Eperen",
-                            Password = "BrodyV1",
-                            Username = "bvaneperen"
-                        });
+                    b.ToTable("Counselors");
                 });
 
             modelBuilder.Entity("Counselors_Connect.Models.Student", b =>
@@ -82,33 +66,7 @@ namespace Counselors_Connect.Migrations
 
                     b.HasKey("StudentID");
 
-                    b.ToTable("Students", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            StudentID = 1,
-                            AdvisorName = "Mr. Brown",
-                            FirstName = "Alice",
-                            Grade = 10,
-                            LastName = "Smith"
-                        },
-                        new
-                        {
-                            StudentID = 2,
-                            AdvisorName = "Mrs. Green",
-                            FirstName = "Bob",
-                            Grade = 11,
-                            LastName = "Johnson"
-                        },
-                        new
-                        {
-                            StudentID = 3,
-                            AdvisorName = "Mr. White",
-                            FirstName = "Charlie",
-                            Grade = 12,
-                            LastName = "Brown"
-                        });
+                    b.ToTable("Students");
                 });
 
             modelBuilder.Entity("Counselors_Connect.Models.Topic", b =>
@@ -125,24 +83,7 @@ namespace Counselors_Connect.Migrations
 
                     b.HasKey("TopicID");
 
-                    b.ToTable("Topics", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            TopicID = 1,
-                            TopicName = "Academic"
-                        },
-                        new
-                        {
-                            TopicID = 2,
-                            TopicName = "Career"
-                        },
-                        new
-                        {
-                            TopicID = 3,
-                            TopicName = "Personal"
-                        });
+                    b.ToTable("Topics");
                 });
 
             modelBuilder.Entity("Counselors_Connect.Models.Visit", b =>
@@ -185,45 +126,7 @@ namespace Counselors_Connect.Migrations
 
                     b.HasIndex("StudentID");
 
-                    b.ToTable("Visits", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            VisitID = 1,
-                            CounselorID = 1,
-                            Date = new DateTime(2024, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Initial counseling session",
-                            File = false,
-                            FilePath = "http://example.com/files/1",
-                            Length = 30,
-                            ParentsCalled = true,
-                            StudentID = 1
-                        },
-                        new
-                        {
-                            VisitID = 2,
-                            CounselorID = 1,
-                            Date = new DateTime(2024, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Follow-up session",
-                            File = true,
-                            FilePath = "http://example.com/files/2",
-                            Length = 45,
-                            ParentsCalled = false,
-                            StudentID = 2
-                        },
-                        new
-                        {
-                            VisitID = 3,
-                            CounselorID = 2,
-                            Date = new DateTime(2024, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Career guidance",
-                            File = true,
-                            FilePath = "http://example.com/files/3",
-                            Length = 60,
-                            ParentsCalled = true,
-                            StudentID = 3
-                        });
+                    b.ToTable("Visits");
                 });
 
             modelBuilder.Entity("Counselors_Connect.Models.VisitTopic", b =>
@@ -238,34 +141,7 @@ namespace Counselors_Connect.Migrations
 
                     b.HasIndex("TopicID");
 
-                    b.ToTable("VisitTopics", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            VisitID = 1,
-                            TopicID = 1
-                        },
-                        new
-                        {
-                            VisitID = 1,
-                            TopicID = 2
-                        },
-                        new
-                        {
-                            VisitID = 2,
-                            TopicID = 3
-                        },
-                        new
-                        {
-                            VisitID = 3,
-                            TopicID = 1
-                        },
-                        new
-                        {
-                            VisitID = 3,
-                            TopicID = 3
-                        });
+                    b.ToTable("VisitTopics");
                 });
 
             modelBuilder.Entity("Counselors_Connect.Models.Visit", b =>

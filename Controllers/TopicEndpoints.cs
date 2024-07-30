@@ -53,6 +53,10 @@ public static class TopicEndpoints
 
         group.MapDelete("/{id}", async Task<Results<Ok, NotFound>> (int topicid, AppDbContext db) =>
         {
+            var visitTopics = await db.VisitTopics
+                .Where(model => model.TopicID == topicid)
+                .ExecuteDeleteAsync();
+
             var affected = await db.Topics
                 .Where(model => model.TopicID == topicid)
                 .ExecuteDeleteAsync();

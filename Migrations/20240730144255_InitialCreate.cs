@@ -3,12 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace Counselors_Connect.Migrations
 {
     /// <inheritdoc />
-    public partial class initialmigration : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -109,57 +107,6 @@ namespace Counselors_Connect.Migrations
                         principalTable: "Visits",
                         principalColumn: "VisitID",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.InsertData(
-                table: "Counselors",
-                columns: new[] { "CounselorID", "Name", "Password", "Username" },
-                values: new object[,]
-                {
-                    { 1, "John Doe", "password", "johndoe" },
-                    { 2, "Brody Van Eperen", "BrodyV1", "bvaneperen" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Students",
-                columns: new[] { "StudentID", "AdvisorName", "FirstName", "Grade", "LastName" },
-                values: new object[,]
-                {
-                    { 1, "Mr. Brown", "Alice", 10, "Smith" },
-                    { 2, "Mrs. Green", "Bob", 11, "Johnson" },
-                    { 3, "Mr. White", "Charlie", 12, "Brown" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Topics",
-                columns: new[] { "TopicID", "TopicName" },
-                values: new object[,]
-                {
-                    { 1, "Academic" },
-                    { 2, "Career" },
-                    { 3, "Personal" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Visits",
-                columns: new[] { "VisitID", "CounselorID", "Date", "Description", "File", "FilePath", "Length", "ParentsCalled", "StudentID" },
-                values: new object[,]
-                {
-                    { 1, 1, new DateTime(2024, 7, 19, 0, 0, 0, 0, DateTimeKind.Unspecified), "Initial counseling session", false, "http://example.com/files/1", 30, true, 1 },
-                    { 2, 1, new DateTime(2024, 7, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Follow-up session", true, "http://example.com/files/2", 45, false, 2 },
-                    { 3, 2, new DateTime(2024, 7, 21, 0, 0, 0, 0, DateTimeKind.Unspecified), "Career guidance", true, "http://example.com/files/3", 60, true, 3 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "VisitTopics",
-                columns: new[] { "TopicID", "VisitID" },
-                values: new object[,]
-                {
-                    { 1, 1 },
-                    { 2, 1 },
-                    { 3, 2 },
-                    { 1, 3 },
-                    { 3, 3 }
                 });
 
             migrationBuilder.CreateIndex(
