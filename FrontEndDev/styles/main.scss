@@ -168,7 +168,6 @@ body {
         color: $text-color;
         border-radius: $border-radius;
         padding: $padding-small $padding-large;
-        height: fit-content;
 
         &:hover {
             background-color: $btn-hover;
@@ -262,7 +261,7 @@ body {
                 font-size: 2rem; // Smaller font size for smaller screens
             }
 
-            p { // what the deusce
+            p {
                 font-size: 1rem; // Smaller font size for smaller screens
             }
 
@@ -395,10 +394,9 @@ body {
         }
     }
 }
-//================================================================================//
-//=================================Table Styles===================================//
-//================================================================================//
-
+    //================================================================================//
+    //=================================Table Styles===================================//
+    //================================================================================//
 #table-container {
     width: 90%;
 
