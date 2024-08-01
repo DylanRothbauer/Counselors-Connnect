@@ -168,6 +168,7 @@ body {
         color: $text-color;
         border-radius: $border-radius;
         padding: $padding-small $padding-large;
+        height: fit-content;
 
         &:hover {
             background-color: $btn-hover;

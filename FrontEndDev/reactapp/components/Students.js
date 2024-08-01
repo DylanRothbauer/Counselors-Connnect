@@ -8,6 +8,7 @@ const StudentsList = () => {
     const [studentsPerPage] = useState(10); // how many students per page?
     const [maxPageNumbersToShow] = useState(5); // how many pagination buttons at once?
     const [searchTerm, setSearchTerm] = useState('');
+    const [expandedTds, setExpandedTds] = useState({}); //expands table element
     const [deleteStudentId, setDeleteStudentId] = useState(null); // Track student ID to delete
 
     useEffect(() => {
@@ -101,11 +102,20 @@ const StudentsList = () => {
         });
     };
 
-    return (
-        <div id="table-container">
-            <div className="d-flex justify-content-between py-3">
+    const expandTd = (index) => {
+        console.log(index)
 
-                <div className="search-bar">
+        setExpandedTds(prevState => ({
+            ...prevState,
+            [index]: !prevState[index] // Toggle the expanded state
+        }));
+    }
+
+    return (
+        <div className="table-container px-5">
+            <div className="table-actions d-flex-wrap d-sm-flex justify-content-between py-3">
+
+                <div className="search-bar mb-2 mb-sm-0">
                     <input
                         type="text"
                             className="p-2"
@@ -124,7 +134,7 @@ const StudentsList = () => {
                 <div>
                        
             
-                    <div className="round-table">
+                        <div className="round-table table-responsive">
                         <table className="table">
                             <thead>
                                 <tr>
@@ -138,12 +148,18 @@ const StudentsList = () => {
                             <tbody>
                                 {currentStudents.map(student => (
                                     <tr key={student.studentID}>
-                                        <td>{student.lastName}, {student.firstName}</td>
-                                        <td>{student.advisorName}</td>
-                                        <td>{student.studentID}</td>
-                                        <td>{student.grade}</td>
+  
+                                        {<td style={{ maxWidth: expandedTds[1] ? 'fit-content' : '95px' }}><button className="btn" onClick={() => expandTd(1)}>{student.lastName}, {student.firstName}</button> </td>}
+                                        {<td style={{ maxWidth: expandedTds[2] ? 'fit-content' : '95px' }}><button className="btn" onClick={() => expandTd(2)}>{student.advisorName}</button> </td>}
+                                        {<td style={{ maxWidth: expandedTds[3] ? 'fit-content' : '95px' }}><button className="btn" onClick={() => expandTd(3)}>{student.studentID}</button> </td>}
+                                        {<td style={{ maxWidth: expandedTds[4] ? 'fit-content' : '95px' }}><button className="btn" onClick={() => expandTd(4)}>{student.grade}</button> </td>}
+                                   
                                         <td className="text-center">
-                                            <button className="btn" onClick={() => handleEditButtonClick(student.studentID)}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-edit"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
+                                            <button className="btn" onClick={() => handleEditButtonClick(student.studentID)}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-edit">
+                                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                                </svg>
+                                            </button>
                                             <button className="btn" onClick={() => handleDeleteConfirmation(student.studentID)}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fillRule="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
                                                     <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
