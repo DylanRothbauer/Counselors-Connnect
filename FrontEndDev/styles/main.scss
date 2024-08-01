@@ -13,12 +13,6 @@
     }
 }
 
-input {
-    &:focus {
-        outline-color: black;
-    }   
-}
-
 html {
     position: relative;
     min-height: 100%;
@@ -171,7 +165,6 @@ body {
 
     .primary-btn {
         background-color: $btn-primary;
-        text-decoration: none;
         color: $text-color;
         border-radius: $border-radius;
         padding: $padding-small $padding-large;
@@ -191,6 +184,8 @@ body {
         &::placeholder {
             color: $gray-bg;
         }
+
+       
     }
 }
 
@@ -400,16 +395,22 @@ body {
         }
     }
 }
-    //================================================================================//
-    //=================================Table Styles===================================//
-    //================================================================================//
-.table-container {
-    width: 100%;
+//================================================================================//
+//=================================Table Styles===================================//
+//================================================================================//
+
+#table-container {
+    width: 90%;
+
+    .search-bar {
+        width: 50%;       
+    }
+
 
     .round-table {
         border-radius: $border-radius;
         border: solid 1px $gray-bg;
-        
+        overflow: hidden;
 
         table {
             width: 100%;
@@ -423,10 +424,6 @@ body {
 
             thead {
                 background: $gray-bg;
-
-                th {
-                    padding: $padding-small !important;
-                }
             }
 
 
@@ -442,37 +439,26 @@ body {
                 }
 
                 td {
-                    
+                    padding: 0 $padding-small 0 $padding-small !important;
                     vertical-align: middle;
-                    max-width: 95px;
-                    border-right: solid 1px #B7B7A4;
-                    white-space: nowrap;
-                    overflow: hidden;
+                    border-right: solid 1px $gray-bg;
 
-                    button {
-                        text-overflow: ellipsis;
-                        max-width: 100%;
-                        overflow: hidden;
-                    }
-                   
-                }
+                    &:last-of-type {
+                        border-right: 0;
 
-                &:last-of-type {
-                    border-right: 0;
+                        .bi-trash:hover {
+                            fill: red;
+                        }
 
-                    .bi-trash:hover {
-                        fill: red;
-                    }
-
-                    .feather:hover {
-                        stroke: $btn-primary;
+                        .feather:hover {
+                            stroke: $btn-primary;
+                        }
                     }
                 }
             }
         }
     }
 }
-
     //================================================================================//
     //==============================Pagination Styles===============================//
     //================================================================================//
@@ -545,7 +531,12 @@ body {
                     vertical-align: middle;
                     padding-top: 100%;
                 }
-
+                /*span {
+                        display: inline-block;
+                        vertical-align: middle;
+                        max-width: 90%;
+                    }
+*/
                 svg {
                     fill: $btn-primary;
                 }
@@ -558,240 +549,22 @@ body {
         }
     }
 }
+    //================================================================================//
+    //==============================Student View Styles===============================//
+    //================================================================================//
 
-
-//================================================================================//
-//================================Home View Styles================================//
-//================================================================================//
-
-#home-tables {
-    width: 90%;
-
-    #home-container {
-
-
-        .search-fields {
-            border-radius: 3px;
-            border: .5px solid black;
-            margin: auto;
-
-            .rmsc {
-                height: 100%;
-                width: 100%;
-
-                .dropdown-container {
-                    display: flex;
-                    border-top: 0;
-                    border-bottom: 0;
-                    border-left: solid 1px black;
-                    border-right: 0;
-                    border-radius: 0;
-                    background-color: $white-bg;
-                    height: 100%;
-                    align-items: center;
-
-                    &:focus-within {
-                        box-shadow: none;
-                    }
-
-                    &:focus-visible {
-                        outline-offset: 0px;
-                        outline: black 2px solid;
-                        border-radius: 3px;
-                        z-index: 1;
-                    }
-
-
-                    svg {
-                        color: black;
-                    }
-
-                    .dropdown-heading {
-
-                        span {
-                            color: black;
-                        }
-
-                        &:focus {
-                            outline: solid black 1px;
-                        }
-                    }
-                }
-            }
-
-            .react-datepicker-wrapper {
-                height: 100%;
-                width: 100%;
-
-                .react-datepicker__input-container {
-                    height: 100%;
-                    border-left: solid 1px black;
-                }
-            }
-
-            input {
-                height: 100%;
-                border-radius: 0;
-                background-color: $white-bg;
-            }
-        }
-
-        .search-fields-mobile {
-            margin: auto;
-            flex-direction: column;
-
-            .rmsc {
-                height: 100%;
-                width: 100%;
-
-                .dropdown-container {
-                    display: flex;
-                    border: solid 1px black;
-                    border-radius: 3px;
-                    background-color: $white-bg;
-                    height: 100%;
-                    align-items: center;
-                    padding: 0.25rem;
-
-                    &:focus-within {
-                        box-shadow: none;
-                    }
-
-                    &:focus-visible {
-                        outline-offset: 0px;
-                        outline: black 2px solid;
-                        border-radius: 3px;
-                        z-index: 1;
-                    }
-
-
-                    svg {
-                        color: black;
-                    }
-
-                    .dropdown-heading {
-
-                        span {
-                            color: black;
-                        }
-
-                        &:focus {
-                            outline: solid black 1px;
-                        }
-                    }
-                }
-            }
-
-            .react-datepicker-wrapper {
-                height: 100%;
-                width: 100%;
-
-                .react-datepicker__input-container {
-                    height: 100%;
-                    border: solid 1px black;
-                    border-radius: 3px;
-                }
-            }
-
-            input {
-                height: 100%;
-                border: solid 1px black;
-                
-                background-color: $white-bg;
-            }
-        }
-
-        .modal {
-            .modal-dialog {
-                margin: auto;
-                height: 100%;
-
-                .modal-content {
-                    border-radius: $border-radius !important;
-                    background-color: $white-bg;
-
-                    .modal-body {
-                        label {
-                            display: inline-flex;
-                            white-space: nowrap;
-                            padding-right: .5rem;
-
-                            input {
-                                margin-right: .5rem;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        input[type="file"] {
-            display: none
-        }
-
-        .section {
-            display: flex;
-            justify-content: center;
-            background-color: $white-bg;
-            border-radius: $border-radius;
-            margin: auto;
-            position: relative;
-            height: fit-content;
-        }
-    }
-}
-
-
-#flagged-students {
-    width: 100%;
-
-    table {
-        td {
-            background-color: #FFEB3B;
-        }
-    }
-}
-
-#csv-upload {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    .upload-body {
+    #students {
         display: flex;
-        flex-direction: column;
+        justify-content: center;
+        width: 75%;
+        background-color: $white-bg;
+        border-radius: $border-radius;
         margin: auto;
+        position: relative;
+        height: fit-content;
     }
-}
 
 
-//================================================================================//
-//==============================Student View Styles===============================//
-//================================================================================//
-
-#students {
-    display: flex;
-    justify-content: center;
-    width: 75%;
-    background-color: $white-bg;
-    border-radius: $border-radius;
-    margin: auto;
-    position: relative;
-    height: fit-content;
-
-    .table-actions{
-        a{
-            width: 100%;
-        }
-        .search-bar {
-            width: auto
-        }
+    .topicCheck {
+        display: block
     }
-    
-}
-
-
-.topicCheck {
-    display: block
-}
-
