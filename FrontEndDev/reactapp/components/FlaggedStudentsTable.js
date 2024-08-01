@@ -28,4 +28,5 @@ const FlaggedStudentsTable = ({ FlaggedStudents }) => {
     );
 };
 
+
 export default FlaggedStudentsTable;
