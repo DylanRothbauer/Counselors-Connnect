@@ -8,7 +8,6 @@ const CsvUpload = ({ onUploadSuccess }) => {
     const [spinner, setSpinner] = useState(false);
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
-        document.getElementById("display-selection").innerText = event.target.files[0].name
         setErrorMessage('');
         setSuccessMessage('');
     };
@@ -93,25 +92,14 @@ const CsvUpload = ({ onUploadSuccess }) => {
     };
 
     return (
-        <div id="csv-upload" className="m-4">
-            <h2 className="d-flex justify-content-center">Upload the CSV File</h2>
-            <div className="upload-body">
-                <div className="d-flex align-items-center my-3">
-                    <button className="btn primary-btn border border-0">
-                        <label for='file-upload'>Select File</label>
-                    </button>
-              
-                    <input className="primary-btn" id="file-upload" type="file" accept=".csv" onChange={handleFileChange} />
-                    <p id="display-selection" className="m-0 ms-2">No File Selected.</p>
-                </div>
-            
-                <button className="primary-btn border border-0 mt-3 mb-2" onClick={handleUpload}>Upload</button> {spinner && (
-                    <i className="spinner">something is loading, change this to css animation with spinner icon</i>
-                )}
-                {renderErrorMessages()}
-                {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-            </div>
-            
+        <div>
+            <h2>Upload the CSV File</h2>
+            <input className="buttonPrimary" type="file" accept=".csv" onChange={handleFileChange} />
+            <button className="buttonPrimary" onClick={handleUpload}>Upload</button> {spinner && (
+                <i className="spinner">something is loading, change this to css animation with spinner icon</i>
+            )}
+            {renderErrorMessages()}
+            {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
         </div>
     );
 };
