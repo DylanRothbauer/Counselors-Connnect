@@ -114,7 +114,10 @@ namespace Counselors_Connect.Migrations
             modelBuilder.Entity("Counselors_Connect.Models.Topic", b =>
                 {
                     b.Property<int>("TopicID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TopicID"));
 
                     b.Property<string>("TopicName")
                         .IsRequired()

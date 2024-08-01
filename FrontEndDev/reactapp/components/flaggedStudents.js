@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 
-const FlaggedStudentsTable = ({ FlaggedStudents }) => {
+const FlaggedStudents = ({ FlaggedStudents }) => {
     return (
         <div id="flagged-students" className="my-4">
             <h2 className="d-flex justify-content-center">Flagged Students</h2>

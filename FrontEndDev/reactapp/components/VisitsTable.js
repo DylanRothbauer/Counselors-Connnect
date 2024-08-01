@@ -4,10 +4,6 @@ import Fuse from 'fuse.js';
 import FlaggedStudentsTable from './FlaggedStudentsTable'; // Import the FlaggedStudents component
 import CsvUpload from './CsvUpload';
 import axios from 'axios';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { MultiSelect } from 'react-multi-select-component';
-import { CSVLink } from 'react-csv';
 
 const Visits = () => {
     const [visits, setVisits] = useState([]); // methods for setting info for api calls
