@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
-
+using NuGet.Protocol;
 namespace Counselors_Connect.Controllers
 {
     [Route("api/[controller]")]
@@ -20,6 +20,16 @@ namespace Counselors_Connect.Controllers
         public AuthController(AppDbContext context)
         {
             _context = context;
+        }
+        [HttpGet("username")]
+        public ActionResult<string> GetUsername()
+        {
+            var userName = User.FindFirst(ClaimTypes.Name)?.Value.ToJson();
+            if (userName == null)
+            {
+                return Unauthorized();
+            }
+            return Ok(userName);
         }
 
         [AllowAnonymous]

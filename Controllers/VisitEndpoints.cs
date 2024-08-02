@@ -60,10 +60,16 @@ public static class VisitEndpoints
 
         group.MapDelete("/{id}", async Task<Results<Ok, NotFound>> (int visitid, AppDbContext db) =>
         {
-            var affected = await db.Visits
+            var visitTopics = await db.VisitTopics
                 .Where(model => model.VisitID == visitid)
                 .ExecuteDeleteAsync();
-            return affected == 1 ? TypedResults.Ok() : TypedResults.NotFound();
+             
+            
+                var affected = await db.Visits
+                    .Where(model => model.VisitID == visitid)
+                    .ExecuteDeleteAsync();
+                return affected == 1 ? TypedResults.Ok() : TypedResults.NotFound();
+           
         })
         .WithName("DeleteVisit")
         .WithOpenApi();
