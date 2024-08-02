@@ -23,7 +23,7 @@
                 <div class="position-sticky pt-xl-3">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="StudentView" asp-action="StudentView">
+                            <a class="btn nav-link" asp-area="" asp-controller="StudentView" asp-action="StudentView">
                                 <span data-feather="users"></span>
                                 Student View
                             </a>
@@ -35,15 +35,15 @@
                                 </p>
                             </div>
                             <div id="nav-edit-body" class="py-2">
-                                <a class="nav-link" asp-area="" asp-controller="Edit" asp-action="EditVisit">
+                                <a class="btn nav-link" asp-area="" asp-controller="Edit" asp-action="EditVisit">
                                     <span data-feather="edit"></span>
                                     Visit
                                 </a>
-                                <a class="nav-link" asp-area="" asp-controller="Edit" asp-action="EditTopic">
+                                <a class="btn nav-link" asp-area="" asp-controller="Edit" asp-action="EditTopics">
                                     <span data-feather="edit"></span>
                                     Topic
                                 </a>
-                                <a class="nav-link" asp-area="" asp-controller="Edit" asp-action="EditStudent">
+                                <a class="btn nav-link" asp-area="" asp-controller="Edit" asp-action="EditStudent">
                                     <span data-feather="edit"></span>
                                     Student
                                 </a>
@@ -53,7 +53,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="CreateAVisit" asp-action="CreateAVisit">
+                            <a class="btn nav-link" asp-area="" asp-controller="CreateAVisit" asp-action="CreateAVisit">
                                 <span data-feather="file"></span>
                                 Create A Visit
                             </a>
@@ -61,16 +61,16 @@
                     </ul>
                 </div>
                     <div id="log-out-container">
-                        <a id="log-out-btn" href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">
+                        <a id="log-out-btn" class="btn" href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">
                             <span data-feather="log-out"></span>
                             Log Out
                         </a>
                     </div>
                 
             </div>
-            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasnav" aria-labelledby="offcanvasLabel" style="visibility: visible;background-color: rgb(41, 67, 22) !important;" aria-modal="true" role="dialog">
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasnav" aria-labelledby="offcanvasLabel" style="visibility: hidden;background-color: rgb(41, 67, 22) !important;" aria-modal="true" role="dialog">
                 <div class="offcanvas-header pt-2 nav">
-                    <a id="close-offcanvas" class="me-2" href="#" type="button" data-bs-dismiss="offcanvas" aria-label="Close">
+                    <a id="close-offcanvas" class="btn me-2" href="#" type="button" data-bs-dismiss="offcanvas" aria-label="Close">
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="white" class="bi bi-x-lg" viewBox="0 0 16 16">
                             <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
                         </svg>
@@ -81,7 +81,7 @@
                         <ul  class="nav flex-column">
 
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="StudentView" asp-action="StudentView">
+                                <a class="btn nav-link" asp-area="" asp-controller="StudentView" asp-action="StudentView">
                                     <span data-feather="users"></span>
                                     Student View
                                 </a>
@@ -93,15 +93,15 @@
                                     </p>
                                 </div>
                                 <div id="nav-edit-body" class="py-2">
-                                    <a class="nav-link" asp-area="" asp-controller="Edit" asp-action="EditVisit">
+                                    <a class="btn nav-link" asp-area="" asp-controller="Edit" asp-action="EditVisit">
                                         <span data-feather="edit"></span>
                                         Visit
                                     </a>
-                                    <a class="nav-link" asp-area="" asp-controller="Edit" asp-action="EditTopic">
+                                    <a class="btn nav-link" asp-area="" asp-controller="Edit" asp-action="EditTopics">
                                         <span data-feather="edit"></span>
                                         Topic
                                     </a>
-                                    <a class="nav-link" asp-area="" asp-controller="Edit" asp-action="EditStudent">
+                                    <a class="btn nav-link" asp-area="" asp-controller="Edit" asp-action="EditStudent">
                                         <span data-feather="edit"></span>
                                         Student
                                     </a>
@@ -109,7 +109,7 @@
                             </li>
                           
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="CreateAVisit" asp-action="CreateAVisit">
+                                <a class="btn nav-link" asp-area="" asp-controller="CreateAVisit" asp-action="CreateAVisit">
                                     <span data-feather="file"></span>
                                     Create A Visit
                                 </a>
@@ -120,7 +120,7 @@
                         </ul>
                     </div>
                         <div id="log-out-container">
-                            <a id="log-out-btn" href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">
+                            <a id="log-out-btn" class="btn" href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">
                                 <span data-feather="log-out"></span>
                                 Log Out
                             </a>
@@ -130,16 +130,15 @@
         </div>   
 
         <div class="col-12 col-xxl-10">
-            <div id="top-navigation"class="row g-0">
-
-                <nav class="navbar p-3 shadow" aria-label="Top Navigation">
-                    <button class="navbar-toggler d-xxl-none d-sm-block d-md-block d-xl-block" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasnav" aria-controls="offcanvasnav" aria-label="Toggle navigation">
+            <div class="row g-0 m-0">
+                <nav class="navbar shadow" aria-label="Top Navigation" id="top-navigation">
+                    <button class="btn navbar-toggler ms-2 d-xxl-none d-sm-block d-md-block d-xl-block" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasnav" aria-controls="offcanvasnav" aria-label="Toggle navigation">
                         <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
                         </svg>
                     </button>
                     <p class="page-title fs-2 ps-xxl-5">@ViewData["Title"]</p>
-                    <button class="navbar-toggler collapsed pe-xxl-5" type="button" aria-label="Displays teacher that is loged in.">
+                    <button class="navbar-toggler collapsed me-xxl-5" type="button" aria-label="Displays teacher that is loged in.">
                         @User.FindFirst(ClaimTypes.Name)?.Value
                     </button>
                 </nav>

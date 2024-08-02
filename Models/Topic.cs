@@ -5,7 +5,6 @@ namespace Counselors_Connect.Models
 {
     public class Topic
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Key]
         [Required]
         public int TopicID { get; set; }

@@ -5,9 +5,11 @@ using Counselors_Connect.Controllers;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
+    
     options.UseSqlServer(builder.Configuration.GetConnectionString("AppDbContext") ?? throw new InvalidOperationException("Connection string 'AppDbContext' not found.")));
 
 builder.Services.AddAuthentication(options =>
@@ -27,6 +29,14 @@ builder.Services.AddAuthentication(options =>
     options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
 });
 
+builder.Services.AddLogging(options =>
+{
+
+    options.AddConsole();
+    options.AddDebug();
+
+});
+
 // Add services to the container.
 builder.Services.AddControllersWithViews(options =>
 {
@@ -36,9 +46,43 @@ builder.Services.AddControllersWithViews(options =>
     options.Filters.Add(new AuthorizeFilter(policy));
 });
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddControllers();
+builder.Services.AddHttpClient();
+
+
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+
+
+builder.Services.AddHttpClient("CounselorsClient", (serviceProvider,client) =>
+{
+
+    var environment = serviceProvider.GetRequiredService<IWebHostEnvironment>();
+    if (environment.IsDevelopment())
+    {
+        client.BaseAddress = new Uri("https://localhost:7169");
+    }
+    else
+    {
+        client.BaseAddress = new Uri("https://counselorsconnect.azurewebsites.net/");
+    }
+});
+
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
+
 
 var app = builder.Build();
 
@@ -94,5 +138,33 @@ app.MapVisitEndpoints();
 app.MapVisitTopicEndpoints();
 
 app.MapCounselorEndpoints();
+
+using (var scope = app.Services.CreateScope()) {
+
+    try
+    {
+        var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        context.Database.Migrate();
+
+        if (app.Environment.IsDevelopment())
+        {
+            // Seed dev data
+            
+        }
+
+        if (app.Environment.IsProduction())
+        {
+            // seed production data
+        }
+
+        
+    }
+    catch(Exception ex)
+    {
+
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+            logger.LogError(ex, "Error executing database migration");
+    }
+}
 
 app.Run();

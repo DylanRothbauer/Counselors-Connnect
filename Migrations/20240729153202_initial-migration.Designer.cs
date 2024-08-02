@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Counselors_Connect.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240719192617_initialmigration")]
+    [Migration("20240729153202_initial-migration")]
     partial class initialmigration
     {
         /// <inheritdoc />
@@ -117,7 +117,10 @@ namespace Counselors_Connect.Migrations
             modelBuilder.Entity("Counselors_Connect.Models.Topic", b =>
                 {
                     b.Property<int>("TopicID")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TopicID"));
 
                     b.Property<string>("TopicName")
                         .IsRequired()
