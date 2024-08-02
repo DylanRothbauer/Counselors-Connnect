@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -145,16 +146,18 @@ using (var scope = app.Services.CreateScope()) {
     {
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         context.Database.Migrate();
-
+        var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
         if (app.Environment.IsDevelopment())
         {
-            // Seed dev data
-            
+            DataSeeder.SeedDevelopment(context);
+            logger.LogInformation("Development data seeded");
+
         }
 
         if (app.Environment.IsProduction())
         {
-            // seed production data
+            DataSeeder.SeedProduction(context);
+            logger.LogInformation("Production data seeded");
         }
 
         
