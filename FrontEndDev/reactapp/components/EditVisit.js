@@ -1,10 +1,10 @@
 ﻿import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BlobServiceClient } from '@azure/storage-blob';
-import { BrowserRouter as Router, Route, Routes, Switch, useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useParams } from 'react-router-dom';
 
 const EditVisit = () => {
-    const {visitID} = useParams(); // Extract visitID from URL parameter
+    const { visitID } = useParams(); // Extract visitID from URL parameter
     const [counselorID, setCounselorID] = useState('');
     const [studentID, setStudentID] = useState('');
     const [date, setDate] = useState('');
@@ -17,16 +17,26 @@ const EditVisit = () => {
     const [uploadURL, setUploadURL] = useState('');
     const [topics, setTopics] = useState([]);
     const [selectedTopics, setSelectedTopics] = useState([]);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetchStudentIDs();
-        fetchCounselorIDs();
-        fetchTopics();
-        if (visitID) {
-            fetchVisitDetails(visitID);
-        }
-    }, [visitID]);
+        const fetchData = async () => {
+            try {
+             
+                    const topic = await fetchVisitDetails(visitID);
+             
+                await setSelectedTopics(topic.map(item => item.topicID));
+                await fetchCounselorIDs();
+                await fetchStudentIDs();
+                await fetchTopics();
+            } catch (error) {
+                console.error('Error:', error);
+                setError(error);
+            }
+        };
 
+        fetchData();
+    }, [visitID]);
 
     const fetchVisitDetails = async (visitID) => {
         try {
@@ -39,9 +49,9 @@ const EditVisit = () => {
             setCounselorID(data.counselorID);
             setDate(data.date);
             setDescription(data.description);
-            setFile(true);
+            setFile(data.file);
             setFilePath(data.filePath);
-            setParentsCalled(data.parentlsCalled);
+            setParentsCalled(data.parentsCalled);
             setLength(data.length);
             const responseTwo = await fetch(`/api/VisitTopic/`);
 
@@ -49,17 +59,15 @@ const EditVisit = () => {
                 throw new Error('Failed to fetch visit details');
             }
             const dataTwo = await responseTwo.json();
-            console.log(data.file+ " and "+ file);
            
             const filteredData = dataTwo.filter(item => item.visitID == visitID);
             
-           setSelectedTopics(filteredData.map(item => item.topicID));
             
+            return filteredData;
         } catch (error) {
             console.error('Error fetching student details:', error);
         }
     };
-
 
     const handleFileChange = (event) => {
         setFileLoaded(event.target.files[0]);
@@ -90,7 +98,6 @@ const EditVisit = () => {
             setUploadURL(url);
             alert(`File uploaded successfully! URL: ${url}`);
             setFilePath(url);
-            document.getElementById("fileUploadedCheckbox").setAttribute("checked", true)
             setFile(true);
         } catch (error) {
             console.error('Error uploading file:', error);
@@ -104,12 +111,13 @@ const EditVisit = () => {
                 ? prevSelected.filter((id) => id !== topicID)
                 : [...prevSelected, topicID]
         );
+        console.log(selectedTopics);
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const visit = {
+        const formData = {
             studentID,
             counselorID,
             date,
@@ -119,94 +127,103 @@ const EditVisit = () => {
             parentsCalled,
             length
         };
+        
 
         try {
-            const response = await fetch(`/api/Visit/UpdateVisit?visitID=${visitID}`, {
-                method: 'POST',
+            const response = await fetch(`/api/Visit/UpdateVisit?visitid=${visitID}`, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(visit)
+                body: JSON.stringify(formData)
             });
 
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                const errorText = await response.text(); 
+                console.error('Response error:', errorText);
+                throw new Error(`Failed to update visit: ${errorText}`);
             }
 
-            const data = await response.json();
-            console.log('success', data);
-            const visitID = data.visitID;
+            
 
-            await Promise.all(
-                selectedTopics.map((topicID) =>
-                    fetch('/api/VisitTopic', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ visitID, topicID })
-                    })
-                )
-            );
+            // Create an array of visitTopics
+            const visitTopics = selectedTopics.map(topicID => ({
+                visitID,
+                topicID
+            }));
 
+            // Send visitTopics to the UpdateVisitTopic endpoint
+            const visitTopicResponse = await fetch(`/api/VisitTopic/UpdateVisitTopic?visitid=${visitID}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(visitTopics)
+            });
+
+            if (!visitTopicResponse.ok) {
+                const visitTopicErrorText = await visitTopicResponse.text();
+                console.error('VisitTopic update error:', visitTopicErrorText);
+                throw new Error(`Failed to update visit topics: ${visitTopicErrorText}`);
+            }
+
+            const visitTopicData = await visitTopicResponse.json();
+            console.log('VisitTopic update success:', visitTopicData);
+
+            
             alert('Visit submitted successfully!');
             window.location.replace("/");
         } catch (error) {
             console.error('Error:', error);
         }
-
     };
 
-    async function fetchStudentIDs() {
+    const fetchStudentIDs = async () => {
         try {
-            const response = await fetch('/api/Student/', {
-                method: 'GET',
-            });
-            var students = await response.json();
+            const response = await fetch('/api/Student/', { method: 'GET' });
+            const students = await response.json();
 
-            var studentListLength = studentIDSelectList.options.length - 1
-            for (var i = studentListLength; i >= 0; i--) {
+            const studentIDSelectList = document.getElementById('studentIDSelectList');
+            const studentListLength = studentIDSelectList.options.length - 1;
+            for (let i = studentListLength; i >= 0; i--) {
                 studentIDSelectList.remove(i);
             }
 
             const collator = new Intl.Collator('en', { sensitivity: 'base' });
-            let result = students.sort((a, b) => collator.compare(a.lastName, b.lastName));
+            const result = students.sort((a, b) => collator.compare(a.lastName, b.lastName));
 
             result.forEach(stud => {
                 const option = document.createElement('option');
                 option.value = stud.studentID;
-                option.textContent = stud.firstName + ' ' + stud.lastName;
-                studentIDSelectList.appendChild(option)
-            })
-        }
-        catch (error) {
+                option.textContent = `${stud.firstName} ${stud.lastName}`;
+                studentIDSelectList.appendChild(option);
+            });
+        } catch (error) {
             console.error(error);
         }
     };
 
-    async function fetchCounselorIDs() {
+    const fetchCounselorIDs = async () => {
         try {
-            const response = await fetch('/api/Counselor/', {
-                method: 'GET',
-            });
-            var counselors = await response.json();
+            const response = await fetch('/api/Counselor/', { method: 'GET' });
+            const counselors = await response.json();
 
-            var counselorListLength = counselorIDSelectList.options.length - 1
-            for (var i = counselorListLength; i >= 0; i--) {
+            const counselorIDSelectList = document.getElementById('counselorIDSelectList');
+            const counselorListLength = counselorIDSelectList.options.length - 1;
+            for (let i = counselorListLength; i >= 0; i--) {
                 counselorIDSelectList.remove(i);
             }
 
             const collator = new Intl.Collator('en', { sensitivity: 'base' });
-            let result = counselors.sort((a, b) => collator.compare(a.name.split(' ')[1], b.name.split(' ')[1]));
+            const result = counselors.sort((a, b) => collator.compare(a.name.split(' ')[1], b.name.split(' ')[1]));
 
             result.forEach(couns => {
                 const option = document.createElement('option');
                 option.value = couns.counselorID;
                 option.textContent = couns.name;
-                counselorIDSelectList.appendChild(option)
-            })
-        }
-        catch (error) {
+                counselorIDSelectList.appendChild(option);
+            });
+        } catch (error) {
             console.error(error);
         }
     };
@@ -228,39 +245,38 @@ const EditVisit = () => {
                     <div className="col-md">
                         <label>
                             Student:
-                             
                             <select
                                 id="studentIDSelectList"
                                 value={studentID}
                                 onChange={(e) => setStudentID(e.target.value)}
-                            />
+                            >
+                                <option value="">Select a student</option>
+                            </select>
                         </label>
-                         
+                    </div>
+                    <div className="col-md">
                         <label>
                             Counselor:
-                             
                             <select
                                 id="counselorIDSelectList"
                                 value={counselorID}
                                 onChange={(e) => setCounselorID(e.target.value)}
-                            />
+                            >
+                                <option value="">Select a counselor</option>
+                            </select>
                         </label>
-                         
                     </div>
                     <div className="col-md">
                         <label>
                             Date:
-                             
                             <input
                                 type="datetime-local"
                                 value={date}
                                 onChange={(e) => setDate(e.target.value)}
                             />
                         </label>
-                         
                         <label>
                             Length:
-                             
                             <input
                                 type="number"
                                 min="1"
@@ -268,27 +284,20 @@ const EditVisit = () => {
                                 onChange={(e) => setLength(e.target.value)}
                             />
                         </label>
-                         
                     </div>
                     <div className="col-md">
-                        <label>
-                            File Uploaded?
-                            <input
-                                id="fileUploadedCheckbox"
-                                type="checkbox"
-                                checked={file}
-                                onChange={(e) => setFile(e.target.checked)}
-                            />
-                        </label>
-                         
-                        <div>
-                            {!file ?
-                            <><input type="file" onChange={handleFileChange} /><button type="button" onClick={uploadFile}>Upload</button></>
-                                :
-                                <button type="button" onClick={setFile(false)}>Change File</button>
-                                }
-                        </div>
-                         
+                        {!file ? (
+                            <>
+                                <div>
+                                    <input type="file" onChange={handleFileChange} />
+                                    <button type="button" onClick={uploadFile}>Upload</button>
+                                </div>
+                            </>
+                        ) : (
+                            <div>
+                                <button type="button" onClick={() => setFile(false)}>Change File</button>
+                            </div>
+                        )}
                     </div>
                     <div className="col-md">
                         <label>
@@ -299,15 +308,12 @@ const EditVisit = () => {
                                 onChange={(e) => setParentsCalled(e.target.checked)}
                             />
                         </label>
-                         
-
                     </div>
                 </div>
                 <div className="row">
                     <div className="col-md">
                         <label>
                             Description:
-                             
                             <textarea
                                 rows="10"
                                 cols="50"
@@ -316,45 +322,41 @@ const EditVisit = () => {
                                 onChange={(e) => setDescription(e.target.value)}
                             />
                         </label>
-                         
                     </div>
                     <div className="col-md">
                         <label>Topics Discussed:</label>
-                         
                         {topics.map(topic => (
                             <div key={topic.topicID}>
                                 <label>
                                     <input
                                         type="checkbox"
-                                        checked={selectedTopics.includes(topic.topicID)}
+                                        defaultChecked={(selectedTopics.find(item => item == topic.topicID)? true : false)}
+                                       
                                         onChange={() => handleTopicChange(topic.topicID)}
                                     />
                                     {topic.topicName}
                                 </label>
                             </div>
                         ))}
-                         
                     </div>
                 </div>
                 <button type="submit">Submit</button>
             </form>
+            {error && <p className="error">Error: {error.message}</p>}
         </div>
     );
 };
+
 export default EditVisit;
-
-
-
 
 // React DOM rendering
 const EditVisitForm = ReactDOM.createRoot(document.getElementById('EditVisitForm'));
 EditVisitForm.render(
     <React.StrictMode>
         <Router>
-        <Routes>
-            <Route path="/Edit/EditVisit/:visitID" element={<EditVisit />} />
-        </Routes>
-    </Router>
+            <Routes>
+                <Route path="/Edit/EditVisit/:visitID" element={<EditVisit />} />
+            </Routes>
+        </Router>
     </React.StrictMode>
 );
-

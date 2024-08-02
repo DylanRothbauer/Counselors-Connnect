@@ -34,7 +34,6 @@ public static class VisitEndpoints
             var affected = await db.Visits
                 .Where(model => model.VisitID == visitid)
                 .ExecuteUpdateAsync(setters => setters
-                    .SetProperty(m => m.VisitID, visit.VisitID)
                     .SetProperty(m => m.StudentID, visit.StudentID)
                     .SetProperty(m => m.CounselorID, visit.CounselorID)
                     .SetProperty(m => m.Date, visit.Date)

@@ -3,6 +3,7 @@ using Counselors_Connect.Data;
 using Counselors_Connect.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.OpenApi;
+using System.Collections;
 namespace Counselors_Connect.Controllers;
 
 public static class VisitTopicEndpoints
@@ -29,15 +30,22 @@ public static class VisitTopicEndpoints
         .WithName("GetVisitTopicById")
         .WithOpenApi();
 
-        group.MapPut("/{id}", async Task<Results<Ok, NotFound>> (int visitid, VisitTopic visitTopic, AppDbContext db) =>
+        group.MapPut("/{id}", async (int visitid, List<VisitTopic> visitTopics, AppDbContext db) =>
         {
-            var affected = await db.VisitTopics
+            //delete the other visit topics associated with this visit id, then add
+            var removed = await db.VisitTopics
                 .Where(model => model.VisitID == visitid)
-                .ExecuteUpdateAsync(setters => setters
-                    .SetProperty(m => m.VisitID, visitTopic.VisitID)
-                    .SetProperty(m => m.TopicID, visitTopic.TopicID)
-                    );
-            return affected == 1 ? TypedResults.Ok() : TypedResults.NotFound();
+                .ExecuteDeleteAsync();
+            Console.Out.WriteLine(removed);
+            
+            foreach (VisitTopic visit in visitTopics)
+            {
+                db.VisitTopics.Add(visit);
+                await db.SaveChangesAsync();
+                
+            }
+            return TypedResults.Created($"/api/VisitTopics/{visitid}", visitTopics); 
+           
         })
         .WithName("UpdateVisitTopic")
         .WithOpenApi();
@@ -60,5 +68,8 @@ public static class VisitTopicEndpoints
         })
         .WithName("DeleteVisitTopic")
         .WithOpenApi();
+
+
+       
     }
 }

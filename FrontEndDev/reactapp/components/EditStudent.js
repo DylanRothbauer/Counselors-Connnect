@@ -41,7 +41,7 @@ const EditStudent = () => {
             grade: parseInt(grade),
             advisorName
         };
-
+        console.log(formData);
         try {
             const response = await fetch(`/api/Student/UpateStudent?studentid=${studentID}`, {
                 method: 'PUT',
