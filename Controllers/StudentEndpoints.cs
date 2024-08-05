@@ -3,6 +3,8 @@ using Counselors_Connect.Data;
 using Counselors_Connect.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.OpenApi;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Collections.Generic;
 namespace Counselors_Connect.Controllers;
 
 public static class StudentEndpoints
@@ -47,9 +49,26 @@ public static class StudentEndpoints
 
         group.MapPost("/", async (Student student, AppDbContext db) =>
         {
-            db.Students.Add(student);
-            await db.SaveChangesAsync();
-            return TypedResults.Created($"/api/Student/{student.StudentID}",student);
+            try
+            {
+                db.Students.Add(student);
+                await db.SaveChangesAsync();
+                return TypedResults.Created($"/api/Student", student);
+
+            } catch(DbUpdateException ex)
+            {
+                if (ex.InnerException.Message.Contains("Cannot insert duplicate key"))
+                {
+                    throw new Exception("Student ID already exists.Please choose a different one.");
+                }
+
+                throw new Exception(ex.Message);
+
+            } catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            
         })
         .WithName("CreateStudent")
         .WithOpenApi();

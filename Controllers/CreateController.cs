@@ -2,9 +2,14 @@
 
 namespace Counselors_Connect.Controllers
 {
-    public class CreateAVisitController : Controller
+    public class CreateController : Controller
     {
         public IActionResult CreateAVisit()
+        {
+            return View();
+        }
+
+        public IActionResult CreateAStudent()
         {
             return View();
         }
