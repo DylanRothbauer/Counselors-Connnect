@@ -66,10 +66,10 @@ const CreateVisit = () => {
             const result = counselors.sort((a, b) => collator.compare(a.name.split(' ')[1], b.name.split(' ')[1]));
 
             const currentUser = result.find(counselor => counselor.username === userName);
-            
+
             if (currentUser) {
                 setCounselorID(currentUser.counselorID);
-                
+
             }
 
             result.forEach(couns => {
@@ -213,109 +213,174 @@ const CreateVisit = () => {
         );
     };
 
+    const cancelForm = async () => {
+        alert(`Cancelled Visit Entry!`);
+        window.location.replace("/");
+    }
+
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <div className="row">
-                    <div className="col-md">
-                        <label>
-                            Student:
-                            <select
-                                id="studentIDSelectList"
-                                onChange={(e) => setStudentID(e.target.value)}
-                            />
-                        </label>
-
-                        <label>
-                            Counselor:
-                            <select
-                                id="counselorIDSelectList"
-                                value={counselorID}
-                                onChange={(e) => setCounselorID(e.target.value)}
-                            />
-                        </label>
-
-                    </div>
-                    <div className="col-md">
-                        <label>
-                            Date:
-                            <input
-                                type="datetime-local"
-                                onChange={(e) => setDate(e.target.value)}
-                                required
-                            />
-                        </label>
-
-                        <label>
-                            Length:
-                            <input
-                                type="number"
-                                min="1"
-                                required
-                                onChange={(e) => setLength(e.target.value)}
-                            />
-                        </label>
-
-                    </div>
-                    <div className="col-md">
-                        <label>
-                            File Uploaded?
-                            <input
-                                id="fileUploadedCheckbox"
-                                type="checkbox"
-                                onChange={(e) => setFile(e.target.checked)}
-                            />
-                        </label>
-
-                        <div>
-                            <input type="file" onChange={handleFileChange} />
-                            <button type="button" onClick={uploadFile}>Upload</button>
-                        </div>
-
-                    </div>
-                    <div className="col-md">
-                        <label>
-                            Parents Contacted?
-                            <input
-                                type="checkbox"
-                                onChange={(e) => setParentsCalled(e.target.checked)}
-                            />
-                        </label>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-md">
-                        <label>
-                            Description:
-                            <textarea
-                                rows="10"
-                                cols="50"
-                                required
-                               
-                                onChange={(e) => setDescription(e.target.value)}
-                            />
-                        </label>
-                    </div>
-                    <div className="col-md">
-                        <label>Topics Discussed:</label>
-                        {topics.map(topic => (
-                            <div key={topic.topicID}>
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        checked={selectedTopics.includes(topic.topicID)}
-                                        onChange={() => handleTopicChange(topic.topicID)}
-                                    />
-                                    {topic.topicName}
-                                </label>
+                <div className="container" style={{marginTop:'50px'}}>
+                    <div className="row justify-content-center">
+                        <div className="col-md-6">
+                            <div class="createVisitArea">
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <label>
+                                            Student:
+                                            <br />
+                                            <select
+                                                id="studentIDSelectList"
+                                                onChange={(e) => setStudentID(e.target.value)}
+                                            />
+                                        </label>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <br />
+                                        <label>
+                                            Parents Contacted?
+                                            <input
+                                                className="visitCheckbox"
+                                                type="checkbox"
+                                                onChange={(e) => setParentsCalled(e.target.checked)}
+                                            />
+                                        </label>
+                                    </div>
+                                </div>
+                                <br />
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <label>
+                                            Counselor:
+                                            <br />
+                                            <select
+                                                id="counselorIDSelectList"
+                                                value={counselorID}
+                                                onChange={(e) => setCounselorID(e.target.value)}
+                                            />
+                                        </label>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <br />
+                                        <label>
+                                            File Uploaded?
+                                            <input
+                                                id="fileUploadedCheckbox"
+                                                type="checkbox"
+                                                onChange={(e) => setFile(e.target.checked)}
+                                            />
+                                        </label>
+                                    </div>
+                                </div>
+                                <br />
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <label>Topics Discussed:</label>
+                                        <br />
+                                        <div className="topicSelection">
+                                            {topics.map(topic => (
+                                                <div key={topic.topicID}>
+                                                    <label>
+                                                        {topic.topicName}
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={selectedTopics.includes(topic.topicID)}
+                                                            onChange={() => handleTopicChange(topic.topicID)}
+                                                        />
+                                                    </label>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        ))}
+                        </div>
+                        <div className="col-md-6">
+                            <div className="createVisitArea ">
+                                <div className="row">
+                                    <label>
+                                        Date:
+                                        <br />
+                                        <input
+                                            type="datetime-local"
+                                            onChange={(e) => setDate(e.target.value)}
+                                            required
+                                        />
+                                    </label>
+                                </div>
+                                <br />
+                                <div className="row">
+                                    <label>
+                                        Length:
+                                        <br />
+                                        <input
+                                            type="number"
+                                            min="1"
+                                            max="999"
+                                            required
+                                            style={{ width: '7em' }}
+                                            onChange={(e) => setLength(e.target.value)}
+                                        />
+                                    </label>
+                                </div>
+                                <br />
+                                <div className="row" >
+                                    <label>
+                                        Upload a File:
+                                        <br />
+                                        <input type="file" style={{width: '15em'}} onChange={handleFileChange} />
+                                    </label>
+                                </div>
+                                <br />
+                                <div className="row justify-content-center">
+                                    <div className="col-md-3">
+                                        <button type="button" style={{ margin: 'auto' }} onClick={uploadFile}>Upload</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="row justify-content-center">
+                        <div className="col-md-8">
+                            <div className="createVisitArea ">
+                                <label>
+                                    Description:
+                                    <br />
+                                </label>
+                                    <textarea
+                                        rows="10"
+                                        required
+                                        style={{ width: '100%'} }
+                                        onChange={(e) => setDescription(e.target.value)}
+                                    />
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <div className="row justify-content-center">
+                        <div className="col-md-4" style={{ textAlign: 'center'}}>
+                            <button type="submit" class="btn primary-btn" style={{margin:'5px'}}>Submit</button>
+                            <button type="reset" class="btn cancel-btn" style={{ margin: '5px' }} onClick={cancelForm}>Cancel</button>
+
+                        </div>
+                      
+                        
+
                     </div>
                 </div>
-                <button type="submit">Submit</button>
-                {error && <p>{error}</p>}
-            </form>
-        </div>
+
+
+
+
+
+
+
+
+            </form >
+            {error && <p className="error">Error: {error.message}</p>}
+        </div >
     );
 };
 

@@ -22,9 +22,9 @@ const EditVisit = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-             
-                    const topic = await fetchVisitDetails(visitID);
-             
+
+                const topic = await fetchVisitDetails(visitID);
+
                 await setSelectedTopics(topic.map(item => item.topicID));
                 await fetchCounselorIDs();
                 await fetchStudentIDs();
@@ -59,10 +59,10 @@ const EditVisit = () => {
                 throw new Error('Failed to fetch visit details');
             }
             const dataTwo = await responseTwo.json();
-           
+
             const filteredData = dataTwo.filter(item => item.visitID == visitID);
-            
-            
+
+
             return filteredData;
         } catch (error) {
             console.error('Error fetching student details:', error);
@@ -111,7 +111,7 @@ const EditVisit = () => {
                 ? prevSelected.filter((id) => id !== topicID)
                 : [...prevSelected, topicID]
         );
-        
+
     };
 
     const handleSubmit = async (event) => {
@@ -127,7 +127,7 @@ const EditVisit = () => {
             parentsCalled,
             length
         };
-        
+
 
         try {
             const response = await fetch(`/api/Visit/UpdateVisit?visitid=${visitID}`, {
@@ -139,12 +139,12 @@ const EditVisit = () => {
             });
 
             if (!response.ok) {
-                const errorText = await response.text(); 
+                const errorText = await response.text();
                 console.error('Response error:', errorText);
                 throw new Error(`Failed to update visit: ${errorText}`);
             }
 
-            
+
 
             // Create an array of visitTopics
             const visitTopics = selectedTopics.map(topicID => ({
@@ -168,9 +168,9 @@ const EditVisit = () => {
             }
 
             const visitTopicData = await visitTopicResponse.json();
-            
 
-            
+
+
             alert('Visit submitted successfully!');
             window.location.replace("/");
         } catch (error) {
@@ -238,112 +238,183 @@ const EditVisit = () => {
         }
     };
 
+    const cancelForm = async () => {
+        alert(`Cancelled Visit Entry!`);
+        window.location.replace("/");
+    }
+
     return (
         <div>
             <form onSubmit={handleSubmit}>
-                <div className="row">
-                    <div className="col-md">
-                        <label>
-                            Student:
-                            <select
-                                id="studentIDSelectList"
-                                value={studentID}
-                                onChange={(e) => setStudentID(e.target.value)}
-                            >
-                                <option value="">Select a student</option>
-                            </select>
-                        </label>
-                    </div>
-                    <div className="col-md">
-                        <label>
-                            Counselor:
-                            <select
-                                id="counselorIDSelectList"
-                                value={counselorID}
-                                onChange={(e) => setCounselorID(e.target.value)}
-                            >
-                                <option value="">Select a counselor</option>
-                            </select>
-                        </label>
-                    </div>
-                    <div className="col-md">
-                        <label>
-                            Date:
-                            <input
-                                type="datetime-local"
-                                value={date}
-                                onChange={(e) => setDate(e.target.value)}
-                            />
-                        </label>
-                        <label>
-                            Length:
-                            <input
-                                type="number"
-                                min="1"
-                                value={length}
-                                onChange={(e) => setLength(e.target.value)}
-                            />
-                        </label>
-                    </div>
-                    <div className="col-md">
-                        {!file ? (
-                            <>
-                                <div>
-                                    <input type="file" onChange={handleFileChange} />
-                                    <button type="button" onClick={uploadFile}>Upload</button>
+                <div className="container" style={{ marginTop: '50px' }}>
+                    <div className="row justify-content-center">
+                        <div className="col-md-6">
+                            <div class="createVisitArea">
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <label>
+                                            Student:
+                                            <br />
+                                            <select
+                                                id="studentIDSelectList"
+                                                value={studentID}
+                                                onChange={(e) => setStudentID(e.target.value)}
+                                            >
+                                                <option value="">Select a student</option>
+                                            </select>
+                                        </label>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <br />
+                                        <label>
+                                            Parents Contacted?
+                                            <input
+                                                className="visitCheckbox"
+                                                type="checkbox"
+                                                checked={parentsCalled}
+                                                onChange={(e) => setParentsCalled(e.target.checked)}
+                                            />
+                                        </label>
+                                    </div>
                                 </div>
-                            </>
-                        ) : (
-                            <div>
-                                <button type="button" onClick={() => setFile(false)}>Change File</button>
+                                <br />
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <label>
+                                            Counselor:
+                                            <br />
+                                            <select
+                                                id="counselorIDSelectList"
+                                                value={counselorID}
+                                                onChange={(e) => setCounselorID(e.target.value)}
+                                            >
+                                                <option value="">Select a counselor</option>
+                                            </select>
+                                        </label>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <br />
+                                        <label>
+                                            File Uploaded?
+                                            <input
+                                                id="fileUploadedCheckbox"
+                                                type="checkbox"
+                                                checked={file}
+                                                onChange={(e) => setFile(e.target.checked)}
+                                            />
+                                        </label>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div className="row">
+                                    <div className="col-md-6">
+                                        <label>Topics Discussed:</label>
+                                        <br />
+                                        <div className="topicSelection">
+                                            {topics.map(topic => (
+                                                <div key={topic.topicID}>
+                                                    <label>
+                                                        {topic.topicName}
+                                                        <input
+                                                            type="checkbox"
+                                                            defaultChecked={(selectedTopics.find(item => item == topic.topicID) ? true : false)}
+
+                                                            onChange={() => handleTopicChange(topic.topicID)}
+                                                        />
+
+                                                    </label>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        )}
-                    </div>
-                    <div className="col-md">
-                        <label>
-                            Parents Contacted?
-                            <input
-                                type="checkbox"
-                                checked={parentsCalled}
-                                onChange={(e) => setParentsCalled(e.target.checked)}
-                            />
-                        </label>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="createVisitArea ">
+                                <div className="row">
+                                    <label>
+                                        Date:
+                                        <br />
+                                        <input
+                                            type="datetime-local"
+                                            value={date}
+                                            onChange={(e) => setDate(e.target.value)}
+                                        />
+                                    </label>
+                                </div>
+                                <br />
+                                <div className="row">
+
+                                    <label>
+                                        Length:
+                                        <br />
+                                        <input
+                                            type="number"
+                                            min="1"
+                                            max="999"
+                                            value={length}
+                                            style={{ width: '7em' }}
+                                            onChange={(e) => setLength(e.target.value)}
+                                        />
+                                    </label>
+                                </div>
+                                <br />
+                                <div className="row">
+                                    <label>
+                                        Upload a File:
+                                    </label>
+                                    <br />
+                                    {!file ? (
+                                        <div>
+                                            <input type="file" style={{ width: '15em' }} onChange={handleFileChange} />
+                                        </div>
+                                    ) : (
+                                        <div>
+                                                <button type="button" onClick={() => setFile(false)}>Change File</button>
+                                        </div>
+                                    )}
+                                
+                                <br /><br/>
+                                <div className="row justify-content-center">
+                                    <div className="col-md-3">
+                                        <button type="button" style={{ margin: 'auto' }} onClick={uploadFile}>Upload</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div className="row">
-                    <div className="col-md">
-                        <label>
-                            Description:
+                <div className="row justify-content-center">
+                    <div className="col-md-8">
+                        <div className="createVisitArea ">
+                            <label>
+                                Description:
+                                <br />
+                            </label>
                             <textarea
                                 rows="10"
-                                cols="50"
-                                min="1"
+                                required
+                                style={{ width: '100%' }}
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                             />
-                        </label>
-                    </div>
-                    <div className="col-md">
-                        <label>Topics Discussed:</label>
-                        {topics.map(topic => (
-                            <div key={topic.topicID}>
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        defaultChecked={(selectedTopics.find(item => item == topic.topicID)? true : false)}
-                                       
-                                        onChange={() => handleTopicChange(topic.topicID)}
-                                    />
-                                    {topic.topicName}
-                                </label>
-                            </div>
-                        ))}
+
+                        </div>
                     </div>
                 </div>
-                <button type="submit">Submit</button>
-            </form>
-            {error && <p className="error">Error: {error.message}</p>}
+                <br />
+                <div className="row justify-content-center">
+                    <div className="col-md-4" style={{ textAlign: 'center' }}>
+                        <button type="submit" class="btn primary-btn" style={{ margin: '5px' }}>Submit</button>
+                        <button type="reset" class="btn cancel-btn" style={{ margin: '5px' }} onClick={cancelForm}>Cancel</button>
+                    </div>
+                </div>
         </div>
+            </form >
+    { error && <p className="error">Error: {error.message}</p>}
+        </div >
     );
 };
 

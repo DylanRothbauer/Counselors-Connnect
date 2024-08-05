@@ -194,6 +194,17 @@ body {
         }
     }
 
+    .cancel-btn {
+        background-color: $btn-cancel;
+        color: $text-color;
+        border-radius: $border-radius;
+        padding: $padding-small $padding-large;
+
+        &:hover {
+            background-color: $btn-cancel-hover;
+        }
+    }
+
     input {
         border-radius: 3px;
         border: .5px solid black;
@@ -856,7 +867,42 @@ body {
     }
 }
 
+//================================================================================//
+//==============================Create/Edit Visit Styles===============================//
+//================================================================================//
 
-.topicCheck {
-    display: block
+#CreateVisitForm, #EditVisitForm {
+    width: 75%;
 }
+
+.createVisitArea {
+    width: 102%;
+    height: 95%;
+    margin: 10px;
+    padding: 15px;
+    background-color: $white-bg;
+    border-radius: $border-radius;
+    
+    
+}
+
+#main-content .createVisitArea input {
+    width: auto;
+    margin-left: 5px;
+}
+
+#studentIDSelectList {
+    width: auto;
+}
+
+#counselorIDSelectList {
+    width: auto;
+}
+
+.topicSelection {
+   height:100px;
+   width: fit-content;
+   overflow:auto;
+   padding: 10px;
+}
+
