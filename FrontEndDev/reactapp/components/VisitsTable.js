@@ -232,14 +232,21 @@ const Visits = () => {
             }
         }
         setSortConfig({ key, direction });
+
     };
+
 
     const getCaret = (key) => {
         if (sortConfig.key === key) {
             if (sortConfig.direction === 'ascending') {
-                return <i className="asc-icon" />;
+
+                return <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-down" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                </svg>;
             } else if (sortConfig.direction === 'descending') {
-                return <i className="desc-icon" />;
+                return <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-up" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z" />
+                </svg>;
             }
         }
         return null;
@@ -474,14 +481,14 @@ const Visits = () => {
                             <button className="btn primary-btn" data-bs-toggle="modal" data-bs-target="#downloadCSVModal">
                                 Download Visits
                             </button>
-                            <div class="modal fade" id="downloadCSVModal" tabindex="-1" aria-labelledby="download" aria-hidden="true">
-                                <div class="modal-dialog d-flex align-items-center">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="download">Select Columns</h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <div className="modal fade" id="downloadCSVModal" tabindex="-1" aria-labelledby="download" aria-hidden="true">
+                                <div className="modal-dialog d-flex align-items-center">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
+                                            <h1 className="modal-title fs-5" id="download">Select Columns</h1>
+                                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        <div class="modal-body">
+                                        <div className="modal-body">
                                             <div>
                                                 <label>
                                                     <input
@@ -550,7 +557,7 @@ const Visits = () => {
                                                 
                                             </div>
                                         </div>
-                                        <div class="modal-footer">
+                                        <div className="modal-footer">
                                             
                                             <CSVLink data={csvData} filename={downloadName} className="primary-btn m-0 ">
                                                 Download CSV
@@ -566,14 +573,56 @@ const Visits = () => {
                                 <table id="visitsTable">
                                     <thead>
                                         <tr>
-                                            {<th onClick={() => handleSort('studentName')}>Student {getCaret('studentName')}</th>}
-                                            {<th onClick={() => handleSort('counselorName')}>Counselor {getCaret('counselorName')}</th>}
-                                            {<th onClick={() => handleSort('formattedDate')}>Date {getCaret('formattedDate')}</th>}
-                                            {<th onClick={() => handleSort('description')}>Description {getCaret('description')}</th>}
-                                            {<th onClick={() => handleSort('filePath')}>File Path {getCaret('filePath')}</th>}
-                                            {<th onClick={() => handleSort('parentsCalled')}>Parents Called {getCaret('parentsCalled')}</th>}
-                                            {<th onClick={() => handleSort('length')}>Length {getCaret('length')}</th>}
-                                            {<th onClick={() => handleSort('topicNames')}>Topics {getCaret('topicNames')}</th>}
+                                            {<th>
+                                                <button className="btn" onClick={() => handleSort('studentName')} data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    data-bs-title="sort">
+                                                    Student
+                                                </button>
+                                            </th>}
+                                            {<th>
+                                                <button className="btn" onClick={() => handleSort('counselorName')} data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    data-bs-title="sort">                                                
+                                                    Counselor
+                                                </button>
+                                                
+                                            </th>}
+                                            {<th>
+                                                <button className="btn" onClick={() => handleSort('formattedDate')} data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    data-bs-title="sort">
+                                                    Date
+                                                </button>
+                                            </th>}
+                                            {<th>
+                                                <button className="btn" onClick={() => handleSort('description')} data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    data-bs-title="sort">
+                                                    Description
+                                                </button>
+                                            </th>}
+                                            {<th>
+                                                <button className="btn" onClick={() => handleSort('filePath')} data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    data-bs-title="sort">
+                                                    File Path
+                                                </button>
+                                            </th>}
+                                            {<th>
+                                                <button className="btn" onClick={() => handleSort('parentsCalled')} data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    data-bs-title="sort">
+                                                    Parents Called
+                                                </button>
+                                            </th>}
+                                            {<th>
+                                                <button className="btn" onClick={() => handleSort('length')} data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    data-bs-title="sort">
+                                                    Length
+                                                </button>
+                                            </th>}
+                                            {<th>
+                                                <button className="btn" onClick={() => handleSort('topicNames')}
+                                                    data-bs-toggle="tooltip" data-bs-placement="top"                                                 
+                                                    data-bs-title="sort">
+                                                    Topics
+                                                </button>
+                                            </th>}
                                             <th>Actions</th>
                                         </tr>
                                     </thead>

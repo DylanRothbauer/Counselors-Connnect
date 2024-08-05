@@ -49,6 +49,7 @@ const CsvUpload = ({ onUploadSuccess }) => {
 
     const handleUpload = async () => {
         if (!selectedFile) {
+            setSuccessMessage('')
             setErrorMessage('Please select a file.');
             return;
         }
@@ -105,11 +106,15 @@ const CsvUpload = ({ onUploadSuccess }) => {
                     <p id="display-selection" className="m-0 ms-2">No File Selected.</p>
                 </div>
             
-                <button className="primary-btn border border-0 mt-3 mb-2" onClick={handleUpload}>Upload</button> {spinner && (
-                    <i className="spinner">something is loading, change this to css animation with spinner icon</i>
+                <button className="primary-btn border border-0 mt-3 mb-2" onClick={handleUpload}>Upload</button> {spinner && (                   
+                    <div className="spinner-container">
+                        <div className="spinner-border mt-2" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
+                    </div>                    
                 )}
                 {renderErrorMessages()}
-                {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+                {!spinner && successMessage && <p className="text-name" style={{ color: 'green' }}>{successMessage}</p>}
             </div>
             
         </div>

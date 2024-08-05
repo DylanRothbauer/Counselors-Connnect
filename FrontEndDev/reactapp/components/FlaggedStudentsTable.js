@@ -1,6 +1,17 @@
-﻿import React from 'react';
+﻿import React, { useState} from 'react';
 
 const FlaggedStudentsTable = ({ FlaggedStudents }) => {
+    const [expandedTds, setExpandedTds] = useState({}); //expands table element
+
+    const expandTd = (index) => {
+        console.log(index)
+
+        setExpandedTds(prevState => ({
+            ...prevState,
+            [index]: !prevState[index] // Toggle the expanded state
+        }));
+    }
+
     return (
         <div id="flagged-students" className="my-4">
             <h2 className="d-flex justify-content-center">Flagged Students</h2>
@@ -18,13 +29,12 @@ const FlaggedStudentsTable = ({ FlaggedStudents }) => {
                             <tbody>
                                 {FlaggedStudents.slice(0, 4).map(student => (
                                     <tr key={student.studentID}>
-                                        <td><a href="studentview/studentview" className="flaggedStudents ">{student.studentName}</a></td>
-                                        <td>{student.studentID}</td>
-                                        <td>{student.visitCount}</td>
+                                        {<td style={{ maxWidth: expandedTds[1] ? 'fit-content' : '95px' }}><button className="btn" onClick={() => expandTd(1)}>{student.studentName}</button> </td>}
+                                        {<td style={{ maxWidth: expandedTds[2] ? 'fit-content' : '95px' }}><button className="btn" onClick={() => expandTd(2)}>{student.studentID}</button> </td>}
+                                        {<td style={{ maxWidth: expandedTds[3] ? 'fit-content' : '95px' }}><button className="btn" onClick={() => expandTd(3)}>{student.visitCount}</button> </td>}               
                                     </tr>
                                     
                                 ))}
-                                
                             </tbody>
                         </table>
                     </div>

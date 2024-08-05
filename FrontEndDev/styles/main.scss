@@ -161,12 +161,25 @@ body {
     }
 }
 
+.spinner-container {
+    width: 100%;
+    display: flex !important;
+    justify-content: center !important;
+
+    .spinner-border {
+        color: $btn-primary;
+    }
+}
+
+
 #main-content {
     height: 90vh;
     overflow: auto;
     background-color: #EEF1F4;
     display: flex;
     justify-content: center;
+
+   
 
     .primary-btn {
         background-color: $btn-primary;
@@ -424,7 +437,18 @@ body {
                 background: $gray-bg;
 
                 th {
-                    padding: $padding-small !important;
+                    text-align: center;
+
+                    .btn {
+                        padding: $padding-small !important;
+                        width: 100%;
+                        font-weight: 700;
+                        border: none;
+                        border-radius: 0;
+                        &:hover {
+                            background-color: #9b9f85;
+                        }
+                    }
                 }
             }
 
@@ -614,6 +638,33 @@ body {
                         }
                     }
                 }
+
+                .dropdown-content {
+
+                    .select-panel {
+                       width: 100%;
+
+                       .search {
+                           input {
+                                padding: $padding-small;
+                           }
+                           
+                       }
+
+                        .options {
+                            width: 100%;
+
+                            .select-item {
+                                width: 100%;
+                                display: inline-flex;
+                                align-items: center;
+                                white-space: nowrap;
+                                padding-right: 0.5rem;
+                                vertical-align: middle;
+                            }
+                        }
+                    }
+                }
             }
 
             .react-datepicker-wrapper {
@@ -742,6 +793,10 @@ body {
     width: 100%;
 
     table {
+
+        th{
+            padding: $padding-small;
+        }
         td {
             background-color: #FFEB3B;
         }
@@ -754,9 +809,17 @@ body {
     justify-content: center;
 
     .upload-body {
+        width: 100%;
         display: flex;
         flex-direction: column;
         margin: auto;
+
+        #display-section {
+            max-width: 60%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
     }
 }
 
