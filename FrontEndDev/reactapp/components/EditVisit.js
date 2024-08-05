@@ -111,7 +111,7 @@ const EditVisit = () => {
                 ? prevSelected.filter((id) => id !== topicID)
                 : [...prevSelected, topicID]
         );
-        console.log(selectedTopics);
+        
     };
 
     const handleSubmit = async (event) => {
@@ -168,7 +168,7 @@ const EditVisit = () => {
             }
 
             const visitTopicData = await visitTopicResponse.json();
-            console.log('VisitTopic update success:', visitTopicData);
+            
 
             
             alert('Visit submitted successfully!');
