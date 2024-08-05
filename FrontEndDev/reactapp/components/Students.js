@@ -115,7 +115,7 @@ const StudentsList = () => {
                     />
                 </div>
                 <div>
-                    <a type="button" href="/students/create" className="btn primary-btn">Create New</a>
+                    <a type="button" href="/Create/CreateAStudent" className="btn primary-btn">Create New</a>
                 </div>
             </div>
             {filteredStudents.length === 0 ? (
