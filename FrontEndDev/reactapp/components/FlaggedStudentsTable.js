@@ -29,12 +29,12 @@ const FlaggedStudentsTable = ({ FlaggedStudents }) => {
                             <tbody>
                                 {FlaggedStudents.slice(0, 4).map(student => (
                                     <tr key={student.studentID}>
-                                        {<td style={{ maxWidth: expandedTds[1] ? 'fit-content' : '95px' }}><button className="btn" onClick={() => expandTd(1)}>{student.studentName}</button> </td>}
-                                        {<td style={{ maxWidth: expandedTds[2] ? 'fit-content' : '95px' }}><button className="btn" onClick={() => expandTd(2)}>{student.studentID}</button> </td>}
-                                        {<td style={{ maxWidth: expandedTds[3] ? 'fit-content' : '95px' }}><button className="btn" onClick={() => expandTd(3)}>{student.visitCount}</button> </td>}               
+                                        {<td><a href="studentview/studentview" className="btn ">{student.studentName}</a></td>}
+                                        {<td style={{ maxWidth: expandedTds[1] ? 'fit-content' : '95px' }}><button className="btn" onClick={() => expandTd(1)}>{student.studentID}</button> </td>}
+                                        {<td style={{ maxWidth: expandedTds[2] ? 'fit-content' : '95px' }}><button className="btn" onClick={() => expandTd(2)}>{student.visitCount}</button> </td>}               
                                     </tr>
                                     
-                                ))}
+                            ))}                          
                             </tbody>
                         </table>
                     </div>

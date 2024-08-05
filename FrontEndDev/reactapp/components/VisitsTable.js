@@ -481,7 +481,7 @@ const Visits = () => {
                             <button className="btn primary-btn" data-bs-toggle="modal" data-bs-target="#downloadCSVModal">
                                 Download Visits
                             </button>
-                            <div className="modal fade" id="downloadCSVModal" tabindex="-1" aria-labelledby="download" aria-hidden="true">
+                            <div className="modal fade" id="downloadCSVModal" tabIndex="-1" aria-labelledby="download" aria-hidden="true">
                                 <div className="modal-dialog d-flex align-items-center">
                                     <div className="modal-content">
                                         <div className="modal-header">

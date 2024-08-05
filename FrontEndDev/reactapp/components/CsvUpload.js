@@ -99,7 +99,7 @@ const CsvUpload = ({ onUploadSuccess }) => {
             <div className="upload-body">
                 <div className="d-flex align-items-center my-3">
                     <button className="btn primary-btn border border-0">
-                        <label for='file-upload'>Select File</label>
+                        <label htmlFor='file-upload'>Select File</label>
                     </button>
               
                     <input className="primary-btn" id="file-upload" type="file" accept=".csv" onChange={handleFileChange} />
