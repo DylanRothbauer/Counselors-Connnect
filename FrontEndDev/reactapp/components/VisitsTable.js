@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState} from 'react';
 import ReactDOM from 'react-dom/client';
 import Fuse from 'fuse.js';
 import FlaggedStudentsTable from './FlaggedStudentsTable'; // Import the FlaggedStudents component
@@ -8,6 +8,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { MultiSelect } from 'react-multi-select-component';
 import { CSVLink } from 'react-csv';
+
 
 const Visits = () => {
     const [visits, setVisits] = useState([]); // methods for setting info for api calls
@@ -28,6 +29,7 @@ const Visits = () => {
     const [selectedCounselors, setSelectedCounselors] = useState([]); // counselors filter state
     const [selectedTopics, setSelectedTopics] = useState([]); // topics filter state
     const [selectedDate, setSelectedDate] = useState(null); // date filter state
+    const [expandedTds, setExpandedTds] = useState({}); //expands table element
     const [selectedColumns, setSelectedColumns] = useState({
         studentName: true,
         counselorName: true,
@@ -230,14 +232,21 @@ const Visits = () => {
             }
         }
         setSortConfig({ key, direction });
+
     };
+
 
     const getCaret = (key) => {
         if (sortConfig.key === key) {
             if (sortConfig.direction === 'ascending') {
-                return <i className="asc-icon" />;
+
+                return <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-down" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708" />
+                </svg>;
             } else if (sortConfig.direction === 'descending') {
-                return <i className="desc-icon" />;
+                return <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-up" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z" />
+                </svg>;
             }
         }
         return null;
@@ -325,115 +334,125 @@ const Visits = () => {
         return rowData;
     });
 
+    const expandTd = (index) => {
+        console.log(index)
+       
+        setExpandedTds(prevState => ({
+            ...prevState,
+            [index]: !prevState[index] // Toggle the expanded state
+        }));
+    }
+
     //================================================================================//
     //===========================Table Return Section=================================//
     //================================================================================//
     // section where data is returned to the DOM
 
     return (
-        <div>
-            <div className="searchFeilds">
-                <input
-                    type="text"
-                    placeholder="Search..."
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                    className="search-bar"
-                    autoComplete="off"
-                />
-                <MultiSelect
-                    options={students.map(student => ({ label: `${student.firstName} ${student.lastName}`, value: student.studentID }))}
-                    value={selectedStudents}
-                    onChange={setSelectedStudents}
-                    labelledBy="Select Students"
-                />
-                <MultiSelect
-                    options={counselors.map(counselor => ({ label: counselor.name, value: counselor.counselorID }))}
-                    value={selectedCounselors}
-                    onChange={setSelectedCounselors}
-                    labelledBy="Select Counselors"
-                />
-                <MultiSelect
-                    options={topics.map(topic => ({ label: topic.topicName, value: topic.topicName }))}
-                    value={selectedTopics}
-                    onChange={setSelectedTopics}
-                    labelledBy="Select Topics"
-                />
-                <DatePicker
-                    selected={selectedDate}
-                    onChange={(date) => setSelectedDate(date)}
-                    isClearable
-                    placeholderText="MM/DD/YYYY"
-                />
+        <div id="home-container">
+            <div className="search-fields row mt-5 d-none d-sm-flex">
+                <div className="col-4 p-0">
+                    <input
+                        type="text"
+                        placeholder="Search..."
+                        value={searchQuery}
+                        onChange={handleSearchChange}
+                        className="search-bar border border-0 p-3"
+                        autoComplete="off"
+                        
+                        />
+                </div>
+                <div className="col-2 p-0">
+                    <MultiSelect
+                        options={students.map(student => ({ label: `${student.firstName} ${student.lastName}`, value: student.studentID }))}
+                        value={selectedStudents}
+                        onChange={setSelectedStudents}
+                        labelledBy="Select Students"
+                        className="border border-0"
+                        overrideStrings={{ selectSomeItems: "Advisor" }}
+                        />
+                </div>
+                <div className="col-2 p-0">
+                    <MultiSelect
+                        options={counselors.map(counselor => ({ label: counselor.name, value: counselor.counselorID }))}
+                        value={selectedCounselors}
+                        onChange={setSelectedCounselors}
+                        labelledBy="Select Counselors"
+                        className="border border-0"
+                        overrideStrings={{selectSomeItems: "Students" }}
+                        />
+                </div>
+                <div className="col-2 p-0">
+                    <MultiSelect
+                        options={topics.map(topic => ({ label: topic.topicName, value: topic.topicName }))}
+                        value={selectedTopics}
+                        onChange={setSelectedTopics}
+                        labelledBy="Select Topics"
+                        className="border border-0"
+                        overrideStrings={{ selectSomeItems: "Topics" }}
+                        />
+                </div>
+                <div className="col-2 p-0">
+                    <DatePicker
+                        selected={selectedDate}
+                        onChange={(date) => setSelectedDate(date)}
+                        isClearable
+                        placeholderText="MM/DD/YYYY"
+                        className="border border-0"
+                        />
+                </div>
             </div>
-            <div>
-                <label>
+            <div className="search-fields-mobile mt-5 d-flex d-sm-none">
+                <div className="col p-0">
                     <input
-                        type="checkbox"
-                        checked={selectedColumns.studentName}
-                        onChange={() => handleColumnSelectionChange('studentName')}
+                        type="text"
+                        placeholder="Search..."
+                        value={searchQuery}
+                        onChange={handleSearchChange}
+                        className="search-bar p-3"
+                        autoComplete="off"
+
                     />
-                    Student Name
-                </label>
-                <label>
-                    <input
-                        type="checkbox"
-                        checked={selectedColumns.counselorName}
-                        onChange={() => handleColumnSelectionChange('counselorName')}
+                </div>
+                <div className="col p-0 mt-2">
+                    <MultiSelect
+                        options={students.map(student => ({ label: `${student.firstName} ${student.lastName}`, value: student.studentID }))}
+                        value={selectedStudents}
+                        onChange={setSelectedStudents}
+                        labelledBy="Select Students"
+                        className="border border-0"
+                        overrideStrings={{ selectSomeItems: "Advisor" }}
                     />
-                    Counselor Name
-                </label>
-                <label>
-                    <input
-                        type="checkbox"
-                        checked={selectedColumns.formattedDate}
-                        onChange={() => handleColumnSelectionChange('formattedDate')}
+                </div>
+                <div className="col p-0 mt-2">
+                    <MultiSelect
+                        options={counselors.map(counselor => ({ label: counselor.name, value: counselor.counselorID }))}
+                        value={selectedCounselors}
+                        onChange={setSelectedCounselors}
+                        labelledBy="Select Counselors"
+                        className="border border-0"
+                        overrideStrings={{ selectSomeItems: "Students" }}
                     />
-                    Date
-                </label>
-                <label>
-                    <input
-                        type="checkbox"
-                        checked={selectedColumns.description}
-                        onChange={() => handleColumnSelectionChange('description')}
+                </div>
+                <div className="col p-0 mt-2">
+                    <MultiSelect
+                        options={topics.map(topic => ({ label: topic.topicName, value: topic.topicName }))}
+                        value={selectedTopics}
+                        onChange={setSelectedTopics}
+                        labelledBy="Select Topics"
+                        className="border border-0"
+                        overrideStrings={{ selectSomeItems: "Topics" }}
                     />
-                    Description
-                </label>
-                <label>
-                    <input
-                        type="checkbox"
-                        checked={selectedColumns.filePath}
-                        onChange={() => handleColumnSelectionChange('filePath')}
+                </div>
+                <div className="col p-0 mt-2">
+                    <DatePicker
+                        selected={selectedDate}
+                        onChange={(date) => setSelectedDate(date)}
+                        isClearable
+                        placeholderText="MM/DD/YYYY"
+                        className="border border-0 p-3"
                     />
-                    File Path
-                </label>
-                <label>
-                    <input
-                        type="checkbox"
-                        checked={selectedColumns.parentsCalled}
-                        onChange={() => handleColumnSelectionChange('parentsCalled')}
-                    />
-                    Parents Called
-                </label>
-                <label>
-                    <input
-                        type="checkbox"
-                        checked={selectedColumns.length}
-                        onChange={() => handleColumnSelectionChange('length')}
-                    />
-                    Length
-                </label>
-                <label>
-                    <input
-                        type="checkbox"
-                        checked={selectedColumns.topicNames}
-                        onChange={() => handleColumnSelectionChange('topicNames')}
-                    />
-                    Topics
-                </label>
-                <CSVLink data={csvData} filename={downloadName}>
-                    Download CSV
-                </CSVLink>
+                </div>
             </div>
             {autocompleteOptions.length > 0 && (
                 <ul className="autocomplete-options">
@@ -453,65 +472,228 @@ const Visits = () => {
                     <div className="no-results-message">No results found</div> {/*display an error message instead of table if there is nothing there*/}
                 </div>
             ) : (
-                <>
-                    <table id="visitsTable">
-                        <thead>
-                            <tr>
-                                {selectedColumns.studentName && <th onClick={() => handleSort('studentName')}>Student {getCaret('studentName')}</th>}
-                                {selectedColumns.counselorName && <th onClick={() => handleSort('counselorName')}>Counselor {getCaret('counselorName')}</th>}
-                                {selectedColumns.formattedDate && <th onClick={() => handleSort('formattedDate')}>Date {getCaret('formattedDate')}</th>}
-                                {selectedColumns.description && <th onClick={() => handleSort('description')}>Description {getCaret('description')}</th>}
-                                {selectedColumns.filePath && <th onClick={() => handleSort('filePath')}>File Path {getCaret('filePath')}</th>}
-                                {selectedColumns.parentsCalled && <th onClick={() => handleSort('parentsCalled')}>Parents Called {getCaret('parentsCalled')}</th>}
-                                {selectedColumns.length && <th onClick={() => handleSort('length')}>Length {getCaret('length')}</th>}
-                                {selectedColumns.topicNames && <th onClick={() => handleSort('topicNames')}>Topics {getCaret('topicNames')}</th>}
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {currentVisits.map(visit => (
-                                <tr key={visit.visitID}>
-                                    {selectedColumns.studentName && <td>{visit.studentName}</td>}
-                                    {selectedColumns.counselorName && <td>{visit.counselorName}</td>}
-                                    {selectedColumns.formattedDate && <td>{visit.formattedDate}</td>}
-                                    {selectedColumns.description && <td>{visit.description}</td>}
-                                    {selectedColumns.filePath && <td>{visit.filePath}</td>}
-                                    {selectedColumns.parentsCalled && <td>{visit.parentsCalled ? 'Yes' : 'No'}</td>}
-                                    {selectedColumns.length && <td>{visit.length}</td>}
-                                    {selectedColumns.topicNames && <td>{visit.topicNames.join(', ')}</td>}
-                                    <td><button onClick={() => window.location.href = `/Edit/EditVisit/${visit.visitID}`}>Edit</button><button onClick={() => handleDelete(visit.visitID)}>Delete</button></td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    <div className="pagination-container">
-                        <nav>
-                            <ul className="pagination">
-                                <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                                    <a onClick={() => paginate(currentPage - 1)} href="#!" className="page-link">
-                                        &laquo;
-                                    </a>
-                                </li>
-                                {pageNumbers.slice(startPage - 1, endPage).map(number => (
-                                    <li key={number} className={`page-item ${currentPage === number ? 'active' : ''}`}>
-                                        <a onClick={() => paginate(number)} href="#!" className="page-link">
-                                            {number}
-                                        </a>
-                                    </li>
-                                ))}
-                                <li className={`page-item ${currentPage === pageNumbers.length ? 'disabled' : ''}`}>
-                                    <a onClick={() => paginate(currentPage + 1)} href="#!" className="page-link">
-                                        &raquo;
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                        <span>Page {currentPage} of {pageNumbers.length}</span>
+                    <div className="section row mt-4">
+                       
+                        <div className="table-container px-2 px-sm-5 col-12 ">
+                           <div className="justify-content-between align-items-center d-none d-sm-flex col-12 py-2">
+                           
+                            <h2 className="d-flex justify-content-center pt-3">Student Visits</h2>
+                            <button className="btn primary-btn" data-bs-toggle="modal" data-bs-target="#downloadCSVModal">
+                                Download Visits
+                            </button>
+                            <div className="modal fade" id="downloadCSVModal" tabIndex="-1" aria-labelledby="download" aria-hidden="true">
+                                <div className="modal-dialog d-flex align-items-center">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
+                                            <h1 className="modal-title fs-5" id="download">Select Columns</h1>
+                                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div className="modal-body">
+                                            <div>
+                                                <label>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={selectedColumns.studentName}
+                                                        onChange={() => handleColumnSelectionChange('studentName')}
+                                                    />
+                                                    Student Name
+                                                </label>
+                                                <label>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={selectedColumns.counselorName}
+                                                        onChange={() => handleColumnSelectionChange('counselorName')}
+                                                    />
+                                                    Counselor Name
+                                                </label>
+                                                <label>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={selectedColumns.formattedDate}
+                                                        onChange={() => handleColumnSelectionChange('formattedDate')}
+                                                    />
+                                                    Date
+                                                </label>
+                                                <label>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={selectedColumns.description}
+                                                        onChange={() => handleColumnSelectionChange('description')}
+                                                    />
+                                                    Description
+                                                </label>
+                                                <label>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={selectedColumns.filePath}
+                                                        onChange={() => handleColumnSelectionChange('filePath')}
+                                                    />
+                                                    File Path
+                                                </label>
+                                                <label>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={selectedColumns.parentsCalled}
+                                                        onChange={() => handleColumnSelectionChange('parentsCalled')}
+                                                    />
+                                                    Parents Called
+                                                </label>
+                                                <label>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={selectedColumns.length}
+                                                        onChange={() => handleColumnSelectionChange('length')}
+                                                    />
+                                                    Length
+                                                </label>
+                                                <label>
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={selectedColumns.topicNames}
+                                                        onChange={() => handleColumnSelectionChange('topicNames')}
+                                                    />
+                                                    Topics
+                                                </label>
+                                                
+                                            </div>
+                                        </div>
+                                        <div className="modal-footer">
+                                            
+                                            <CSVLink data={csvData} filename={downloadName} className="primary-btn m-0 ">
+                                                Download CSV
+                                            </CSVLink>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                        </div>
+                            <div className="round-table table-responsive mt-2 mt-sm-0">
+                                <table id="visitsTable">
+                                    <thead>
+                                        <tr>
+                                            {<th>
+                                                <button className="btn" onClick={() => handleSort('studentName')} data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    data-bs-title="sort">
+                                                    Student
+                                                </button>
+                                            </th>}
+                                            {<th>
+                                                <button className="btn" onClick={() => handleSort('counselorName')} data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    data-bs-title="sort">                                                
+                                                    Counselor
+                                                </button>
+                                                
+                                            </th>}
+                                            {<th>
+                                                <button className="btn" onClick={() => handleSort('formattedDate')} data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    data-bs-title="sort">
+                                                    Date
+                                                </button>
+                                            </th>}
+                                            {<th>
+                                                <button className="btn" onClick={() => handleSort('description')} data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    data-bs-title="sort">
+                                                    Description
+                                                </button>
+                                            </th>}
+                                            {<th>
+                                                <button className="btn" onClick={() => handleSort('filePath')} data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    data-bs-title="sort">
+                                                    File Path
+                                                </button>
+                                            </th>}
+                                            {<th>
+                                                <button className="btn" onClick={() => handleSort('parentsCalled')} data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    data-bs-title="sort">
+                                                    Parents Called
+                                                </button>
+                                            </th>}
+                                            {<th>
+                                                <button className="btn" onClick={() => handleSort('length')} data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    data-bs-title="sort">
+                                                    Length
+                                                </button>
+                                            </th>}
+                                            {<th>
+                                                <button className="btn" onClick={() => handleSort('topicNames')}
+                                                    data-bs-toggle="tooltip" data-bs-placement="top"                                                 
+                                                    data-bs-title="sort">
+                                                    Topics
+                                                </button>
+                                            </th>}
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {currentVisits.map(visit => (
+                                            <tr key={visit.visitID}>
+                                                {<td style={{ maxWidth: expandedTds[1] ? 'fit-content' : '95px' }}><button className="btn" onClick={() => expandTd(1)}>{visit.studentName}</button> </td>}
+                                                {<td style={{ maxWidth: expandedTds[2] ? 'fit-content' : '95px' }}><button className="btn" onClick={() => expandTd(2)}>{visit.counselorName}</button> </td>}
+                                                {<td style={{ maxWidth: expandedTds[3] ? 'fit-content' : '95px' }}><button className="btn" onClick={() => expandTd(3)}>{visit.formattedDate}</button> </td>}
+                                                {<td style={{ maxWidth: expandedTds[4] ? 'fit-content' : '95px' }}><button className="btn" onClick={() => expandTd(4)}>{visit.description}</button> </td>}
+                                                {<td style={{ maxWidth: expandedTds[5] ? 'fit-content' : '95px' }}><button className="btn" onClick={() => expandTd(5)}>{visit.filePath}</button> </td>}
+                                                {<td style={{ maxWidth: expandedTds[6] ? 'fit-content' : '95px' }}><button className="btn" onClick={() => expandTd(6)}>{visit.parentsCalled ? 'Yes' : 'No'}</button> </td>}
+                                                {<td style={{ maxWidth: expandedTds[7] ? 'fit-content' : '95px' }}><button className="btn" onClick={() => expandTd(7)}>{visit.length}</button> </td>}
+                                                {<td style={{ maxWidth: expandedTds[8] ? 'fit-content' : '95px' }}><button className="btn" onClick={() => expandTd(8)}>{visit.topicNames.join(', ')}</button> </td>}
+                                                <td>
+                                                    <button onClick={() => window.location.href = `/Edit/EditVisit/${visit.visitID}`} className="btn">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-edit">
+                                                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                                        </svg>
+                                                    </button>
+                                                    <button onClick={() => handleDelete(visit.visitID)} className="btn">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fillRule="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
+                                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                                        </svg>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div className="pagination-container py-3">
+                                <nav>
+                                    <ul className="pagination">
+                                        <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                                            <a onClick={() => paginate(currentPage - 1)} href="#!" className="page-link">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#4CAF50 !important" className="bi bi-chevron-left" viewBox="0 0 16 16">
+                                                    <path fillRule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                                                </svg>
+                                            </a>
+                                        </li>
+                                        {Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index).map(number => (
+                                            <li key={number} className={`ms-2 page-item ${currentPage === number ? 'active' : ''}`}>
+                                                <a onClick={() => paginate(number)} href="#!" className="btn rounded-circle page-link">
+                                                    <span>{number}</span>
+                                                </a>
+                                            </li>
+                                        ))}
+                                        <li className={`page-item ms-2 ${currentPage === pageNumbers.length ? 'disabled' : ''}`}>
+                                            <a onClick={() => paginate(currentPage + 1)} href="#!" className="page-link">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#4CAF50 !important" className="bi bi-chevron-right" viewBox="0 0 16 16">
+                                                    <path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
+                                                </svg>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <span>Page {currentPage} of {pageNumbers.length}</span>
+                            </div>
                     </div>
-                </>
+                </div>
             )}
-            <CsvUpload onUploadSuccess={() => { /* Implement this if you want to re-fetch data after CSV upload */ }} />
-            <FlaggedStudentsTable FlaggedStudents={FlaggedStudents} />
+            <div className="row">
+                <div className="section my-5 d-none d-sm-block col-5">
+                    <CsvUpload onUploadSuccess={() => { /* Implement this if you want to re-fetch data after CSV upload */ }} />
+                </div>
+                <div className="section my-5 col-12 col-sm-5">
+                    <FlaggedStudentsTable FlaggedStudents={FlaggedStudents} />
+                </div>
+            </div>
         </div>
     );
 };
@@ -521,7 +703,7 @@ export default Visits;
 //================================================================================//
 //===========================Render In DOM========================================//
 //================================================================================//
-const VisitsTable = ReactDOM.createRoot(document.getElementById('homeTables'));
+const VisitsTable = ReactDOM.createRoot(document.getElementById('home-tables'));
 VisitsTable.render(
     <React.StrictMode>
         <Visits />
