@@ -653,14 +653,13 @@ body {
                 .dropdown-content {
 
                     .select-panel {
-                       width: 100%;
+                        width: 100%;
 
-                       .search {
-                           input {
+                        .search {
+                            input {
                                 padding: $padding-small;
-                           }
-                           
-                       }
+                            }
+                        }
 
                         .options {
                             width: 100%;
@@ -736,6 +735,32 @@ body {
 
                         &:focus {
                             outline: solid black 1px;
+                        }
+                    }
+
+                    .dropdown-content {
+
+                        .select-panel {
+                            width: 100%;
+
+                            .search {
+                                input {
+                                    padding: $padding-small;
+                                }
+                            }
+
+                            .options {
+                                width: 100%;
+
+                                .select-item {
+                                    width: 100%;
+                                    display: inline-flex;
+                                    align-items: center;
+                                    white-space: nowrap;
+                                    padding-right: 0.5rem;
+                                    vertical-align: middle;
+                                }
+                            }
                         }
                     }
                 }
