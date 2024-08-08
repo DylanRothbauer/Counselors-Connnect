@@ -369,7 +369,7 @@ const Visits = () => {
                         onChange={setSelectedStudents}
                         labelledBy="Select Students"
                         className="border border-0"
-                        overrideStrings={{ selectSomeItems: "Advisor" }}
+                        overrideStrings={{ selectSomeItems: "Students" }}
                         />
                 </div>
                 <div className="col-2 p-0">
@@ -379,7 +379,7 @@ const Visits = () => {
                         onChange={setSelectedCounselors}
                         labelledBy="Select Counselors"
                         className="border border-0"
-                        overrideStrings={{selectSomeItems: "Students" }}
+                        overrideStrings={{selectSomeItems: "Counselors" }}
                         />
                 </div>
                 <div className="col-2 p-0">
@@ -421,7 +421,7 @@ const Visits = () => {
                         onChange={setSelectedStudents}
                         labelledBy="Select Students"
                         className="border border-0"
-                        overrideStrings={{ selectSomeItems: "Advisor" }}
+                        overrideStrings={{ selectSomeItems: "Students" }}
                     />
                 </div>
                 <div className="col p-0 mt-2">
@@ -431,7 +431,7 @@ const Visits = () => {
                         onChange={setSelectedCounselors}
                         labelledBy="Select Counselors"
                         className="border border-0"
-                        overrideStrings={{ selectSomeItems: "Students" }}
+                        overrideStrings={{ selectSomeItems: "Counselors" }}
                     />
                 </div>
                 <div className="col p-0 mt-2">
