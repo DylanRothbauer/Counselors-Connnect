@@ -900,9 +900,87 @@ body {
 }
 
 .topicSelection {
-   height:100px;
-   width: fit-content;
-   overflow:auto;
-   padding: 10px;
+    height:100px;
+    width:fit-content;
+    overflow:auto;
+    padding:10px;
 }
 
+//================================================================================//
+//==============================Edit Student Form Styles==========================//
+//================================================================================//
+
+
+// Mobile responsiveness
+
+@media (max-width: 650px) {
+    #student-table-container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .student-table {
+        .row, .col {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .col {
+            margin: 10px;
+        }
+
+    }
+}
+
+@media (max-width: 410px) {
+    .btn-row {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+.edit-student-component {
+    justify-content: center;
+    max-width: 757px;
+    margin: auto;
+    position: relative;
+    height: fit-content;
+    padding-top: .75rem;
+
+    .row:first-child {
+        border-radius: $border-radius;
+        background-color: $white-bg;
+        
+        .col {
+
+        }
+    }
+}
+    .btn-row {
+        text-align: center;
+        padding: 50px;
+        background-color: #EEF1F4;
+
+        .btn {
+            white-space: nowrap;
+        }
+
+    }
+
+    #student-table-container {
+        width: 100%;
+
+        .student-table {
+
+            border-radius: $border-radius;
+            border: solid 1px $gray-bg;
+            overflow: hidden;
+
+            .col {
+                margin: 10px;
+            }
+        }
+    }
+    

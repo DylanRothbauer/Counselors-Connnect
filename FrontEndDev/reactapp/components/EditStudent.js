@@ -71,77 +71,110 @@ const EditStudent = () => {
     };
 
     return (
-        <div>
-            <h1>Edit Student</h1>
-            <form onSubmit={handleSubmit}>
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th>Student ID</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Grade Level</th>
-                            <th>Advisor</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <input
-                                    type="text" // Maybe in future we can exclude numbers from input
-                                    placeholder={studentID}
-                                    value={studentID}
-                                    disabled="disabled"
-                                    
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="text"
-                                    placeholder="First name"
-                                    value={firstName}
-                                    onChange={(e) => setFirstName(e.target.value)}
-                                    required
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="text"
-                                    placeholder="Last name"
-                                    value={lastName}
-                                    onChange={(e) => setLastName(e.target.value)}
-                                    required
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="number"
-                                    min="1"
-                                    max="12"
-                                    placeholder="Grade level"
-                                    value={grade}
-                                    onChange={(e) => setGradeLevel(e.target.value)}
-                                    required
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="text"
-                                    placeholder="Advisor"
-                                    value={advisorName}
-                                    onChange={(e) => setAdvisor(e.target.value)}
-                                    required
-                                />
-                            </td>
-                            <td>
-                                <button type="submit" className="btn btn-primary">Submit</button>
-                                <button type="button" className="btn btn-danger" onClick={handleCancel}>Cancel</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
+        <div className="container m-auto edit-student-component">
+            <div className="row">
+                <div className="col my-3">
+                    <div id="student-table-container">
+                        <div className="student-table p-3">
+                            <form onSubmit={handleSubmit}>
+                                <div className="row align-items-end">
+                                    <div className="col">
+                                        <div className="row">
+                                            <p>Student ID:</p>
+                                        </div>
+
+                                        <div className="row">
+                                            <input
+                                                type="text" // Maybe in future we can exclude numbers from input
+                                                placeholder={studentID}
+                                                value={studentID}
+                                                disabled="disabled"
+
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="col">
+                                        <div className="row">
+                                            <p>First Name:</p>
+                                        </div>
+
+                                        <div className="row">
+                                            <input
+                                                type="text"
+                                                placeholder="First name"
+                                                value={firstName}
+                                                onChange={(e) => setFirstName(e.target.value)}
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="col">
+                                        <div className="row">
+                                            <p>Last Name:</p>
+                                        </div>
+
+                                        <div className="row">
+                                            <input
+                                                type="text"
+                                                placeholder="Last name"
+                                                value={lastName}
+                                                onChange={(e) => setLastName(e.target.value)}
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="col">
+                                        <div className="row">
+                                            <p>Grade Level:</p>
+                                        </div>
+
+                                        <div className="row">
+                                            <input
+                                                type="number"
+                                                min="1"
+                                                max="12"
+                                                placeholder="Grade level"
+                                                value={grade}
+                                                onChange={(e) => setGradeLevel(e.target.value)}
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="col">
+                                        <div className="row">
+                                            <p>Advisor:</p>
+                                        </div>
+
+                                        <div className="row">
+                                            <input
+                                                type="text"
+                                                placeholder="Advisor"
+                                                value={advisorName}
+                                                onChange={(e) => setAdvisor(e.target.value)}
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+
+            <div className="row btn-row">
+                <div className="col-6">
+                    <button type="submit" className="btn primary-btn">Confirm Changes</button>
+                </div>
+
+                <div className="col-6">
+                    <button type="button" className="btn cancel-btn" onClick={handleCancel}>Forget Changes</button>
+                </div>
+            </div>
         </div>
     );
 };
