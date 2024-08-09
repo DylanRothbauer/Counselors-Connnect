@@ -13,5 +13,10 @@ namespace Counselors_Connect.Controllers
         {
             return View();
         }
+
+        public IActionResult CreateATopic()
+        {
+            return View();
+        }
     }
 }
