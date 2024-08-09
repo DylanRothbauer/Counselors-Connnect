@@ -897,23 +897,32 @@ body {
 //================================================================================//
 
 #CreateVisitForm, #EditVisitForm {
-    width: 75%;
+    width: 80%;
+}
+
+.visitContainer {
+    margin-top: 25px;
 }
 
 .createVisitArea {
-    width: 102%;
+    width: 100%;
     height: 95%;
-    margin: 10px;
-    padding: 15px;
+    padding: $padding-large;
     background-color: $white-bg;
-    border-radius: $border-radius;
-    
-    
+    border-radius: $border-radius; 
+
+    .visitRow {
+        margin-bottom: 25px;
+        align-content:center
+    }
+    .visitLabel {
+        display: block;
+        
+    }
 }
 
 #main-content .createVisitArea input {
     width: auto;
-    margin-left: 5px;
 }
 
 #studentIDSelectList {
@@ -925,10 +934,16 @@ body {
 }
 
 .topicSelection {
-    height:100px;
-    width:fit-content;
-    overflow:auto;
-    padding:10px;
+    height: 100px;
+    overflow: auto;
+    width: auto;
+}
+
+.visitCheckboxes {
+    display: inline-block;
+    float: right;
+    margin-inline-end: 20%;
+    
 }
 
 //================================================================================//

@@ -1,28 +1,31 @@
 {
-  "name": "counselor-connect",
-  "version": "1.0.0",
-  "scripts": {
-    "build-react": "cd FrontEndDev/reactapp && npm run wpb"
-  },
-  "dependencies": {
-    "@azure/storage-blob": "^12.23.0",
-    "@babel/core": "^7.24.9",
-    "buffer": "^6.0.3",
-    "css-loader": "^7.1.2",
-    "depcheck": "^1.4.7",
-    "glob": "^11.0.0",
-    "sass": "^1.77.8",
-    "style-loader": "^4.0.0",
-    "webpack-cli": "^5.1.4",
-    "webpack-merge": "^6.0.1"
-  },
-  "devDependencies": {
-    "@babel/preset-env": "^7.24.8",
-    "@babel/preset-react": "^7.24.7",
-    "babel-loader": "^9.1.3",
-    "gulp": "^5.0.0",
-    "gulp-rename": "^2.0.0",
-    "gulp-sass": "^5.1.0",
-    "webpack": "^5.93.0"
-  }
+    "name": "counselor-connect",
+    "version": "1.0.0",
+    "scripts": {
+        "build-react": "cd FrontEndDev/reactapp && npm run wpb"
+    },
+    "dependencies": {
+        "@azure/storage-blob": "^12.23.0",
+        "@babel/core": "^7.24.9",
+        "buffer": "^6.0.3",
+        "css-loader": "^7.1.2",
+        "depcheck": "^1.4.7",
+        "glob": "^11.0.0",
+        "react-csv": "^2.2.2",
+        "react-datepicker": "^7.3.0",
+        "react-multi-select-component": "^4.3.4",
+        "sass": "^1.77.8",
+        "style-loader": "^4.0.0",
+        "webpack-cli": "^5.1.4",
+        "webpack-merge": "^6.0.1"
+    },
+    "devDependencies": {
+        "@babel/preset-env": "^7.24.8",
+        "@babel/preset-react": "^7.24.7",
+        "babel-loader": "^9.1.3",
+        "gulp": "^5.0.0",
+        "gulp-rename": "^2.0.0",
+        "gulp-sass": "^5.1.0",
+        "webpack": "^5.93.0"
+    }
 }
