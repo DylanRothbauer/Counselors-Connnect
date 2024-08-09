@@ -38,36 +38,35 @@
                                 Student View
                             </a>
                         </li>                       
-                        <li class="nav-item m-2">
+                            <li class="nav-item">
+                                <a class="btn nav-link" asp-area="" asp-controller="TopicView" asp-action="TopicView">
+                                    <span data-feather="book"></span>
+                                    Topic View
+                                </a>
+                            </li>
+                            <li class="nav-item m-2">
                                 <div id="nav-edit-heading" class="ps-0">
-                                <p class="fs-4 m-0 ms-5">
-                                    Edit
-                                </p>
-                            </div>
-                            <div id="nav-edit-body" class="py-2">
-                                <a class="btn nav-link" asp-area="" asp-controller="Edit" asp-action="EditVisit">
-                                    <span data-feather="edit"></span>
-                                    Visit
-                                </a>
-                                <a class="btn nav-link" asp-area="" asp-controller="Edit" asp-action="EditTopics">
-                                    <span data-feather="edit"></span>
-                                    Topic
-                                </a>
-                                <a class="btn nav-link" asp-area="" asp-controller="Edit" asp-action="EditStudent">
-                                    <span data-feather="edit"></span>
-                                    Student
-                                </a>
-                            </div>
-                            
-                            
-                        </li>
+                                    <p class="fs-4 m-0 ms-5">
+                                        Create
+                                    </p>
+                                </div>
+                                <div id="nav-edit-body" class="py-2">
+                                    <a class="btn nav-link" asp-area="" asp-controller="Create" asp-action="CreateAVisit">
+                                        <span data-feather="plus-circle"></span>
+                                        Visit
+                                    </a>
+                                    <a class="btn nav-link" asp-area="" asp-controller="Create" asp-action="CreateATopic">
+                                        <span data-feather="plus-circle"></span>
+                                        Topic
+                                    </a>
+                                    <a class="btn nav-link" asp-area="" asp-controller="Create" asp-action="CreateAStudent">
+                                        <span data-feather="plus-circle"></span>
+                                        Student
+                                    </a>
+                                </div>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="btn nav-link" asp-area="" asp-controller="Create" asp-action="CreateAVisit">
-                                <span data-feather="file"></span>
-                                Create A Visit
-                            </a>
-                        </li>
+                       
                     </ul>
                 </div>
                     <div id="log-out-container">
@@ -105,34 +104,35 @@
                                     Student View
                                 </a>
                             </li>
+                                <li class="nav-item">
+                                    <a class="btn nav-link" asp-area="" asp-controller="TopicView" asp-action="TopicView">
+                                        <span data-feather="book"></span>
+                                        Topic View
+                                    </a>
+                                </li>
                             <li class="nav-item m-2">
                                 <div id="nav-edit-heading" class="ps-0">
                                     <p class="fs-4 m-0 ms-5">
-                                        Edit
+                                        Create
                                     </p>
                                 </div>
                                 <div id="nav-edit-body" class="py-2">
-                                    <a class="btn nav-link" asp-area="" asp-controller="Edit" asp-action="EditVisit">
-                                        <span data-feather="edit"></span>
+                                        <a class="btn nav-link" asp-area="" asp-controller="Create" asp-action="CreateAVisit">
+                                            <span data-feather="plus-circle"></span>
                                         Visit
                                     </a>
-                                    <a class="btn nav-link" asp-area="" asp-controller="Edit" asp-action="EditTopics">
-                                        <span data-feather="edit"></span>
+                                        <a class="btn nav-link" asp-area="" asp-controller="Create" asp-action="CreateATopic">
+                                            <span data-feather="plus-circle"></span>
                                         Topic
                                     </a>
-                                    <a class="btn nav-link" asp-area="" asp-controller="Edit" asp-action="EditStudent">
-                                        <span data-feather="edit"></span>
+                                        <a class="btn nav-link" asp-area="" asp-controller="Create" asp-action="CreateAStudent">
+                                            <span data-feather="plus-circle"></span>
                                         Student
                                     </a>
                                 </div>
                             </li>
                           
-                            <li class="nav-item">
-                                <a class="btn nav-link" asp-area="" asp-controller="CreateAVisit" asp-action="CreateAVisit">
-                                    <span data-feather="file"></span>
-                                    Create A Visit
-                                </a>
-                            </li>
+                            
                            
 
 
