@@ -76,7 +76,7 @@ const EditStudent = () => {
                 <div className="col my-3">
                     <div id="student-table-container">
                         <div className="student-table p-3">
-                            <form onSubmit={handleSubmit}>
+                            <form id="my-form" onSubmit={handleSubmit}>
                                 <div className="row align-items-end">
                                     <div className="col">
                                         <div className="row">
@@ -84,11 +84,11 @@ const EditStudent = () => {
                                         </div>
 
                                         <div className="row">
-                                            <input
+                                            <input id="inputs"
                                                 type="text" // Maybe in future we can exclude numbers from input
                                                 placeholder={studentID}
                                                 value={studentID}
-                                                disabled="disabled"
+                                                disabled
 
                                             />
                                         </div>
@@ -100,7 +100,7 @@ const EditStudent = () => {
                                         </div>
 
                                         <div className="row">
-                                            <input
+                                            <input id="inputs"
                                                 type="text"
                                                 placeholder="First name"
                                                 value={firstName}
@@ -116,7 +116,7 @@ const EditStudent = () => {
                                         </div>
 
                                         <div className="row">
-                                            <input
+                                            <input id="inputs"
                                                 type="text"
                                                 placeholder="Last name"
                                                 value={lastName}
@@ -132,7 +132,7 @@ const EditStudent = () => {
                                         </div>
 
                                         <div className="row">
-                                            <input
+                                            <input id="inputs"
                                                 type="number"
                                                 min="1"
                                                 max="12"
@@ -150,7 +150,7 @@ const EditStudent = () => {
                                         </div>
 
                                         <div className="row">
-                                            <input
+                                            <input id="inputs"
                                                 type="text"
                                                 placeholder="Advisor"
                                                 value={advisorName}
@@ -168,7 +168,7 @@ const EditStudent = () => {
 
             <div className="row btn-row">
                 <div className="col-6">
-                    <button type="submit" className="btn primary-btn">Confirm Changes</button>
+                    <button type="submit" form="my-form" className="btn primary-btn">Confirm Changes</button>
                 </div>
 
                 <div className="col-6">

@@ -932,7 +932,7 @@ body {
 }
 
 //================================================================================//
-//==============================Edit Student Form Styles==========================//
+//==============================Student Form Styles===============================//
 //================================================================================//
 
 
@@ -955,7 +955,12 @@ body {
             margin: 10px;
         }
 
+        #inputs {
+            width: 97%;
+        }
     }
+
+    
 }
 
 @media (max-width: 410px) {
@@ -964,9 +969,15 @@ body {
         flex-direction: column;
         gap: 0.5rem;
     }
+    
+    .student-table {
+        #inputs {
+            width: 95%;
+        }
+    }
 }
 
-.edit-student-component {
+.edit-student-component, .create-student-component {
     justify-content: center;
     max-width: 757px;
     margin: auto;
@@ -986,7 +997,6 @@ body {
     .btn-row {
         text-align: center;
         padding: 50px;
-        background-color: #EEF1F4;
 
         .btn {
             white-space: nowrap;
