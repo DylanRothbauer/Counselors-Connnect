@@ -34,7 +34,6 @@ public static class TopicEndpoints
             var affected = await db.Topics
                 .Where(model => model.TopicID == topicid)
                 .ExecuteUpdateAsync(setters => setters
-                    .SetProperty(m => m.TopicID, topic.TopicID)
                     .SetProperty(m => m.TopicName, topic.TopicName)
                     );
             return affected == 1 ? TypedResults.Ok() : TypedResults.NotFound();

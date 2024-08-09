@@ -17,5 +17,10 @@ namespace Counselors_Connect.Controllers
             return View();
         }
 
+        public IActionResult EditTopic()
+        {
+            return View();
+        }
+
     }
 }
