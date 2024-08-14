@@ -196,8 +196,9 @@ const CreateVisit = () => {
             alert('Please select a file first');
             return;
         }
+        //sp = r & st=2024 -08 - 13T20: 44:04Z & se=2024 -08 - 14T04: 44:04Z & sip=20.119.0.25 & spr=https & sv=2022 - 11-02 & sr=c & sig=sC2M % 2BOSq6f22kAEB87ADSjXEivcJObA6yh4O82vcaes % 3D
 
-        const sasToken = 'sp=r&st=2024-08-13T20:44:04Z&se=2024-08-14T04:44:04Z&sip=20.119.0.25&spr=https&sv=2022-11-02&sr=c&sig=sC2M%2BOSq6f22kAEB87ADSjXEivcJObA6yh4O82vcaes%3D'; // Your SAS token
+        const sasToken = 'se=2025-07-17T15%3A01Z&sp=rwdlacup&sv=2022-11-02&ss=b&srt=sco&sig=1XY%2BMeNSlOESK4gQoK/alt3FIIonrk7RhX%2B3u7Jy9XE%3D'; // Your SAS token
         const accountName = 'counselorsconnectstor';
         const containerName = 'counselorsconnectblob';
 
