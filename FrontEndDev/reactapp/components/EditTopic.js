@@ -61,35 +61,44 @@ const EditTopic = () => {
     };
 
     return (
-        <div>
-            <h1>Edit Topic</h1>
-            <form onSubmit={handleSubmit}>
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th>Topic Name</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <input
-                                    type="text"
-                                    placeholder="Topic name"
-                                    value={topicName}
-                                    onChange={(e) => setTopicName(e.target.value)}
-                                    required
-                                />
-                            </td>
-                            <td>
-                                <button type="submit" className="btn btn-primary">Submit</button>
-                                <button type="button" className="btn btn-danger" onClick={handleCancel}>Cancel</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
+        <div className="container m-auto edit-topic-component">
+            <div className="row">
+                <div className="col my-3">
+                    <div id="topic-table-container">
+                        <div className="topic-table p-3">
+                            <form id="my-form" onSubmit={handleSubmit}>
+                                <div className="row align-items-end">
+                                    <div className="col">
+                                        <div className="row">
+                                            <p>Topic Name:</p>
+                                        </div>
+
+                                        <div className="row">
+                                            <input id="inputs"
+                                                type="text"
+                                                placeholder="Topic Name"
+                                                value={topicName}
+                                                onChange={(e) => setTopicName(e.target.value)}
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="row btn-row">
+                <div className="col-6">
+                    <button type="submit" form="my-form" className="btn primary-btn">Confirm Changes</button>
+                </div>
+
+                <div className="col-6">
+                    <button type="button" className="btn cancel-btn" onClick={handleCancel}>Forget Changes</button>
+                </div>
+            </div>
         </div>
     );
 };
