@@ -197,7 +197,7 @@ const CreateVisit = () => {
             return;
         }
 
-        const sasToken = 'sp=r&st=2024-08-14T16:00:41Z&se=2025-07-02T00:00:41Z&sip=20.119.0.25&spr=https&sv=2022-11-02&sr=c&sig=QzaIbilloii2DgyjdPKSXdSSY15MRqLBWox7KkIoJpU%3D'; // Your SAS token
+        const sasToken = 'sp=racwdli&st=2024-08-14T16:49:38Z&se=2026-06-17T00:49:38Z&sip=20.119.0.25&spr=https&sv=2022-11-02&sr=c&sig=jJChyDaUX8H7HVmKfBxulG2i19PpQjdb62IF9%2Bdbeto%3D'; // Your SAS token
         const accountName = 'counselorsconnectstor';
         const containerName = 'counselorsconnectblob';
 
