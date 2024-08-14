@@ -9,6 +9,7 @@ const TopicsList = () => {
     const [maxPageNumbersToShow] = useState(5); // how many pagination buttons at once?
     const [searchTerm, setSearchTerm] = useState('');
     const [deleteTopicId, setDeleteTopicId] = useState(null); // Track topic ID to delete
+    const [expandedTds, setExpandedTds] = useState({}); //expands table element
 
     useEffect(() => {
         // Fetch topics data
@@ -55,7 +56,10 @@ const TopicsList = () => {
     };
 
     // Pagination related functions and variables
-    const pageNumbers = Math.ceil(filteredTopics.length / topicsPerPage);
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(filteredTopics.length / topicsPerPage); i++) {
+        pageNumbers.push(i);
+    }
 
     // Determine the range of page numbers to display
     const startPage = Math.max(1, currentPage - Math.floor(maxPageNumbersToShow / 2));
@@ -87,70 +91,99 @@ const TopicsList = () => {
         });
     };
 
+    const expandTd = (index) => {
+        console.log(index)
+
+        setExpandedTds(prevState => ({
+            ...prevState,
+            [index]: !prevState[index] // Toggle the expanded state
+        }));
+    }
+
     return (
-        <div>
-            <h1>Topics</h1>
-            <p>
-                <a href="/Create/CreateATopic">Create New</a>
-            </p>
-            <div className="search-bar">
-                <input
-                    type="text"
-                    placeholder="Search..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
+        <div className="table-container px-5">
+            <div className="table-actions d-flex-wrap d-sm-flex justify-content-between py-3">
+                <div className="search-bar mb-2 mb-sm-0">
+                    <input
+                        type="text"
+                        className="p-2"
+                        placeholder="Search..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </div>
+                <div>
+                    <a type="button" href="/Create/CreateATopic" className="btn primary-btn">Create New</a>
+                </div>
             </div>
+            
 
             {filteredTopics.length === 0 ? (
-                <div className="alert alert-info">No results found.</div> // If no results, display div, otherwise continue with table :)
+                <div className="alert alert-info d-flex justify-content-center">No results found.</div> // If no results, display div, otherwise continue with table :)
             ) : (
                 <div>
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Topic ID</th>
-                                <th>Topic Name</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {currentTopics.map(topic => (
-                                <tr key={topic.topicID}>
-                                    <td>{topic.topicID}</td>
-                                    <td>{topic.topicName}</td>
-                                    <td>
-                                        <button className="btn btn-primary" onClick={() => handleEditButtonClick(topic.topicID)}>Edit</button>
-                                        <button className="btn btn-danger" onClick={() => handleDeleteConfirmation(topic.topicID)}>Delete</button>
-                                    </td>
+                    <div className="round-table table-responsive">
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>Topic ID</th>
+                                    <th>Topic Name</th>
+                                    <th>Actions</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {currentTopics.map(topic => (
+                                    <tr key={topic.topicID}>
+
+                                        {<td style={{ maxWidth: expandedTds[1] ? 'fit-content' : '95px' }}><button className="btn" onClick={() => expandTd(1)}>{topic.topicID}</button> </td>}
+                                        {<td style={{ maxWidth: expandedTds[2] ? 'fit-content' : '95px' }}><button className="btn" onClick={() => expandTd(2)}>{topic.topicName}</button> </td>}
+
+                                        <td className="text-center">
+                                            <button className="btn" onClick={() => handleEditButtonClick(topic.topicID)}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-edit">
+                                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                                </svg>
+                                            </button>
+                                            <button className="btn" onClick={() => handleDeleteConfirmation(topic.topicID)}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fillRule="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
+                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                                    <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                     {/* Pagination */}
-                    <div className="pagination-container">
-                        <span>Page {currentPage} of {pageNumbers}</span>
+                    <div className="pagination-container py-3">
                         <nav>
                             <ul className="pagination">
                                 <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
                                     <a onClick={() => paginate(currentPage - 1)} href="#!" className="page-link">
-                                        &laquo;
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#4CAF50 !important" className="bi bi-chevron-left" viewBox="0 0 16 16">
+                                            <path fillRule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                                        </svg>
                                     </a>
                                 </li>
                                 {Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index).map(number => (
-                                    <li key={number} className={`page-item ${currentPage === number ? 'active' : ''}`}>
-                                        <a onClick={() => paginate(number)} href="#!" className="page-link">
-                                            {number}
+                                    <li key={number} className={`ms-2 page-item ${currentPage === number ? 'active' : ''}`}>
+                                        <a onClick={() => paginate(number)} href="#!" className="btn rounded-circle page-link">
+                                            <span>{number}</span>
                                         </a>
                                     </li>
                                 ))}
-                                <li className={`page-item ${currentPage === pageNumbers ? 'disabled' : ''}`}>
+                                <li className={`page-item ms-2 ${currentPage === pageNumbers.length ? 'disabled' : ''}`}>
                                     <a onClick={() => paginate(currentPage + 1)} href="#!" className="page-link">
-                                        &raquo;
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#4CAF50 !important" className="bi bi-chevron-right" viewBox="0 0 16 16">
+                                            <path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
+                                        </svg>
                                     </a>
                                 </li>
                             </ul>
                         </nav>
+                        <span>Page {currentPage} of {pageNumbers.length}</span>
                     </div>
                 </div>
             )}

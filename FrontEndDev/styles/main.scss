@@ -871,7 +871,7 @@ body {
 //==============================Student View Styles===============================//
 //================================================================================//
 
-#students {
+#students, #topics {
     display: flex;
     justify-content: center;
     width: 75%;
@@ -947,19 +947,19 @@ body {
 }
 
 //================================================================================//
-//==============================Student Form Styles===============================//
+//==============================Form Styles=======================================//
 //================================================================================//
 
 
 // Mobile responsiveness
 
 @media (max-width: 650px) {
-    #student-table-container {
+    #student-table-container, #topic-table-container {
         padding-left: 1rem;
         padding-right: 1rem;
     }
 
-    .student-table {
+    .student-table, .topic-table {
         .row, .col {
             display: flex;
             flex-direction: column;
@@ -979,20 +979,23 @@ body {
 }
 
 @media (max-width: 410px) {
-    .btn-row {
+    /*.btn-row {
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
-    }
+    }*/
     
-    .student-table {
+    .student-table, .topic-table {
         #inputs {
             width: 95%;
         }
     }
 }
 
-.edit-student-component, .create-student-component {
+.edit-student-component, 
+.create-student-component, 
+.edit-topic-component, 
+.create-topic-component {
     justify-content: center;
     max-width: 757px;
     margin: auto;
@@ -1019,10 +1022,10 @@ body {
 
     }
 
-    #student-table-container {
+    #student-table-container, #topic-table-container {
         width: 100%;
 
-        .student-table {
+        .student-table, .topic-table {
 
             border-radius: $border-radius;
             border: solid 1px $gray-bg;
