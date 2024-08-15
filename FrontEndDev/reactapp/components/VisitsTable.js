@@ -18,7 +18,7 @@ const Visits = () => {
     const [visitTopics, setVisitTopics] = useState([]);
     const [currentPage, setCurrentPage] = useState(1); // setting current page (default 1)
     const [visitsPerPage] = useState(10); // how many visits per page?
-    const [maxPageNumbersToShow] = useState(10); // how many pagination buttons at once?
+    const [maxPageNumbersToShow] = useState(6); // how many pagination buttons at once?
     const [searchQuery, setSearchQuery] = useState(''); // search query state
     const [filteredVisits, setFilteredVisits] = useState([]); // filtered visits state
     const [mergedVisits, setMergedVisits] = useState([]);
