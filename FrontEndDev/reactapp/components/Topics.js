@@ -56,6 +56,7 @@ const TopicsList = () => {
     };
 
     // Pagination related functions and variables
+    /*const pageNumbers = Math.ceil(filteredTopics.length / topicsPerPage);*/
     const pageNumbers = [];
     for (let i = 1; i <= Math.ceil(filteredTopics.length / topicsPerPage); i++) {
         pageNumbers.push(i);
@@ -63,7 +64,7 @@ const TopicsList = () => {
 
     // Determine the range of page numbers to display
     const startPage = Math.max(1, currentPage - Math.floor(maxPageNumbersToShow / 2));
-    const endPage = Math.min(pageNumbers, startPage + maxPageNumbersToShow - 1);
+    const endPage = Math.min(pageNumbers.length, startPage + maxPageNumbersToShow - 1);
 
     // Function to handle edit button click
     const handleEditButtonClick = (topicID) => {
@@ -157,34 +158,34 @@ const TopicsList = () => {
                         </table>
                     </div>
                     {/* Pagination */}
-                    <div className="pagination-container py-3">
-                        <nav>
-                            <ul className="pagination">
-                                <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                                    <a onClick={() => paginate(currentPage - 1)} href="#!" className="page-link">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#4CAF50 !important" className="bi bi-chevron-left" viewBox="0 0 16 16">
-                                            <path fillRule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
-                                        </svg>
-                                    </a>
-                                </li>
-                                {Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index).map(number => (
-                                    <li key={number} className={`ms-2 page-item ${currentPage === number ? 'active' : ''}`}>
-                                        <a onClick={() => paginate(number)} href="#!" className="btn rounded-circle page-link">
-                                            <span>{number}</span>
+                        <div className="pagination-container py-3">
+                            <nav>
+                                <ul className="pagination">
+                                    <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                                        <a onClick={() => paginate(currentPage - 1)} href="#!" className="page-link">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#4CAF50 !important" className="bi bi-chevron-left" viewBox="0 0 16 16">
+                                                <path fillRule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                                            </svg>
                                         </a>
                                     </li>
-                                ))}
-                                <li className={`page-item ms-2 ${currentPage === pageNumbers.length ? 'disabled' : ''}`}>
-                                    <a onClick={() => paginate(currentPage + 1)} href="#!" className="page-link">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#4CAF50 !important" className="bi bi-chevron-right" viewBox="0 0 16 16">
-                                            <path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
-                                        </svg>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                        <span>Page {currentPage} of {pageNumbers.length}</span>
-                    </div>
+                                    {Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index).map(number => (
+                                        <li key={number} className={`ms-2 page-item ${currentPage === number ? 'active' : ''}`}>
+                                            <a onClick={() => paginate(number)} href="#!" className="btn rounded-circle page-link">
+                                                <span>{number}</span>
+                                            </a>
+                                        </li>
+                                    ))}
+                                    <li className={`page-item ms-2 ${currentPage === pageNumbers.length ? 'disabled' : ''}`}>
+                                        <a onClick={() => paginate(currentPage + 1)} href="#!" className="page-link">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#4CAF50 !important" className="bi bi-chevron-right" viewBox="0 0 16 16">
+                                                <path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
+                                            </svg>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <span>Page {currentPage} of {pageNumbers.length}</span>
+                        </div>
                 </div>
             )}
         </div>
