@@ -269,7 +269,7 @@ const CreateVisit = () => {
 
                                 <div className="row">
                                     <div className="col-md-5">
-                                        <label className="visitLabel">Topics Discussed:</label>
+                                        <label>Topics Discussed:</label>
                                         <div className="topicSelection">
                                             {topics.map(topic => (
                                                 <div key={topic.topicID}>
@@ -285,9 +285,9 @@ const CreateVisit = () => {
                                             ))}
                                         </div>
                                     </div>
-                                    <div className="col-md-7 ">
+                                    <div className="col-md-7 " style={{ marginTop: "20px" }}>
                                         
-                                        <label visitLabel>Parents Contacted?</label>
+                                        <label >Parents Contacted?</label>
                                         <div className="visitCheckboxes ">
                                             <input
                                                 className="visitCheckbox"
