@@ -78,10 +78,7 @@ const Login = () => {
                                                     />
                                                     Remember Me
                                                 </label>
-                                            </div>
-                                            <div className="col-6 text-end">
-                                                <a href="/forgot-password" className="forgot">Forgot Password?</a>
-                                            </div>
+                                            </div>                                         
                                         </div>
                                     </div>
                                     {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
@@ -93,7 +90,7 @@ const Login = () => {
                     </div>
                 </div>
                 {/* Background Image Section */}
-                <div className="col-lg-6">
+                <div className="col-lg-6 d-none d-sm-block">
                     <div className="background-image-container" style={{ backgroundImage: `url(${backgroundImage})` }}>
                         <div className="logo-text-container">
                             <img src={logo} alt="Logo" />
