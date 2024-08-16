@@ -297,8 +297,8 @@ const EditVisit = () => {
                                             ))}
                                         </div>
                                     </div>
-                                    <div className="col-md-7">
-                                        <label visitLabel>Parents Contacted?</label>
+                                    <div className="col-md-7" style={{ marginTop: "20px" }}>
+                                        <label>Parents Contacted?</label>
                                         <div className="visitCheckboxes">
                                             <input
                                                 className="visitCheckbox"
