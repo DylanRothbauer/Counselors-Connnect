@@ -41,9 +41,11 @@ Here are some screenshots of the application:
 <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
   <img src="https://github.com/user-attachments/assets/363ea41e-b569-45b9-98c9-7b824baee49c" alt="Login" style="width: 18%; margin-bottom: 10px;">
   <img src="https://github.com/user-attachments/assets/ff4a4b12-b319-4dcd-be38-345d41ac9d0a" alt="HomePage" style="width: 18%; margin-bottom: 10px;">
+  <img src="https://github.com/user-attachments/assets/8dc42d25-30d7-44d3-b413-cef2cfde3f20" alt="HomePage2" style="width: 18%; margin-bottom: 10px;">
   <img src="https://github.com/user-attachments/assets/012bc4dc-ba5a-4a77-b812-1b14ace0867d" alt="StudentPage" style="width: 18%; margin-bottom: 10px;">
   <img src="https://github.com/user-attachments/assets/a81a1ff7-8ecb-41a6-a475-a1f2538ab296" alt="TopicPage" style="width: 18%; margin-bottom: 10px;">
   <img src="https://github.com/user-attachments/assets/8c5c4295-8d24-4497-b92c-8be43ef00a5d" alt="CreateVisit" style="width: 18%; margin-bottom: 10px;">
+  <img src="https://github.com/user-attachments/assets/fce2e85b-6d61-407a-b23d-b6290fa74e94" alt="CreateStudent" style="width: 18%; margin-bottom: 10px;">
 </div>
 
 ## Contributors
